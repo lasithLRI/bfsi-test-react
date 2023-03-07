@@ -13,7 +13,8 @@
 public type ErrorDetail record {|
     # Low level textual error code, e.g., OB.Field.Missing
     string ErrorCode;
-    # Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
+    # Recommended but optional reference to the JSON Path of the field with error, 
+    # `e.g., Data.Initiation.InstructedAmount.Currency`
     string Path?;
     # URL to help remediate the problem, or provide more information, or to API Reference, or help etc
     string Url?;
@@ -23,9 +24,12 @@ type Error distinct error<ErrorDetail>;
 
 # An error object to represent an invalid resource id.
 public type InvalidResourceIdError distinct Error;
+
 # An error object to represent an invalid payload.
 public type InvalidPayloadError distinct Error;
+
 # An error object to represent an invalid header.
 public type InvalidHeaderError distinct Error;
+
 # An error object to represent a payload parse error.
 public type PayloadParseError distinct Error;

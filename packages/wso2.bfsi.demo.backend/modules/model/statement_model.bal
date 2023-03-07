@@ -13,41 +13,43 @@ import wso2.bfsi.demo.backend.util;
 
 # Provides further details on a statement resource.
 public type Statement record {|
-    # A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.
+    # A unique and immutable identifier used to identify the account resource. This identifier has no meaning to 
+    # the account owner.
     readonly string AccountId;
-    # Unique identifier for the statement resource within an servicing institution. This identifier is both unique and immutable.
+    # Unique identifier for the statement resource within an servicing institution. This identifier is both unique 
+    # and immutable.
     readonly string StatementId;
     # Unique reference for the statement. This reference may be optionally populated if available.
     string StatementReference?;
     # Statement type, in a coded form.
     string Type;
-    # Date and time at which the statement period starts.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-    # All date-time fields in responses must include the timezone. An example is below:
+    # Date and time at which the statement period starts.All dates in the JSON payloads are represented in ISO 8601 
+    # date-time format. All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string StartDateTime = util:getDateTime();
-    # Date and time at which the statement period ends.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-    # All date-time fields in responses must include the timezone. An example is below:
+    # Date and time at which the statement period ends.All dates in the JSON payloads are represented in ISO 8601 
+    # date-time format. All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string EndDateTime = util:getFutureDateTime();
-    # Date and time at which the resource was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-    # All date-time fields in responses must include the timezone. An example is below:
+    # Date and time at which the resource was created.All dates in the JSON payloads are represented in ISO 8601 
+    # date-time format. All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string CreationDateTime = util:getPastDateTime();
-    #Describes statement descriptions list
+    # Describes statement descriptions list
     string[] StatementDescription?;
-    #Describes statement benefits list
+    # Describes statement benefits list
     StatementBenefit[] StatementBenefit?;
-    #Describes statement fees list
+    # Describes statement fees list
     StatementDetails[] StatementFee?;
-    #Describes statement intrests list
+    # Describes statement intrests list
     StatementDetails[] StatementInterest?;
-    #Describes statement amount list
+    # Describes statement amount list
     BalanceAmount[] StatementAmount?;
-    #Describes statement date time list
+    # Describes statement date time list
     StatementDateTime[] StatementDateTime?;
-    #Describes statement rate list
+    # Describes statement rate list
     StatementRate[] StatementRate?;
-    #Describes statement value list
+    # Describes statement value list
     StatementValue[] StatementValue?;
 |};
 
@@ -91,8 +93,8 @@ public type BalanceAmount record {|
 
 # Set of elements used to provide details of a generic date time for the statement resource.
 public type StatementDateTime record {|
-    # Date and time associated with the date time type.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-    # All date-time fields in responses must include the timezone. An example is below:
+    # Date and time associated with the date time type.All dates in the JSON payloads are represented in ISO 8601 
+    # date-time format. All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string DateTime = util:getDateTime();
     # Date time type, in a coded form.
@@ -115,7 +117,7 @@ public type StatementValue record {|
     string Type;
 |};
 
-#Represent an statement response record with hateoas data.
+# Represent an statement response record with hateoas data.
 public type StatementsResponse record {|
     # Response data
     Statement|Statement[] Data;

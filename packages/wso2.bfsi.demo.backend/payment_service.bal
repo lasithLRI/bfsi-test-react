@@ -18,33 +18,33 @@ import wso2.bfsi.demo.backend.util;
 # Represents payments API service methods.
 public class PaymentService {
 
-    private repository:PaymentsRepository repository = new();
+    private repository:PaymentsRepository repository = new ();
 
     # Store a domestic payment object.
-    # 
+    #
     # + request - Domestic payment payload
     # + return - Domestic payment with ID or error
-    public isolated function createDomesticPayment(model:DomesticPaymentRequest request) 
-                                                    returns model:DomesticPaymentResponse|model:InvalidResourceIdError {
+    public isolated function createDomesticPayment(model:DomesticPaymentRequest request)
+            returns model:DomesticPaymentResponse|model:InvalidResourceIdError {
         if request.length() == 0 {
-            
+
             log:printDebug(util:EMPTY_REQUEST_BODY);
-            return error(util:EMPTY_REQUEST_BODY, ErrorCode=util:CODE_INVALID_REQUEST_BODY);
-        } 
-            
+            return error(util:EMPTY_REQUEST_BODY, ErrorCode = util:CODE_INVALID_REQUEST_BODY);
+        }
+
         final string domesticPaymentId = self.repository.insertDomesticPaymentsData(
-            request.Data.ConsentId, 
-            request.Data.Initiation, 
+            request.Data.ConsentId,
+            request.Data.Initiation,
             request.Risk
         );
-        
+
         model:DomesticPaymentResponseData data = {
-            DomesticPaymentId: domesticPaymentId, 
-            ConsentId: request?.Data?.ConsentId, 
-            Status: "AcceptedSettlementInProcess", 
+            DomesticPaymentId: domesticPaymentId,
+            ConsentId: request?.Data?.ConsentId,
+            Status: "AcceptedSettlementInProcess",
             Initiation: request?.Data?.Initiation
         };
-        
+
         model:DomesticPaymentResponse response = {
             Data: data,
             Links: self.getLinks("/domestic-payments/", domesticPaymentId),
@@ -52,33 +52,35 @@ public class PaymentService {
                 TotalPages: 1
             }
         };
-        
+
         return response;
     }
 
     # Get a domestic payment by Id.
-    # 
+    #
     # + domesticPaymentId - Domestic payment Id
     # + return - Domestic payment or error
-    public isolated function getDomesticPayments(string domesticPaymentId) 
-                            returns model:DomesticPaymentResponse|model:InvalidResourceIdError|model:PayloadParseError {
-        
+    public isolated function getDomesticPayments(string domesticPaymentId)
+            returns model:DomesticPaymentResponse|model:InvalidResourceIdError|model:PayloadParseError {
+
         if domesticPaymentId == "" {
 
             log:printDebug(util:EMPTY_PAYMENT_ID);
-            return error(util:EMPTY_PAYMENT_ID, ErrorCode=util:CODE_EMPTY_PAYMENT_ID);
+            return error(util:EMPTY_PAYMENT_ID, ErrorCode = util:CODE_EMPTY_PAYMENT_ID);
         }
-        model:DomesticPaymentInitiation|error initiation = util:getDomesticPaymentInitiation().fromJsonWithType(model:DomesticPaymentInitiation);
-        
+        model:DomesticPaymentInitiation|error initiation =
+            util:getDomesticPaymentInitiation().fromJsonWithType(model:DomesticPaymentInitiation);
+
         if (initiation is error) {
             log:printError("Error while parsing domestic payment initiation. ", initiation);
-            return error("Error while parsing domestic payment initiation", ErrorCode=util:CODE_INTERNAL_SERVER_ERROR);
+            return error("Error while parsing domestic payment initiation",
+                ErrorCode = util:CODE_INTERNAL_SERVER_ERROR);
         }
-        
+
         model:DomesticPaymentResponseData data = {
-            DomesticPaymentId: domesticPaymentId, 
-            ConsentId: util:getRandomId(), 
-            Status: "AcceptedSettlementInProcess", 
+            DomesticPaymentId: domesticPaymentId,
+            ConsentId: util:getRandomId(),
+            Status: "AcceptedSettlementInProcess",
             Initiation: initiation
         };
 
@@ -94,27 +96,27 @@ public class PaymentService {
     }
 
     # Store a domestic scheduled payment object.
-    # 
+    #
     # + request - Domestic scheduled payment payload
     # + return - Domestic scheduled payment with ID or error
-    public isolated function createDomesticScheduledPayment(model:DomesticScheduledPaymentRequest request) 
-                                                    returns model:DomesticScheduledPaymentResponse|model:InvalidResourceIdError {
+    public isolated function createDomesticScheduledPayment(model:DomesticScheduledPaymentRequest request)
+            returns model:DomesticScheduledPaymentResponse|model:InvalidResourceIdError {
         if request.length() == 0 {
-            
+
             log:printDebug(util:EMPTY_REQUEST_BODY);
-            return error(util:EMPTY_REQUEST_BODY, ErrorCode=util:CODE_INVALID_REQUEST_BODY);
+            return error(util:EMPTY_REQUEST_BODY, ErrorCode = util:CODE_INVALID_REQUEST_BODY);
         }
 
         final string domesticScheduledPaymentId = self.repository.insertDomesticScheduledPaymentsData(
-            request.Data.ConsentId, 
-            request.Data.Initiation, 
+            request.Data.ConsentId,
+            request.Data.Initiation,
             request.Risk
         );
 
         model:DomesticScheduledPaymentsResponseData data = {
-            DomesticScheduledPaymentId: domesticScheduledPaymentId, 
-            ConsentId: request.Data.ConsentId, 
-            Status: "AcceptedSettlementInProcess", 
+            DomesticScheduledPaymentId: domesticScheduledPaymentId,
+            ConsentId: request.Data.ConsentId,
+            Status: "AcceptedSettlementInProcess",
             Initiation: request.Data.Initiation
         };
 
@@ -125,34 +127,35 @@ public class PaymentService {
                 TotalPages: 1
             }
         };
-        
+
         return response;
     }
 
     # Get a domestic scheduled payment by Id.
-    # 
+    #
     # + domesticScheduledPaymentId - Domestic scheduled payment Id
     # + return - Domestic scheduled payment or error
-    public isolated function getDomesticScheduledPayments(string domesticScheduledPaymentId) 
-                            returns model:DomesticScheduledPaymentResponse|model:InvalidResourceIdError|model:PayloadParseError {
+    public isolated function getDomesticScheduledPayments(string domesticScheduledPaymentId)
+            returns model:DomesticScheduledPaymentResponse|model:InvalidResourceIdError|model:PayloadParseError {
         if domesticScheduledPaymentId == "" {
-            
+
             log:printDebug(util:EMPTY_PAYMENT_ID);
-            return error(util:EMPTY_PAYMENT_ID, ErrorCode=util:CODE_EMPTY_PAYMENT_ID);
-        } 
-            
-        model:DomesticScheduledPaymentInitiation|error initiation = 
+            return error(util:EMPTY_PAYMENT_ID, ErrorCode = util:CODE_EMPTY_PAYMENT_ID);
+        }
+
+        model:DomesticScheduledPaymentInitiation|error initiation =
             util:getDomesticScheduledPaymentInitiation().fromJsonWithType(model:DomesticScheduledPaymentInitiation);
 
         if (initiation is error) {
             log:printError("Error while parsing domestic scheduled payment initiation.", initiation);
-            return error("Error while parsing domestic scheduled payment initiation", ErrorCode=util:CODE_INTERNAL_SERVER_ERROR);
+            return error("Error while parsing domestic scheduled payment initiation",
+                ErrorCode = util:CODE_INTERNAL_SERVER_ERROR);
         }
 
         model:DomesticScheduledPaymentsResponseData data = {
-            DomesticScheduledPaymentId: domesticScheduledPaymentId, 
-            ConsentId: util:getRandomId(), 
-            Status: "AcceptedSettlementInProcess", 
+            DomesticScheduledPaymentId: domesticScheduledPaymentId,
+            ConsentId: util:getRandomId(),
+            Status: "AcceptedSettlementInProcess",
             Initiation: initiation
         };
 
@@ -168,26 +171,26 @@ public class PaymentService {
     }
 
     # Store a domestic standing order payment object.
-    # 
+    #
     # + request - Domestic standing order payment payload
     # + return - Domestic standing order payment with ID or error
-    public isolated function createDomesticStandingOrderPayment(model:DomesticStandingOrderRequest request) 
-                                                    returns model:DomesticStandingOrderResponse|model:InvalidResourceIdError {
+    public isolated function createDomesticStandingOrderPayment(model:DomesticStandingOrderRequest request)
+            returns model:DomesticStandingOrderResponse|model:InvalidResourceIdError {
         if request.length() == 0 {
 
             log:printDebug(util:EMPTY_REQUEST_BODY);
-            return error(util:EMPTY_REQUEST_BODY, ErrorCode=util:CODE_INVALID_REQUEST_BODY);
-        } 
+            return error(util:EMPTY_REQUEST_BODY, ErrorCode = util:CODE_INVALID_REQUEST_BODY);
+        }
         final string domesticStandingOrderId = self.repository.insertDomesticStandingOrderPaymentsData(
-            request.Data.ConsentId, 
-            request.Data.Initiation, 
+            request.Data.ConsentId,
+            request.Data.Initiation,
             request.Risk
         );
 
         model:DomesticStandingOrderResponseData data = {
-            DomesticStandingOrderId: domesticStandingOrderId, 
-            ConsentId: request.Data.ConsentId, 
-            Status: "AcceptedSettlementInProcess", 
+            DomesticStandingOrderId: domesticStandingOrderId,
+            ConsentId: request.Data.ConsentId,
+            Status: "AcceptedSettlementInProcess",
             Initiation: request.Data.Initiation
         };
 
@@ -203,28 +206,29 @@ public class PaymentService {
     }
 
     # Get a domestic standing order payment by Id.
-    # 
+    #
     # + domesticStandingOrderId - Domestic standing order payment Id
     # + return - Domestic standing order payment or error
-    public isolated function getDomesticStandingOrderPayments(string domesticStandingOrderId) 
-                            returns model:DomesticStandingOrderResponse|model:InvalidResourceIdError|model:PayloadParseError {
+    public isolated function getDomesticStandingOrderPayments(string domesticStandingOrderId)
+            returns model:DomesticStandingOrderResponse|model:InvalidResourceIdError|model:PayloadParseError {
         if domesticStandingOrderId == "" {
-            
+
             log:printDebug(util:EMPTY_PAYMENT_ID);
-            return error(util:EMPTY_PAYMENT_ID, ErrorCode=util:CODE_EMPTY_PAYMENT_ID);
-        }       
-        model:DomesticStandingOrderInitiation|error initiation = 
+            return error(util:EMPTY_PAYMENT_ID, ErrorCode = util:CODE_EMPTY_PAYMENT_ID);
+        }
+        model:DomesticStandingOrderInitiation|error initiation =
             util:getDomesticStandingOrderPaymentInitiation().fromJsonWithType(model:DomesticStandingOrderInitiation);
 
         if initiation is error {
             log:printError("Error while parsing domestic standing order payment initiation. ", initiation);
-            return error("Error while parsing domestic standing order payment initiation", ErrorCode=util:CODE_INTERNAL_SERVER_ERROR);
+            return error("Error while parsing domestic standing order payment initiation",
+                ErrorCode = util:CODE_INTERNAL_SERVER_ERROR);
         }
-        
+
         model:DomesticStandingOrderResponseData data = {
-            DomesticStandingOrderId: domesticStandingOrderId, 
-            ConsentId: util:getRandomId(), 
-            Status: "AcceptedSettlementInProcess", 
+            DomesticStandingOrderId: domesticStandingOrderId,
+            ConsentId: util:getRandomId(),
+            Status: "AcceptedSettlementInProcess",
             Initiation: initiation
         };
 
@@ -239,26 +243,25 @@ public class PaymentService {
     }
 
     # Store a file payment object.
-    # 
+    #
     # + request - File payment payload
     # + return - File payment with ID or error
-    public isolated function createFilePayment(model:FilePaymentRequest request) 
+    public isolated function createFilePayment(model:FilePaymentRequest request)
                                                     returns model:FilePaymentResponse|model:InvalidResourceIdError {
-        
         if request.length() == 0 {
 
             log:printDebug(util:EMPTY_REQUEST_BODY);
-            return error(util:EMPTY_REQUEST_BODY, ErrorCode=util:CODE_INVALID_REQUEST_BODY);
+            return error(util:EMPTY_REQUEST_BODY, ErrorCode = util:CODE_INVALID_REQUEST_BODY);
         }
         final string filePaymentId = self.repository.insertFilePaymentsData(
-            request.Data.ConsentId, 
+            request.Data.ConsentId,
             request.Data.Initiation
         );
 
         model:FilePaymentsResponseData data = {
-            FilePaymentId: filePaymentId, 
-            ConsentId: request.Data.ConsentId, 
-            Status: "AcceptedSettlementInProcess", 
+            FilePaymentId: filePaymentId,
+            ConsentId: request.Data.ConsentId,
+            Status: "AcceptedSettlementInProcess",
             Initiation: request.Data.Initiation
         };
 
@@ -273,28 +276,28 @@ public class PaymentService {
     }
 
     # Get a file payment by Id.
-    # 
+    #
     # + filePaymentId - File payment Id
     # + return - File payment or error
-    public isolated function getFilePayments(string filePaymentId) returns model:FilePaymentResponse|model:InvalidResourceIdError|model:PayloadParseError {
-        
+    public isolated function getFilePayments(string filePaymentId)
+            returns model:FilePaymentResponse|model:InvalidResourceIdError|model:PayloadParseError {
         if filePaymentId == "" {
 
             log:printDebug(util:EMPTY_PAYMENT_ID);
-            return error(util:EMPTY_PAYMENT_ID, ErrorCode=util:CODE_EMPTY_PAYMENT_ID);
+            return error(util:EMPTY_PAYMENT_ID, ErrorCode = util:CODE_EMPTY_PAYMENT_ID);
         }
-        model:FilePaymentInitiation|error initiation = 
+        model:FilePaymentInitiation|error initiation =
             util:getFilePaymentInitiation().fromJsonWithType(model:FilePaymentInitiation);
 
         if initiation is error {
             log:printError("Error while parsing file payment initiation. ", initiation);
-            return error("Error while parsing file payment initiation", ErrorCode=util:CODE_INTERNAL_SERVER_ERROR);
+            return error("Error while parsing file payment initiation", ErrorCode = util:CODE_INTERNAL_SERVER_ERROR);
         }
 
         model:FilePaymentsResponseData data = {
-            FilePaymentId: filePaymentId, 
-            ConsentId: util:getRandomId(), 
-            Status: "AcceptedSettlementInProcess", 
+            FilePaymentId: filePaymentId,
+            ConsentId: util:getRandomId(),
+            Status: "AcceptedSettlementInProcess",
             Initiation: initiation
         };
 
@@ -310,25 +313,25 @@ public class PaymentService {
     }
 
     # Store an international payment object.
-    # 
+    #
     # + request - International payment payload
     # + return - International payment with ID or error
-    public isolated function createInternationalPayment(model:InternationalPaymentRequest request) 
-                                                    returns model:InternationalPaymentResponse|model:InvalidResourceIdError {
+    public isolated function createInternationalPayment(model:InternationalPaymentRequest request)
+            returns model:InternationalPaymentResponse|model:InvalidResourceIdError {
         if request.length() == 0 {
-            
+
             log:printDebug(util:EMPTY_REQUEST_BODY);
-            return error(util:EMPTY_REQUEST_BODY, ErrorCode=util:CODE_INVALID_REQUEST_BODY);
+            return error(util:EMPTY_REQUEST_BODY, ErrorCode = util:CODE_INVALID_REQUEST_BODY);
         }
         string internationalPaymentId = self.repository.insertInternationalPaymentsData(
-            request.Data.ConsentId, 
-            request.Data.Initiation, 
+            request.Data.ConsentId,
+            request.Data.Initiation,
             request.Risk
         );
         model:InternationalPaymentResponseData data = {
-            InternationalPaymentId: internationalPaymentId, 
-            ConsentId: request.Data.ConsentId, 
-            Status: "AcceptedSettlementInProcess", 
+            InternationalPaymentId: internationalPaymentId,
+            ConsentId: request.Data.ConsentId,
+            Status: "AcceptedSettlementInProcess",
             Initiation: request.Data.Initiation
         };
         model:InternationalPaymentResponse response = {
@@ -342,28 +345,29 @@ public class PaymentService {
     }
 
     # Get an international payment by Id.
-    # 
+    #
     # + internationalPaymentId - International payment Id
     # + return - International payment or error
-    public isolated function getInternationalPayments(string internationalPaymentId) 
-                                                    returns model:InternationalPaymentResponse|model:InvalidResourceIdError {
+    public isolated function getInternationalPayments(string internationalPaymentId)
+            returns model:InternationalPaymentResponse|model:InvalidResourceIdError {
         if internationalPaymentId == "" {
-            
+
             log:printDebug(util:EMPTY_PAYMENT_ID);
-            return error(util:EMPTY_PAYMENT_ID, ErrorCode=util:CODE_EMPTY_PAYMENT_ID);
+            return error(util:EMPTY_PAYMENT_ID, ErrorCode = util:CODE_EMPTY_PAYMENT_ID);
         }
-        model:InternationalPaymentInitiation|error initiation = 
+        model:InternationalPaymentInitiation|error initiation =
             util:getInternationalPaymentInitiation().fromJsonWithType(model:InternationalPaymentInitiation);
 
         if initiation is error {
             log:printError("Error while parsing international payment initiation. ", initiation);
-            return error("Error while parsing international payment initiation", ErrorCode=util:CODE_INTERNAL_SERVER_ERROR);
+            return error("Error while parsing international payment initiation",
+                ErrorCode = util:CODE_INTERNAL_SERVER_ERROR);
         }
 
         model:InternationalPaymentResponseData data = {
-            InternationalPaymentId: internationalPaymentId, 
-            ConsentId: util:getRandomId(), 
-            Status: "AcceptedSettlementInProcess", 
+            InternationalPaymentId: internationalPaymentId,
+            ConsentId: util:getRandomId(),
+            Status: "AcceptedSettlementInProcess",
             Initiation: initiation
         };
 
@@ -374,31 +378,31 @@ public class PaymentService {
                 TotalPages: 1
             }
         };
-        
+
         return response;
     }
 
     # Store an international scheduled payment object.
-    # 
+    #
     # + request - International scheduled payment payload
     # + return - International scheduled payment with ID or error
-    public isolated function createInternationalScheduledPayment(model:InternationalScheduledPaymentRequest request) 
-                                                    returns model:InternationalScheduledPaymentResponse|model:InvalidResourceIdError {
+    public isolated function createInternationalScheduledPayment(model:InternationalScheduledPaymentRequest request)
+            returns model:InternationalScheduledPaymentResponse|model:InvalidResourceIdError {
         if request.length() == 0 {
-            
+
             log:printDebug(util:EMPTY_REQUEST_BODY);
-            return error(util:EMPTY_REQUEST_BODY, ErrorCode=util:CODE_INVALID_REQUEST_BODY);
+            return error(util:EMPTY_REQUEST_BODY, ErrorCode = util:CODE_INVALID_REQUEST_BODY);
         }
         final string internationalScheduledPaymentId = self.repository.insertInternationalScheduledPaymentsData(
-            request.Data.ConsentId, 
-            request.Data.Initiation, 
+            request.Data.ConsentId,
+            request.Data.Initiation,
             request.Risk
         );
 
         model:InternationalScheduledResponseData data = {
-            InternationalScheduledPaymentId: internationalScheduledPaymentId, 
-            ConsentId: request.Data.ConsentId, 
-            Status: "AcceptedSettlementInProcess", 
+            InternationalScheduledPaymentId: internationalScheduledPaymentId,
+            ConsentId: request.Data.ConsentId,
+            Status: "AcceptedSettlementInProcess",
             Initiation: request.Data.Initiation
         };
 
@@ -414,28 +418,30 @@ public class PaymentService {
     }
 
     # Get an international scheduled payment by Id.
-    # 
+    #
     # + internationalScheduledPaymentId - International scheduled payment Id
     # + return - International scheduled payment or error
-    public isolated function getInternationalScheduledPayments(string internationalScheduledPaymentId) 
-                                                        returns model:InternationalScheduledPaymentResponse|model:InvalidResourceIdError {
+    public isolated function getInternationalScheduledPayments(string internationalScheduledPaymentId)
+            returns model:InternationalScheduledPaymentResponse|model:InvalidResourceIdError {
         if internationalScheduledPaymentId == "" {
-            
+
             log:printDebug(util:EMPTY_PAYMENT_ID);
-            return error(util:EMPTY_PAYMENT_ID, ErrorCode=util:CODE_EMPTY_PAYMENT_ID);
+            return error(util:EMPTY_PAYMENT_ID, ErrorCode = util:CODE_EMPTY_PAYMENT_ID);
         }
-        model:InternationalScheduledPaymentInitiation|error initiation = 
-            util:getInternationalScheduledPaymentInitiation().fromJsonWithType(model:InternationalScheduledPaymentInitiation);
+        model:InternationalScheduledPaymentInitiation|error initiation =
+            util:getInternationalScheduledPaymentInitiation()
+            .fromJsonWithType(model:InternationalScheduledPaymentInitiation);
 
         if initiation is error {
             log:printError("Error while parsing international scheduled payment initiation. ", initiation);
-            return error("Error while parsing international scheduled payment initiation", ErrorCode=util:CODE_INTERNAL_SERVER_ERROR);
+            return error("Error while parsing international scheduled payment initiation",
+                ErrorCode = util:CODE_INTERNAL_SERVER_ERROR);
         }
 
         model:InternationalScheduledResponseData data = {
-            InternationalScheduledPaymentId: internationalScheduledPaymentId, 
-            ConsentId: util:getRandomId(), 
-            Status: "AcceptedSettlementInProcess", 
+            InternationalScheduledPaymentId: internationalScheduledPaymentId,
+            ConsentId: util:getRandomId(),
+            Status: "AcceptedSettlementInProcess",
             Initiation: initiation
         };
 
@@ -451,26 +457,26 @@ public class PaymentService {
     }
 
     # Store an international standing order payment object.
-    # 
+    #
     # + request - International standing order payment payload
     # + return - International standing order payment with ID or error
-    public isolated function createInternationalStandingOrderPayment(model:InternationalStandingOrderRequest request) 
-                                                    returns model:InternationalStandingOrderResponse|model:InvalidResourceIdError {
+    public isolated function createInternationalStandingOrderPayment(model:InternationalStandingOrderRequest request)
+            returns model:InternationalStandingOrderResponse|model:InvalidResourceIdError {
         if request.length() == 0 {
-            
+
             log:printDebug(util:EMPTY_REQUEST_BODY);
-            return error(util:EMPTY_REQUEST_BODY, ErrorCode=util:CODE_INVALID_REQUEST_BODY);
+            return error(util:EMPTY_REQUEST_BODY, ErrorCode = util:CODE_INVALID_REQUEST_BODY);
         }
         final string internationalStandingorderId = self.repository.insertInternationalStandingOrderPaymentsData(
-            request.Data.ConsentId, 
-            request.Data.Initiation, 
+            request.Data.ConsentId,
+            request.Data.Initiation,
             request.Risk
         );
 
         model:InternationalStandingOrderResponseData data = {
-            InternationalStandingOrderId: internationalStandingorderId, 
-            ConsentId: request.Data.ConsentId, 
-            Status: "AcceptedSettlementInProcess", 
+            InternationalStandingOrderId: internationalStandingorderId,
+            ConsentId: request.Data.ConsentId,
+            Status: "AcceptedSettlementInProcess",
             Initiation: request.Data.Initiation
         };
         model:InternationalStandingOrderResponse response = {
@@ -484,31 +490,33 @@ public class PaymentService {
     }
 
     # Get an international standing order payment by Id.
-    # 
+    #
     # + internationalStandingOrderId - International standing order payment Id
     # + return - International standing order payment or error
-    public isolated function getInternationalStandingOrderPayments(string internationalStandingOrderId) 
-                                                        returns model:InternationalStandingOrderResponse|model:InvalidResourceIdError {
+    public isolated function getInternationalStandingOrderPayments(string internationalStandingOrderId)
+            returns model:InternationalStandingOrderResponse|model:InvalidResourceIdError {
         if internationalStandingOrderId == "" {
-            
+
             log:printDebug(util:EMPTY_PAYMENT_ID);
-            return error(util:EMPTY_PAYMENT_ID, ErrorCode=util:CODE_EMPTY_PAYMENT_ID);
+            return error(util:EMPTY_PAYMENT_ID, ErrorCode = util:CODE_EMPTY_PAYMENT_ID);
         }
-        model:InternationalStandingOrderInitiation|error initiation = 
-            util:getInternationalStandingOrderPaymentInitiation().fromJsonWithType(model:InternationalStandingOrderInitiation);
-        
+        model:InternationalStandingOrderInitiation|error initiation =
+            util:getInternationalStandingOrderPaymentInitiation()
+            .fromJsonWithType(model:InternationalStandingOrderInitiation);
+
         if initiation is error {
             log:printError("Error while parsing international standing order initiation. ", initiation);
-            return error("Error while parsing international standing order initiation", ErrorCode=util:CODE_INTERNAL_SERVER_ERROR);
+            return error("Error while parsing international standing order initiation",
+                ErrorCode = util:CODE_INTERNAL_SERVER_ERROR);
         }
 
         model:InternationalStandingOrderResponseData data = {
-            InternationalStandingOrderId: internationalStandingOrderId, 
-            ConsentId: util:getRandomId(), 
-            Status: "AcceptedSettlementInProcess", 
+            InternationalStandingOrderId: internationalStandingOrderId,
+            ConsentId: util:getRandomId(),
+            Status: "AcceptedSettlementInProcess",
             Initiation: initiation
         };
-        
+
         model:InternationalStandingOrderResponse response = {
             Data: data,
             Links: self.getLinks("/international-standing-orders/", internationalStandingOrderId),
@@ -520,16 +528,16 @@ public class PaymentService {
     }
 
     # Retrieve payment details by Id.
-    #   
+    #
     # + path - Path of the request
     # + domesticPaymentId - Domestic payment Id
     # + return - Domestic payment details or error
-    public isolated function getPaymentsDetails(string path, string domesticPaymentId) returns model:PaymentDetailsResponse|model:InvalidResourceIdError {
-        
+    public isolated function getPaymentsDetails(string path, string domesticPaymentId)
+            returns model:PaymentDetailsResponse|model:InvalidResourceIdError {
         if domesticPaymentId == "" {
 
             log:printDebug(util:EMPTY_PAYMENT_ID);
-            return error(util:EMPTY_PAYMENT_ID, ErrorCode=util:CODE_EMPTY_PAYMENT_ID);
+            return error(util:EMPTY_PAYMENT_ID, ErrorCode = util:CODE_EMPTY_PAYMENT_ID);
         }
 
         model:PaymentDetailsResponseData data = self.getPaymentDetailsData(domesticPaymentId);
@@ -546,21 +554,21 @@ public class PaymentService {
     }
 
     # Get the Link matching to the path and consent id
-    # 
+    #
     # + path - Path of the request
     # + id - Consent Id of the request
     # + return - Link
     private isolated function getLinks(string path, string id) returns model:Links {
-        return { Self: "https://api.alphabank.com/open-banking/v3.1/pisp" + path + id };
+        return {Self: "https://api.alphabank.com/open-banking/v3.1/pisp" + path + id};
     }
 
     # Get the payment details data
-    #   
+    #
     # + id - Payment Id
     # + return - Payment details data
     private isolated function getPaymentDetailsData(string id) returns model:PaymentDetailsResponseData {
         model:PaymentDetailsResponseDataStatusDetail statusDetail = {
-            LocalInstrument:"UK.OBIE.BACS",
+            LocalInstrument: "UK.OBIE.BACS",
             Status: "Accepted",
             StatusReason: "PendingFailingSettlement",
             StatusReasonDescription: "Enough amount is in your account to complete the transaction."
@@ -569,14 +577,14 @@ public class PaymentService {
         model:PaymentDetailsResponseDataPaymentStatus paymentStatus = {
             PaymentTransactionId: id,
             Status: "Accepted",
-            StatusDetail: statusDetail, 
+            StatusDetail: statusDetail,
             StatusUpdateDateTime: util:getDateTime()
         };
 
         model:PaymentDetailsResponseDataPaymentStatus paymentStatus1 = {
             PaymentTransactionId: id,
             Status: "AcceptedCustomerProfile",
-            StatusDetail: statusDetail, 
+            StatusDetail: statusDetail,
             StatusUpdateDateTime: util:getDateTime()
         };
 

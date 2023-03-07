@@ -29,12 +29,14 @@ public type PaymentDetailsResponseData record {|
 
 # Payment status details.
 public type PaymentDetailsResponseDataPaymentStatus record {|
-    # Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.
+    # Unique identifier for the transaction within an servicing institution. This identifier is both 
+    # unique and immutable.
     @constraint:String {maxLength: 210, minLength: 1}
     string PaymentTransactionId;
     # Status of a transfe, as assigned by the transaction administrator.
     string Status;
-    # Date and time at which the status was assigned to the transfer.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+    # Date and time at which the status was assigned to the transfer.All dates in the JSON payloads are represented 
+    # in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string StatusUpdateDateTime;
@@ -45,7 +47,9 @@ public type PaymentDetailsResponseDataPaymentStatus record {|
 # Payment status details as per underlying Payment Rail.
 public type PaymentDetailsResponseDataStatusDetail record {|
     # User community specific instrument.
-    # Usage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.
+    #
+    # Usage: This element is used to specify a local instrument, local clearing option and/or further qualify 
+    # the service or service level.
     string LocalInstrument?;
     # Status of a transfer, as assigned by the transaction administrator.
     @constraint:String {maxLength: 128, minLength: 1}

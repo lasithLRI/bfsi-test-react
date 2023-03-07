@@ -13,12 +13,13 @@ import wso2.bfsi.demo.backend.util;
 
 # Set of elements used to define the account details.
 public type Account record {|
-    # A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.
+    # A unique and immutable identifier used to identify the account resource. 
+    # This identifier has no meaning to the account owner.
     readonly string AccountId;
     # Specifies the status of account resource in code form.
     string Status?;
-    # Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-    # All date-time fields in responses must include the timezone. An example is below:
+    # Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 
+    # date-time format. All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string StatusUpdateDateTime = util:getPastDateTime();
     # Identification of the currency in which the account is held. 
@@ -31,9 +32,11 @@ public type Account record {|
     string AccountSubType?;
     # Specifies the description of the account type.
     string Description?;
-    # The nickname of the account, assigned by the account owner in order to provide an additional means of identification of the account.
+    # The nickname of the account, assigned by the account owner in order to provide an additional means of 
+    # identification of the account.
     string Nickname?;
-    # Date on which the account and related basic services are effectively operational for the account owner.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+    # Date on which the account and related basic services are effectively operational for the account owner.
+    # All dates in the JSON payloads are represented in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string OpeningDate = util:getPastDateTime();
@@ -47,7 +50,7 @@ public type Account record {|
     CreditorAccount[] Account?;
 |};
 
-#Represent an accounts response record with hateoas data.
+# Represent an accounts response record with hateoas data.
 public type AccountsResponse record {|
     # Response data
     Account|Account[] Data;

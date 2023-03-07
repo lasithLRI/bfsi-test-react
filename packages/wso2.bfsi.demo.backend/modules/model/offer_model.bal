@@ -13,15 +13,18 @@ import wso2.bfsi.demo.backend.util;
 
 # Set of elements used to define the offer details.
 public type Offer record {|
-    # A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.
+    # A unique and immutable identifier used to identify the account resource. This identifier has no meaning to 
+    # the account owner.
     readonly string AccountId;
-    # A unique and immutable identifier used to identify the offer resource. This identifier has no meaning to the account owner.
+    # A unique and immutable identifier used to identify the offer resource. This identifier has no meaning to 
+    # the account owner.
     readonly string OfferId;
     # Offer type, in a coded form.
     string OfferType?;
     # Further details of the offer.
     string Description?;
-    # Date and time at which the offer starts.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+    # Date and time at which the offer starts.All dates in the JSON payloads are represented in ISO 8601 
+    # date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string StartDateTime = util:getPastDateTime();
@@ -43,7 +46,7 @@ public type Offer record {|
     Amount Fee?;
 |};
 
-#Represent an offers response record with hateoas data.
+# Represent an offers response record with hateoas data.
 public type OffersResponse record {|
     # Response data
     Offer|Offer[] Data;

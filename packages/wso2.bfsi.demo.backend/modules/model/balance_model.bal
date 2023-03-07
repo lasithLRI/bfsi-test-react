@@ -13,17 +13,19 @@ import wso2.bfsi.demo.backend.util;
 
 # Set of elements used to define the balance details.
 public type Balance record {|
-    # A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.
+    # A unique and immutable identifier used to identify the account resource. 
+    # This identifier has no meaning to the account owner.
     readonly string AccountId;
-    # A unique and immutable identifier used to identify the balance resource. This identifier has no meaning to the account owner.
+    # A unique and immutable identifier used to identify the balance resource. 
+    # This identifier has no meaning to the account owner.
     readonly string BalanceId;
     # Indicates whether the balance is a credit or a debit balance. 
     # Usage: A zero balance is considered to be a credit balance.
     string CreditDebitIndicator;
     # Balance type, in a coded form.
     string Type;
-    # Indicates the date (and time) of the balance.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-    # All date-time fields in responses must include the timezone. An example is below:
+    # Indicates the date (and time) of the balance.All dates in the JSON payloads are represented in ISO 8601 date-time 
+    # format. All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string DateTime = util:getDateTime();
     # Amount of money of the cash balance.
@@ -34,9 +36,11 @@ public type Balance record {|
 
 # Amount of money of the cash balance.
 public type Amount record {|
-    # A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+    # A number of monetary units specified in an active currency where the unit of currency is explicit and compliant
+    # with ISO 4217.
     string Amount = util:getRandomAmount();
-    # A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 (Codes for the representation of currencies and funds).
+    # A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described 
+    # in the latest edition of the international standard ISO 4217(Codes for the representation of currencies and funds)
     string Currency = "USD";
 |};
 
@@ -51,7 +55,7 @@ public type Creditline record {|
     Amount Amount?;
 |};
 
-#Represent a balance response record with hateoas data.
+# Represent a balance response record with hateoas data.
 public type BalanceResponse record {|
     # Response data
     Balance|Balance[] Data;

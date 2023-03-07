@@ -45,11 +45,12 @@ public type CreditorAccount record {|
     string SchemeName;
     # Beneficiary account identification.
     string Identification = util:getRandomId();
-    # The account name is the name or names of the account owner(s) represented at an account level, as displayed by the bank's online channels.
-    # Note, the account name is not the product name or the nickname of the account.
+    # The account name is the name or names of the account owner(s) represented at an account level, as displayed by 
+    # the bank's online channels. `Note`, the account name is not the product name or the nickname of the account.
     string Name?;
     # This is secondary identification of the account, as assigned by the account servicing institution. 
-    # This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).
+    # This can be used by building societies to additionally identify accounts with a roll number 
+    # (in addition to a sort code and account number combination).
     string SecondaryIdentification?;
 |};
 
@@ -59,15 +60,17 @@ public type DebtorAccount record {|
     string SchemeName;
     # Beneficiary account identification.
     string Identification = util:getRandomId();
-    # The account name is the name or names of the account owner(s) represented at an account level, as displayed by the bank's online channels.
-    # Note, the account name is not the product name or the nickname of the account.
+    # The account name is the name or names of the account owner(s) represented at an account level, as displayed by 
+    # the bank's online channels. `Note`, the account name is not the product name or the nickname of the account.
     string Name?;
     # This is secondary identification of the account, as assigned by the account servicing institution. 
-    # This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).
+    # This can be used by building societies to additionally identify accounts with a roll number (in addition to a 
+    # sort code and account number combination).
     string SecondaryIdentification?;
 |};
 
-# Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.
+# Party that manages the account on behalf of the account owner, that is manages the registration and booking of 
+# entries on the account, calculates balances on the account and provides information about the account.
 # This is the servicer of the beneficiary account.
 public type CreditorAgent record {|
     # Name of the identification scheme, in a coded form as published in an external list.
@@ -88,7 +91,8 @@ public type PostalAddress record {|
     string StreetName?;
     # Number that identifies the position of a building on a street.
     string BuildingNumber?;
-    # Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.
+    # Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the 
+    # sorting of mail.
     string PostCode?;
     # Name of a built-up area, with defined boundaries, and a local government.
     string TownName?;
@@ -96,7 +100,7 @@ public type PostalAddress record {|
     string CountrySubDivision?;
     # Nation with its own government.
     string Country?;
-    #Describes address line list
+    # Describes address line list
     string[] AddressLine?;
 |};
 

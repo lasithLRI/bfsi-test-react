@@ -1,0 +1,14 @@
+{
+    "Status": "Enabled",
+    "StatusUpdateDateTime": "2020-04-16T06:06:06+00:00",
+    "Currency": "GBP",
+    "AccountType": "Personal",
+    "AccountSubType": "CurrentAccount",
+    "Nickname": "Bills",
+    "Account": [{
+      "SchemeName": "SortCodeAccountNumber",
+      "Identification": "123",
+      "Name": "Mr Kevin",
+      "SecondaryIdentification": "00021"
+    }]
+}

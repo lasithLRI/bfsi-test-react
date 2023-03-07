@@ -11,13 +11,17 @@
 
 # Product details associated with the Account.
 public type Product record {|
-    # The name of the Product used for marketing purposes from a customer perspective. I.e. what the customer would recognise.
+    # The name of the Product used for marketing purposes from a customer perspective. 
+    # I.e. what the customer would recognise.
     string ProductName?;
-    # The unique ID that has been internally assigned by the financial institution to each of the current account banking products they market to their retail and/or small to medium enterprise (SME) customers.
+    # The unique ID that has been internally assigned by the financial institution to each of the current account 
+    # banking products they market to their retail and/or small to medium enterprise (SME) customers.
     readonly string ProductId;
-    # A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.
+    # A unique and immutable identifier used to identify the account resource. This identifier has no meaning to 
+    # the account owner.
     readonly string AccountId;
-    # Any secondary Identification which  supports Product Identifier to uniquely identify the current account banking products.
+    # Any secondary Identification which  supports Product Identifier to uniquely identify the current account 
+    # banking products.
     string SecondaryProductId?;
     # Product type : Personal Current Account, Business Current Account
     string ProductType;
@@ -77,7 +81,8 @@ public type TierBandSet record {|
     # 1. Banded
     # Interest rates are banded. i.e. Increasing rate on whole balance as balance increases.
     # 2. Tiered
-    # Interest rates are tiered. i.e. increasing rate for each tier as balance increases, but interest paid on tier fixed for that tier and not on whole balance.
+    # Interest rates are tiered. i.e. increasing rate for each tier as balance increases, but interest paid on tier 
+    # fixed for that tier and not on whole balance.
     # 3. Whole
     # The same interest rate is applied irrespective of the product holder's account balance
     string TierBandMethod;
@@ -115,16 +120,22 @@ public type Tierband record {|
     string TierValueMaximum?;
     # How often is credit interest calculated for the account.
     string CalculationFrequency?;
-    # How often is interest applied to the Product for this tier/band i.e. how often the financial institution pays accumulated interest to the customer's account.
+    # How often is interest applied to the Product for this tier/band i.e. how often the financial institution pays 
+    # accumulated interest to the customer's account.
     string ApplicationFrequency;
     # Amount on which Interest applied.
     string DepositInterestAppliedCoverage?;
     # Type of interest rate, Fixed or Variable
     string FixedVariableInterestRateType;
-    # The annual equivalent rate (AER) is interest that is calculated under the assumption that any interest paid is combined with the original balance and the next interest payment will be based on the slightly higher account balance. Overall, this means that interest can be compounded several times in a year depending on the number of times that interest payments are made. 
+    # The annual equivalent rate (AER) is interest that is calculated under the assumption that any interest paid is 
+    # combined with the original balance and the next interest payment will be based on the slightly higher account 
+    # balance. Overall, this means that interest can be compounded several times in a year depending on the number 
+    # of times that interest payments are made. 
+    #
     # Read more: Annual Equivalent Rate (AER) http://www.investopedia.com/terms/a/aer.asp#ixzz4gfR7IO1A
     string AER;
-    # Interest rate types, other than AER, which financial institutions may use to describe the annual interest rate payable to the account holder's account.
+    # Interest rate types, other than AER, which financial institutions may use to describe the annual interest 
+    # rate payable to the account holder's account.
     string BankInterestRateType?;
     # Bank Interest for the product
     string BankInterestRate?;
@@ -138,8 +149,7 @@ public type Tierband record {|
     OtherCodeType OtherCalculationFrequency?;
 |};
 
-
-#Represent an products response record with hateoas data.
+# Represent an products response record with hateoas data.
 public type ProductsResponse record {|
     # Response data
     Product|Product[] Data;

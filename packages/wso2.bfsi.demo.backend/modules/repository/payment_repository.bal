@@ -14,76 +14,119 @@ import ballerina/uuid;
 
 import wso2.bfsi.demo.backend.model;
 
-#Works as the payment service repository.
+# Works as the payment service repository.
 public class PaymentsRepository {
 
-    #Creates a `DomesticPayments` table type in which each member is uniquely identified using its `PaymentId` field.
-    private table<model:PaymentDaoModel> key(PaymentId) domesticPayments = table[];
+    # Creates a `DomesticPayments` table type in which each member is uniquely identified using its 
+    # `PaymentId` field.
+    private table<model:PaymentDaoModel> key(PaymentId) domesticPayments = table [];
 
-    #Creates a `DomesticScheduledPayments` table type in which each member is uniquely identified using its `PaymentId` field.
-    private table<model:PaymentDaoModel> key(PaymentId) domesticScheduledPayments = table[];
+    # Creates a `DomesticScheduledPayments` table type in which each member is uniquely identified using its 
+    # `PaymentId` field.
+    private table<model:PaymentDaoModel> key(PaymentId) domesticScheduledPayments = table [];
 
-    #Creates a `DomesticStandingOrderPayments` table type in which each member is uniquely identified using its `PaymentId` field.
-    private table<model:PaymentDaoModel> key(PaymentId) domesticStandingOrderPayments = table[];
+    # Creates a `DomesticStandingOrderPayments` table type in which each member is uniquely identified using its 
+    # `PaymentId` field.
+    private table<model:PaymentDaoModel> key(PaymentId) domesticStandingOrderPayments = table [];
 
-    #Creates a `FilePayments` table type in which each member is uniquely identified using its `PaymentId` field.
-    private table<model:FilePaymentDaoModel> key(PaymentId) filePayments = table[];
+    # Creates a `FilePayments` table type in which each member is uniquely identified using its `PaymentId` field.
+    private table<model:FilePaymentDaoModel> key(PaymentId) filePayments = table [];
 
-    #Creates a `InternationalPayments` table type in which each member is uniquely identified using its `PaymentId` field.
-    private table<model:PaymentDaoModel> key(PaymentId) internationalPayments = table[];
+    # Creates a `InternationalPayments` table type in which each member is uniquely identified using its 
+    # `PaymentId` field.
+    private table<model:PaymentDaoModel> key(PaymentId) internationalPayments = table [];
 
-    #Creates a `InternationalScheduledPayments` table type in which each member is uniquely identified using its `PaymentId` field.
-    private table<model:PaymentDaoModel> key(PaymentId) internationalScheduledPayments = table[];
+    # Creates a `InternationalScheduledPayments` table type in which each member is uniquely identified using its 
+    # `PaymentId` field.
+    private table<model:PaymentDaoModel> key(PaymentId) internationalScheduledPayments = table [];
 
-    #Creates a `InternationalStandingOrderPayments` table type in which each member is uniquely identified using its `PaymentId` field.
-    private table<model:PaymentDaoModel> key(PaymentId) internationalStandingOrderPayments = table[];
-    
-    public isolated function insertDomesticPaymentsData(string ConsentId, model:DomesticPaymentInitiation Initiation, model:Risk Risk) returns string {
+    # Creates a `InternationalStandingOrderPayments` table type in which each member is uniquely identified using its 
+    # `PaymentId` field.
+    private table<model:PaymentDaoModel> key(PaymentId) internationalStandingOrderPayments = table [];
+
+    public isolated function insertDomesticPaymentsData(string ConsentId, model:DomesticPaymentInitiation Initiation,
+            model:Risk Risk) returns string {
         string paymentId = uuid:createType1AsString();
         log:printDebug("Initiating Domestic Payments table");
-        self.domesticPayments.put({PaymentId: paymentId, ConsentId: ConsentId, Initiation: Initiation.toJson(), Risk: Risk.toJson()});
+        self.domesticPayments.put({
+            PaymentId: paymentId,
+            ConsentId: ConsentId,
+            Initiation: Initiation.toJson(),
+            Risk: Risk.toJson()
+        });
         return paymentId;
     }
 
-    public isolated function insertDomesticScheduledPaymentsData(string ConsentId, model:DomesticScheduledPaymentInitiation Initiation, model:Risk Risk) returns string {
+    public isolated function insertDomesticScheduledPaymentsData(string ConsentId,
+            model:DomesticScheduledPaymentInitiation Initiation, model:Risk Risk) returns string {
         string paymentId = uuid:createType1AsString();
         log:printDebug("Initiating Domestic Scheduled Payments table");
-        self.domesticScheduledPayments.put({PaymentId: paymentId, ConsentId: ConsentId, Initiation: Initiation.toJson(), Risk: Risk.toJson()});
+        self.domesticScheduledPayments.put({
+            PaymentId: paymentId,
+            ConsentId: ConsentId,
+            Initiation: Initiation.toJson(),
+            Risk: Risk.toJson()
+        });
         return paymentId;
     }
 
-    public isolated function insertDomesticStandingOrderPaymentsData(string ConsentId, model:DomesticStandingOrderInitiation Initiation, model:Risk Risk) returns string {
+    public isolated function insertDomesticStandingOrderPaymentsData(string ConsentId,
+            model:DomesticStandingOrderInitiation Initiation, model:Risk Risk) returns string {
         string paymentId = uuid:createType1AsString();
         log:printDebug("Initiating Domestic Standing Order Payments table");
-        self.domesticStandingOrderPayments.put({PaymentId: paymentId, ConsentId: ConsentId, Initiation: Initiation.toJson(), Risk: Risk.toJson()});
+        self.domesticStandingOrderPayments.put({
+            PaymentId: paymentId,
+            ConsentId: ConsentId,
+            Initiation: Initiation.toJson(),
+            Risk: Risk.toJson()
+        });
         return paymentId;
     }
 
-    public isolated function insertFilePaymentsData(string ConsentId, model:FilePaymentInitiation Initiation) returns string {
+    public isolated function insertFilePaymentsData(string ConsentId, model:FilePaymentInitiation Initiation)
+    returns string {
         string paymentId = uuid:createType1AsString();
         log:printDebug("Initiating File Payments table");
         self.filePayments.put({PaymentId: paymentId, ConsentId: ConsentId, Initiation: Initiation.toJson()});
         return paymentId;
     }
 
-    public isolated function insertInternationalPaymentsData(string ConsentId, model:InternationalPaymentInitiation Initiation, model:Risk Risk) returns string {
+    public isolated function insertInternationalPaymentsData(string ConsentId,
+            model:InternationalPaymentInitiation Initiation, model:Risk Risk) returns string {
         string paymentId = uuid:createType1AsString();
         log:printDebug("Initiating International Payments table");
-        self.internationalPayments.put({PaymentId: paymentId, ConsentId: ConsentId, Initiation: Initiation.toJson(), Risk: Risk.toJson()});
+        self.internationalPayments.put({
+            PaymentId: paymentId,
+            ConsentId: ConsentId,
+            Initiation: Initiation.toJson(),
+            Risk: Risk.toJson()
+        });
         return paymentId;
     }
 
-    public isolated function insertInternationalScheduledPaymentsData(string ConsentId, model:InternationalScheduledPaymentInitiation Initiation, model:Risk Risk) returns string {
+    public isolated function insertInternationalScheduledPaymentsData(string ConsentId,
+            model:InternationalScheduledPaymentInitiation Initiation, model:Risk Risk) returns string {
         string paymentId = uuid:createType1AsString();
         log:printDebug("Initiating International Scheduled Payments table");
-        self.internationalScheduledPayments.put({PaymentId: paymentId, ConsentId: ConsentId, Initiation: Initiation.toJson(), Risk: Risk.toJson()});
+        self.internationalScheduledPayments.put({
+            PaymentId: paymentId,
+            ConsentId: ConsentId,
+            Initiation: Initiation.toJson(),
+            Risk: Risk.toJson()
+        });
         return paymentId;
     }
 
-    public isolated function insertInternationalStandingOrderPaymentsData(string ConsentId, model:InternationalStandingOrderInitiation Initiation, model:Risk Risk) returns string {
+    public isolated function insertInternationalStandingOrderPaymentsData(string ConsentId,
+            model:InternationalStandingOrderInitiation Initiation, model:Risk Risk) returns string {
         string paymentId = uuid:createType1AsString();
         log:printDebug("Initiating International Standing Order Payments table");
-        self.internationalStandingOrderPayments.put({PaymentId: paymentId, ConsentId: ConsentId, Initiation: Initiation.toJson(), Risk: Risk.toJson()});
+        self.internationalStandingOrderPayments.put({
+            PaymentId: paymentId,
+            ConsentId: ConsentId,
+            Initiation: Initiation.toJson(),
+            Risk: Risk.toJson()
+        });
         return paymentId;
     }
 

@@ -13,7 +13,8 @@ import wso2.bfsi.demo.backend.util;
 
 # Set of elements used to define the party details.
 public type Party record {|
-    # A unique and immutable identifier used to identify the party resource. This identifier has no meaning to the account owner.
+    # A unique and immutable identifier used to identify the party resource. 
+    # This identifier has no meaning to the account owner.
     readonly string PartyId;
     # Number assigned by an agent to identify its customer.
     string PartyNumber = util:getRandomId();
@@ -65,7 +66,8 @@ public type Address record {|
     string StreetName?;
     # Number that identifies the position of a building on a street.
     string BuildingNumber?;
-    # Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.
+    # Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist 
+    # the sorting of mail.
     string PostCode?;
     # Name of a built-up area, with defined boundaries, and a local government.
     string TownName?;
@@ -75,7 +77,7 @@ public type Address record {|
     string Country;
 |};
 
-#Represent an parties response record with hateoas data.
+# Represent an parties response record with hateoas data.
 public type PartiesResponse record {|
     # Response data
     Party|Party[] Data;

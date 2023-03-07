@@ -12,21 +12,22 @@
 import ballerina/constraint;
 import wso2.bfsi.demo.backend.util;
 
-#Represents a domestic standing order intitiation request payload.
+# Represents a domestic standing order intitiation request payload.
 public type DomesticStandingOrderRequest record {|
-    #Represents data of the domestic standing order intitiation request
+    # Represents data of the domestic standing order intitiation request
     DomesticStandingOrderData Data;
     # The Risk section is sent by the initiating party to the bank.
     # It is used to specify additional details for risk scoring for Payments.
     Risk Risk;
 |};
 
-#Represents data of the domestic standing order intitiation request.
+# Represents data of the domestic standing order intitiation request.
 public type DomesticStandingOrderData record {|
     # OB: Unique identification as assigned by the bank to uniquely identify the consent resource.
     @constraint:String {maxLength: 128, minLength: 1}
     string ConsentId;
-    # The Initiation payload is sent by the initiating party to the bank. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.
+    # The Initiation payload is sent by the initiating party to the bank. It is used to request movement of funds from 
+    # the debtor account to a creditor for a domestic standing order.
     DomesticStandingOrderInitiation Initiation;
 |};
 
@@ -40,7 +41,7 @@ public type DomesticStandingOrderResponse record {|
     Meta Meta?;
 |};
 
-#Represents the data inside the payload of the domestic standing order response.
+# Represents the data inside the payload of the domestic standing order response.
 public type DomesticStandingOrderResponseData record {|
     # OB: Unique identification as assigned by the bank to uniquely identify the domestic standing order resource.
     @constraint:String {maxLength: 40, minLength: 1}
@@ -48,21 +49,22 @@ public type DomesticStandingOrderResponseData record {|
     # OB: Unique identification as assigned by the bank to uniquely identify the consent resource.
     @constraint:String {maxLength: 128, minLength: 1}
     string ConsentId;
-    # Date and time at which the resource was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-    # All date-time fields in responses must include the timezone. An example is below:
+    # Date and time at which the resource was created.All dates in the JSON payloads are represented in ISO 8601 
+    # date-time format. All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string CreationDateTime = util:getPastDateTime();
     # Specifies the status of the payment order resource.
     string Status;
-    # Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-    # All date-time fields in responses must include the timezone. An example is below:
+    # Date and time at which the resource status was updated.All dates in the JSON payloads are represented in 
+    # ISO 8601 date-time format. All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string StatusUpdateDateTime = util:getPastDateTime();
     # Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.
     DataRefund Refund?;
     # Set of elements used to provide details of a charge for the payment initiation.
     DataCharges[] Charges?;
-    # The Initiation payload is sent by the initiating party to the bank. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.
+    # The Initiation payload is sent by the initiating party to the bank. It is used to request movement of funds 
+    # from the debtor account to a creditor for a domestic standing order.
     DomesticStandingOrderInitiation Initiation;
     # The multiple authorisation flow response from the bank.
     MultiAuthorisation MultiAuthorisation?;
@@ -70,53 +72,68 @@ public type DomesticStandingOrderResponseData record {|
     CreditorAccount Debtor?;
 |};
 
-# The Initiation payload is sent by the initiating party to the bank. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.
+# The Initiation payload is sent by the initiating party to the bank. It is used to request movement of funds from 
+# the debtor account to a creditor for a domestic standing order.
 public type DomesticStandingOrderInitiation record {|
     # Individual Definitions:
-    # EvryDay - Every day
-    # EvryWorkgDay - Every working day
-    # IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
-    # WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
-    # IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
-    # QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
-    # ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
-    # SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
-    # RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
+    # * EvryDay - Every day
+    # * EvryWorkgDay - Every working day
+    # * IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
+    # * WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
+    # * IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within 
+    # the month (-5 to -1, 1 to 31)
+    # * QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
+    # * ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
+    # * SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
+    # * RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
+    #
     # Individual Patterns:
-    # EvryDay (ScheduleCode)
-    # EvryWorkgDay (ScheduleCode)
-    # IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)
-    # WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)
-    # IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)
-    # QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay
-    # The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
-    # EvryDay
-    # EvryWorkgDay
-    # IntrvlWkDay:0[1-9]:0[1-7]
-    # WkInMnthDay:0[1-5]:0[1-7]
-    # IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
-    # QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
+    # * EvryDay (ScheduleCode)
+    # * EvryWorkgDay (ScheduleCode)
+    # * IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)
+    # * WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)
+    # * IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)
+    # * QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay
+    #
+    # The regular expression for this element combines five smaller versions for each permitted pattern. 
+    # To aid legibility - the components are presented individually here:
+    # * EvryDay
+    # * EvryWorkgDay
+    # * IntrvlWkDay:0[1-9]:0[1-7]
+    # * WkInMnthDay:0[1-5]:0[1-7]
+    # * IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
+    # * QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
+    #
     # Full Regular Expression:
-    # ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+    # ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|
+    # ^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
     string Frequency;
     # Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
-    # Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
-    # If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.
+    #
+    # Usage: If available, the initiating party should provide this reference in the structured remittance information, 
+    # to enable reconciliation by the creditor upon receipt of the amount of money.
+    # If the business context requires the use of a creditor reference or a payment remit identification, and only one 
+    # identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance 
+    # identification should be quoted in the end-to-end transaction identification.
     @constraint:String {maxLength: 35, minLength: 1}
     string Reference?;
-    # Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
+    # Number of the payments that will be made in completing this frequency sequence including any executed since the 
+    # sequence start date.
     @constraint:String {maxLength: 35, minLength: 1}
     string NumberOfPayments?;
-    # The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+    # The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads 
+    # are represented in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
-    string FirstPaymentDateTime  = util:getFutureDateTime();
+    string FirstPaymentDateTime = util:getFutureDateTime();
     # The date on which the first recurring payment for a Standing Order schedule will be made. 
-    # Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+    # Usage: This must be populated only if the first recurring date is different to the first payment date.All dates 
+    # in the JSON payloads are represented in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string RecurringPaymentDateTime?;
-    # The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+    # The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads 
+    # are represented in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string FinalPaymentDateTime?;
@@ -126,9 +143,11 @@ public type DomesticStandingOrderInitiation record {|
     Amount RecurringPaymentAmount?;
     # The amount of the final Standing Order
     Amount FinalPaymentAmount?;
-    # Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.
+    # Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of 
+    # the transaction.
     DebtorAccount DebtorAccount?;
-    # Identification assigned by an institution to identify an account. This identification is known by the account owner.
+    # Identification assigned by an institution to identify an account. This identification is known by the 
+    # account owner.
     CreditorAccount CreditorAccount;
     # Additional information that can not be captured in the structured fields and/or any other specific block.
     Object SupplementaryData?;
