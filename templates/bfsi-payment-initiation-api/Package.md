@@ -25,8 +25,7 @@ When the different Open Banking endpoints of the service is invoked, the service
     ```
     curl POST 'https://<host>:<port>/domestic-payments' \
         --header 'x-idempotency-key: 1234' \
-        --header 'x-jws-signature: werty' \
-        --header 'Authorization: Basic YWRtaW5Ad3NvMi5jb206d3NvMjEyMw==' \
+        --header 'x-jws-signature: zetxrycugihojpkjhgfd' \
         --header 'Content-Type: application/json' \
         --data '{
             "Data": {
@@ -75,15 +74,13 @@ When the different Open Banking endpoints of the service is invoked, the service
     Example to retrieve payment by payment ID:
 
     ```
-    curl GET 'https://<host>:<port>/domestic-payments/P001' \
-        --header 'Authorization: Basic YWRtaW5Ad3NvMi5jb206d3NvMjEyMw=='
+    curl GET 'https://<host>:<port>/domestic-payments/P001'
     ```
 
      Example to retrieve payment details by payment ID:
 
     ```
-    curl GET 'https://<host>:<port>/domestic-payments/P001/payment-details' \
-        --header 'Authorization: Basic YWRtaW5Ad3NvMi5jb206d3NvMjEyMw=='
+    curl GET 'https://<host>:<port>/domestic-payments/P001/payment-details'
     ```
 
 ### Setup and run on Choreo

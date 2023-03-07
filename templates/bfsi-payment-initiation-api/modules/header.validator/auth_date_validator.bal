@@ -26,7 +26,7 @@ public class AuthDateVallidator {
     # Validates the auth date header value
     #  
     # + return - Returns an error if the header value is invalid
-    isolated function validate() returns ()|model:InvalidPayloadError {
+    isolated function validate() returns ()|error? {
         if (self.header == "") {
             // This header is optional. hence, return true
             return ();
@@ -37,14 +37,14 @@ public class AuthDateVallidator {
         do {
 	        utc2 = check time:utcFromString(self.header);
         } on fail var e {
-        	return error(e.message(), ErrorCode = "INVALID_DATE");
+        	return error(e.message());
         }
         time:Seconds seconds = time:utcDiffSeconds(utc1, utc2);
         
         if seconds > <time:Seconds>0 {
             return ();
         } else {
-            return error("Invalid Date found in the header", ErrorCode = "INVALID_DATE");
+            return error("Invalid Date found in the header");
         }
     }
 }

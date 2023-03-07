@@ -31,7 +31,7 @@ public service class RequestErrorInterceptor {
         
         return {
             mediaType: "application/org+json",
-            body: {Message: err.message(), ErrorCode: "E004"}
+            body: {Message: err.message(), ErrorCode: "UK.OBIE.HEADER.INVALID"}
         };
     }
 }

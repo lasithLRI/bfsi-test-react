@@ -24,14 +24,14 @@ public service class RequestInterceptor {
             returns anydata|http:NextService|error {
         
         validator:HeaderValidator headerValidator = new();
-        ()|model:InvalidPayloadError headerValidatorResult = headerValidator
+        ()|error? headerValidatorResult = headerValidator
             .add(new validator:UUIDValidator('x\-fapi\-interaction\-id))
             .add(new validator:IpAddressValidator('x\-fapi\-customer\-ip\-address))
             .add(new validator:AuthDateVallidator('x\-fapi\-auth\-date))
             .validate();
 
-        if (headerValidatorResult is model:InvalidPayloadError) {
-            return error(headerValidatorResult.message());
+        if (headerValidatorResult is error) {
+            return error(headerValidatorResult.message(), ErrorCode = "UK.OBIE.HEADER.INVALID");
         }
         
         return ctx.next();

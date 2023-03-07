@@ -26,7 +26,7 @@ public class IpAddressValidator {
     # Validates the IP address
     # 
     # + return - Returns an error if the IP address is invalid
-    isolated function validate() returns ()|model:InvalidPayloadError {
+    isolated function validate() returns ()|error? {
         if (self.header == "") {
             // This header is optional. hence, return true
             return ();
@@ -38,7 +38,7 @@ public class IpAddressValidator {
         if isIpv4 || isIpv6 {
             return ();
         } else {
-            return error("Found invalid ip address in headers", ErrorCode = "InavlidIpAddress");
+            return error("Found invalid ip address in headers");
         }
     }
 }

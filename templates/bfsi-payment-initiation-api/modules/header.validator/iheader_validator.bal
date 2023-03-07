@@ -15,5 +15,5 @@ import wso2bfsi/wso2.bfsi.demo.backend.model;
 public type IHeaderValidator object {
     string header;
 
-    isolated function validate() returns ()|model:InvalidPayloadError;
+    isolated function validate() returns ()|error?;
 };

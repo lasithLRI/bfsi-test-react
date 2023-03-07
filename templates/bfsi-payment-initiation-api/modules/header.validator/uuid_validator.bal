@@ -27,13 +27,13 @@ public class UUIDValidator {
     # Validates the UUID
     # 
     # + return - Returns an error if the UUID is invalid
-    isolated function validate() returns ()|model:InvalidPayloadError {
+    isolated function validate() returns ()|error? {
         if (self.header == "") {
             // This header is optional. hence, return true
             return ();
         }
 
         boolean isUuid = regex:matches(self.header, self.uuid);
-        return isUuid ? () : error("Found invalid UUID in headers", ErrorCode = "Invalid Header");
+        return isUuid ? () : error("Found invalid UUID in headers");
     }
 }

@@ -518,7 +518,7 @@ service / on interceptorListener {
     # Validate the payload
     # 
     # + payload - the payload object
-    # + path - the pathy
+    # + path - the path
     # + return - boolean
     private isolated function validatePayload(json payload, string path) returns ()|model:InvalidPayloadError {
 
