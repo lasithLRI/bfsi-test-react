@@ -12,9 +12,10 @@
 import ballerina/http;
 import ballerina/log;
 import bfsi_payment_initiation_api.interceptor;
-import bfsi_payment_initiation_api.payload.validator;
+import bfsi_payment_initiation_api.validator;
 import bfsi_payment_initiation_api.'client;
 import bfsi_payment_initiation_api.model;
+import bfsi_payment_initiation_api.util;
 
 // Request interceptors handle HTTP requests globally 
 interceptor:RequestInterceptor requestInterceptor = new;
@@ -30,6 +31,7 @@ listener http:Listener interceptorListener = new (9090, config);
 service / on interceptorListener {
 
     private final 'client:PaymentClient paymentClient = new();
+    private final validator:PayloadValidator validator = new();
 
     # Create a domestic payment
     #
@@ -421,16 +423,24 @@ service / on interceptorListener {
     # + payload - the payload object
     # + path - the path
     # + return - boolean
-    private isolated function validatePayload(anydata payload, string path) returns ()|model:InvalidPayloadError {
+    private isolated function validatePayload(anydata payload, string path) returns model:InvalidPayloadError? {
 
         log:printInfo("Validate the payload");
-        validator:PayloadValidator payloadValidator = new ();
-        ()|model:InvalidPayloadError payloadValidatorResult = payloadValidator
-            .add(new validator:PaymentRequestBodyValidator(payload, path))
-            .add(new validator:CreditorAccountValidator(payload, path))
-            .add(new validator:DebtorAccountValidator(payload, path))
-            .validate();
+        check self.validator.validatePayload(payload);
+        
+        model:CreditorAccount|error creditorAccount = util:extractCreditorAccount(payload, path);
+        if creditorAccount is error {
+            return error("Creditor Account is missing", ErrorCode = util:CODE_FIELD_MISSING);
+        }
+        check self.validator.validateCreditorAccount(creditorAccount);
 
-        return payloadValidatorResult;
+        model:DebtorAccount|error|() debtorAccount = util:extractDebtorAccount(payload, path);
+        if debtorAccount is error {
+            return error("Debtor Account is missing", ErrorCode = util:CODE_FIELD_MISSING);
+        }
+        if debtorAccount is () {
+            return;
+        }
+        check self.validator.validateDebtorAccount(debtorAccount);
     }
 }

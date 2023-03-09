@@ -10,12 +10,13 @@
 // associated services.
 
 import ballerina/http;
-import bfsi_payment_initiation_api.util;
-import bfsi_payment_initiation_api.header.validator;
+import bfsi_payment_initiation_api.validator;
 
 # Request interceptor to pre-process every API interaction.
 public isolated service class RequestInterceptor {
     *http:RequestInterceptor;
+
+    private final validator:HeaderValidator validator = new();
 
     // This will return a validation error if you do not send valid header values. 
     // Then, the execution will jump to the nearest `RequestErrorInterceptor`.
@@ -23,16 +24,9 @@ public isolated service class RequestInterceptor {
             @http:Header string? 'x\-fapi\-customer\-ip\-address, @http:Header string? 'x\-fapi\-interaction\-id)
             returns anydata|http:NextService|error {
 
-        validator:HeaderValidator headerValidator = new ();
-        ()|error? headerValidatorResult = headerValidator
-            .add(new validator:UUIDValidator('x\-fapi\-interaction\-id))
-            .add(new validator:IpAddressValidator('x\-fapi\-customer\-ip\-address))
-            .add(new validator:AuthDateVallidator('x\-fapi\-auth\-date))
-            .validate();
-
-        if (headerValidatorResult is error) {
-            return error(headerValidatorResult.message(), ErrorCode = util:CODE_HEADER_INVALID);
-        }
+        check self.validator.validateUUID('x\-fapi\-interaction\-id?:"");
+        check self.validator.validateIpAddress('x\-fapi\-customer\-ip\-address?:"");
+        check self.validator.validateAuthHeader('x\-fapi\-auth\-date?:"");
 
         return ctx.next();
     }
