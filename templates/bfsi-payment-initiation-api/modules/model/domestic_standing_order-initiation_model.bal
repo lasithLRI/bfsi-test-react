@@ -73,5 +73,5 @@ public type DomesticStandingOrderInitiation record {
     # Identification assigned by an institution to identify an account. This identification is known by the account owner.
     CreditorAccount CreditorAccount;
     # Additional information that can not be captured in the structured fields and/or any other specific block.
-    Object SupplementaryData?;
+    anydata SupplementaryData?;
 };

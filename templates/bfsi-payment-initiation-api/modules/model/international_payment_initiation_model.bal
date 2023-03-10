@@ -57,7 +57,7 @@ public type InternationalPaymentInitiation record {
     # Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
     RemittanceInformation RemittanceInformation?;
     # Additional information that can not be captured in the structured fields and/or any other specific block.
-    Object SupplementaryData?;
+    anydata SupplementaryData?;
 };
 
 # Further detailed information on the exchange rate that has been used in the payment transaction.

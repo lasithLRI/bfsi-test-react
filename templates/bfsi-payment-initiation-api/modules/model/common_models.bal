@@ -107,7 +107,3 @@ public type PostalAddress record {
     #Describes address line list
     string[] AddressLine?;
 };
-
-# Represent an empty object.
-public type Object record {
-};

@@ -47,7 +47,7 @@ service / on interceptorListener {
         returns model:DomesticPaymentResponse|error {
 
         log:printInfo("Initiating a domestic payment");
-        ()|model:InvalidPayloadError result = self.validatePayload(payload, "domestic-payments");
+        model:InvalidPayloadError? result = self.validatePayload(payload, "domestic-payments");
         if result is error {
             return result;
         }
@@ -100,7 +100,7 @@ service / on interceptorListener {
         returns model:DomesticScheduledPaymentResponse|error {
 
         log:printInfo("Initiating a domestic scheduled payment");
-        ()|model:InvalidPayloadError result = self.validatePayload(payload, "domestic-scheduled-payments");
+        model:InvalidPayloadError? result = self.validatePayload(payload, "domestic-scheduled-payments");
         if result is error {
             return result;
         }
@@ -154,7 +154,7 @@ service / on interceptorListener {
         returns model:DomesticStandingOrderResponse|error {
 
         log:printInfo("Initiating a domestic scheduled payment");
-        ()|model:InvalidPayloadError result = self.validatePayload(payload, "domestic-standing-orders");
+        model:InvalidPayloadError? result = self.validatePayload(payload, "domestic-standing-orders");
         if result is error {
             return result;
         }
@@ -208,7 +208,7 @@ service / on interceptorListener {
         returns model:FilePaymentResponse|error {
 
         log:printInfo("Initiating a domestic scheduled payment");
-        ()|model:InvalidPayloadError result = self.validatePayload(payload, "file-payments");
+        model:InvalidPayloadError? result = self.validatePayload(payload, "file-payments");
         if result is model:InvalidPayloadError {
             return result;
         }
@@ -263,7 +263,7 @@ service / on interceptorListener {
         returns model:InternationalPaymentResponse|error {
 
         log:printInfo("Initiating a domestic scheduled payment");
-        ()|model:InvalidPayloadError result = self.validatePayload(payload, "international-payments");
+        model:InvalidPayloadError? result = self.validatePayload(payload, "international-payments");
         if result is error {
             return result;
         }
@@ -318,7 +318,7 @@ service / on interceptorListener {
         returns model:InternationalScheduledPaymentResponse|error {
 
         log:printInfo("Initiating a domestic scheduled payment");
-        ()|model:InvalidPayloadError result = self.validatePayload(payload, "international-scheduled-payments");
+        model:InvalidPayloadError? result = self.validatePayload(payload, "international-scheduled-payments");
         if result is error {
             return result;
         }
@@ -376,7 +376,7 @@ service / on interceptorListener {
         returns model:InternationalStandingOrderResponse|error {
 
         log:printInfo("Initiating a domestic scheduled payment");
-        ()|model:InvalidPayloadError result = self.validatePayload(payload, "international-standing-orders");
+        model:InvalidPayloadError? result = self.validatePayload(payload, "international-standing-orders");
         if result is error {
             return result;
         }

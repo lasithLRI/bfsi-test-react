@@ -83,5 +83,5 @@ public type InternationalStandingOrderInitiation record {
     # Provides the details to identify the beneficiary account.
     CreditorAccount CreditorAccount;
     # Additional information that can not be captured in the structured fields and/or any other specific block.
-    Object SupplementaryData?;
+    anydata SupplementaryData?;
 };
