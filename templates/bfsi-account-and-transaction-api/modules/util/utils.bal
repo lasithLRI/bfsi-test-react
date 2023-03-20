@@ -9,7 +9,6 @@
 // entered into with WSO2 governing the purchase of this software and any
 // associated services.
 
-import ballerina/log;
 import ballerina/random;
 import ballerina/time;
 import ballerina/uuid;
@@ -36,14 +35,7 @@ public isolated function getPastDateTime() returns string =>
 # + isNegative - if true, return a negative random time in seconds.
 # + return - a random time in seconds.
 isolated function generateRandomSeconds(boolean isNegative = false) returns time:Seconds {
-    int randomSeconds;
-    do {
-        randomSeconds = check random:createIntInRange(86400, 864000);
-    } on fail var e {
-        log:printDebug("failed to generate a random integer. Caused by, ", e);
-        randomSeconds = 86400;
-    }
-
+    int randomSeconds = checkpanic random:createIntInRange(86400, 864000);
     return isNegative ? <time:Seconds>(randomSeconds * -1) : <time:Seconds>randomSeconds;
 }
 
