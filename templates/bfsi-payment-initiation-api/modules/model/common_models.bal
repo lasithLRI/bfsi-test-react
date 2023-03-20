@@ -10,7 +10,6 @@
 // associated services.
 
 import ballerina/constraint;
-import ballerina/log;
 import ballerina/random;
 import ballerina/time;
 import ballerina/uuid;
@@ -199,13 +198,7 @@ time:utcToString(time:utcAddSeconds(time:utcNow(), generateRandomSeconds(true)))
 # + return - a random time in seconds.
 isolated function generateRandomSeconds(boolean isNegative = false) returns time:Seconds {
     int randomSeconds;
-    do {
-        randomSeconds = checkpanic random:createIntInRange(86400, 864000);
-    } on fail var e {
-        log:printDebug("failed to generate a random integer. Caused by, ", e);
-        randomSeconds = 86400;
-    }
-
+    randomSeconds = checkpanic random:createIntInRange(86400, 864000);
     return isNegative ? <time:Seconds>(randomSeconds * -1) : <time:Seconds>randomSeconds;
 }
 

@@ -25,4 +25,4 @@ public const DOMESTIC_STANDING_ORDER_PAYMENT = "domestic-standing-order";
 public const INTERNATIONAL_PAYMENT = "international-payment";
 public const INTERNATIONAL_SCHEDULED_PAYMENT = "international-scheduled-payment";
 public const INTERNATIONAL_STANDING_ORDER_PAYMENT = "international-standing-order";
-public const FILE_PAYMENT = "ifile-payment";
+public const FILE_PAYMENT = "file-payment";
