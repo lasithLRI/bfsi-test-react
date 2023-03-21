@@ -24,11 +24,11 @@ const string PATTERN_UUID = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0
 # + header - The header ip address to be validated.
 # + return - The result of the validation.
 public isolated function validateIpAddressHeader(string? header) returns model:InvalidHeaderError? {
-    if !(header is ()) && !util:isEmpty(header) {
+    if !(header is () || util:isEmpty(header)) {
         boolean isIpv4 = regex:matches(header, PATTERN_IP_V4);
         boolean isIpv6 = regex:matches(header, PATTERN_IP_V6);
 
-        if !isIpv4 && !isIpv6 {
+        if !(isIpv4 || isIpv6) {
             return error("Found invalid ip address in headers", ErrorCode = util:CODE_INVALID_REQUEST_HEADER);
         }
     }
@@ -39,7 +39,7 @@ public isolated function validateIpAddressHeader(string? header) returns model:I
 # + header - The header UUID to be validated.
 # + return - The result of the validation.
 public isolated function validateUUIDHeader(string? header) returns model:InvalidHeaderError? {
-    if !(header is ()) && !util:isEmpty(header) {
+    if !(header is () || util:isEmpty(header)) {
         boolean isUuid = regex:matches(header, PATTERN_UUID);
         if !isUuid {
             return error("Found invalid UUID in headers", ErrorCode = util:CODE_INVALID_REQUEST_HEADER);
