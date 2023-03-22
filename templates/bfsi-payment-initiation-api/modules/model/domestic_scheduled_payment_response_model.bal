@@ -24,21 +24,21 @@ public type DomesticScheduledPaymentResponse record {|
 # Represents the data inside the payload of the domestic scheduled payment response.
 public type DomesticScheduledPaymentsResponseData record {|
     # OB: Unique identification as assigned by the bank to uniquely identify the domestic schedule
-    #  payment resource.
+    # payment resource.
     @constraint:String {maxLength: 40, minLength: 1}
     string DomesticScheduledPaymentId;
     # OB: Unique identification as assigned by the bank to uniquely identify the consent resource.
     @constraint:String {maxLength: 128, minLength: 1}
     string ConsentId;
     # Date and time at which the message was created.All dates in the JSON payloads are represented in
-    #  ISO 8601 date-time format. 
+    # ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string CreationDateTime = getPastDateTime();
     # Specifies the status of the payment order resource.
     string Status;
     # Date and time at which the resource status was updated.All dates in the JSON payloads are represented
-    #  in ISO 8601 date-time format. 
+    # in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string StatusUpdateDateTime = getPastDateTime();
@@ -58,7 +58,7 @@ public type DomesticScheduledPaymentsResponseData record {|
     # Set of elements used to provide details of a charge for the payment initiation.
     DataCharges[] Charges?;
     # The Initiation payload is sent by the initiating party to the bank. It is used to request movement
-    #  of funds from the debtor account to a creditor for a single scheduled domestic payment.
+    # of funds from the debtor account to a creditor for a single scheduled domestic payment.
     DomesticScheduledPaymentInitiation Initiation;
     # The multiple authorisation flow response from the bank.
     MultiAuthorisation MultiAuthorisation?;

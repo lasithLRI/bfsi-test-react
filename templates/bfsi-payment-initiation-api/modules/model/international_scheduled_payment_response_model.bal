@@ -24,7 +24,7 @@ public type InternationalScheduledPaymentResponse record {|
 # Represents the data of an international scheduled payment response.
 public type InternationalScheduledResponseData record {|
     # OB: Unique identification as assigned by the bank to uniquely identify the international scheduled
-    #  payment resource.
+    # payment resource.
     @constraint:String {maxLength: 40, minLength: 1}
     string InternationalScheduledPaymentId;
     # OB: Unique identification as assigned by the bank to uniquely identify the consent resource.
@@ -38,7 +38,7 @@ public type InternationalScheduledResponseData record {|
     # Specifies the status of the payment order resource.
     string Status;
     # Date and time at which the resource status was updated.All dates in the JSON payloads are represented
-    #  in ISO 8601 date-time format. 
+    # in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string StatusUpdateDateTime = getPastDateTime();

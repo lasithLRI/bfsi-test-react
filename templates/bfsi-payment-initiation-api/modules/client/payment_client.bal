@@ -21,7 +21,7 @@ public isolated client class PaymentClient {
     # + return - Domestic payment with ID or error
     isolated resource function post domestic\-payments(model:DomesticPaymentRequest request)
                                                     returns model:DomesticPaymentResponse|error {
-        check self.isValidPayload(request);
+        check self.validatePayload(request);
         final string domesticPaymentId = model:getRandomId();
         return {
             Data: {
@@ -64,7 +64,7 @@ public isolated client class PaymentClient {
     # + return - Domestic scheduled payment with ID or error
     isolated resource function post domestic\-scheduled\-payments(model:DomesticScheduledPaymentRequest request)
                                                     returns model:DomesticScheduledPaymentResponse|error {
-        check self.isValidPayload(request);
+        check self.validatePayload(request);
         final string domesticScheduledPaymentId = model:getRandomId();
         return {
             Data: {
@@ -107,7 +107,7 @@ public isolated client class PaymentClient {
     # + return - Domestic standing order payment with ID or error
     isolated resource function post domestic\-standing\-orders(model:DomesticStandingOrderRequest request)
                                                     returns model:DomesticStandingOrderResponse|error {
-        check self.isValidPayload(request);
+        check self.validatePayload(request);
         final string domesticStandingOrderId = model:getRandomId();
         return {
             Data: {
@@ -150,7 +150,7 @@ public isolated client class PaymentClient {
     # + return - File payment with ID or error
     isolated resource function post file\-payments(model:FilePaymentRequest request)
                                                     returns model:FilePaymentResponse|error {
-        check self.isValidPayload(request);
+        check self.validatePayload(request);
         final string filePaymentId = model:getRandomId();
         return {
             Data: {
@@ -170,7 +170,7 @@ public isolated client class PaymentClient {
     #
     # + filePaymentId - File payment Id
     # + return - File payment or error
-    isolated resource function get file\-payments/[string filePaymentId]() 
+    isolated resource function get file\-payments/[string filePaymentId]()
                                                     returns model:FilePaymentResponse|error {
         check self.isValidPaymentId(filePaymentId);
         return {
@@ -193,7 +193,7 @@ public isolated client class PaymentClient {
     # + return - International payment with ID or error
     isolated resource function post international\-payments(model:InternationalPaymentRequest request)
                                                     returns model:InternationalPaymentResponse|error {
-        check self.isValidPayload(request);
+        check self.validatePayload(request);
         string internationalPaymentId = model:getRandomId();
         return {
             Data: {
@@ -236,7 +236,7 @@ public isolated client class PaymentClient {
     # + return - International scheduled payment with ID or error
     isolated resource function post international\-scheduled\-payments(model:InternationalScheduledPaymentRequest request)
                                                     returns model:InternationalScheduledPaymentResponse|error {
-        check self.isValidPayload(request);
+        check self.validatePayload(request);
         final string internationalScheduledPaymentId = model:getRandomId();
         return {
             Data: {
@@ -279,7 +279,7 @@ public isolated client class PaymentClient {
     # + return - International standing order payment with ID or error
     isolated resource function post international\-standing\-orders(model:InternationalStandingOrderRequest request)
                                                     returns model:InternationalStandingOrderResponse|error {
-        check self.isValidPayload(request);
+        check self.validatePayload(request);
         final string internationalStandingorderId = model:getRandomId();
         return {
             Data: {
@@ -321,7 +321,7 @@ public isolated client class PaymentClient {
     # + path - Path of the request
     # + paymentId - Domestic payment Id
     # + return - Domestic payment details or error
-    isolated resource function get payments\-details/[string path]/[string paymentId]() 
+    isolated resource function get payments\-details/[string path]/[string paymentId]()
                                                         returns model:PaymentDetailsResponse|error {
         check self.isValidPaymentId(paymentId);
         return {
@@ -382,18 +382,18 @@ public isolated client class PaymentClient {
     }
 
     # Validate whether the Request Payload is empty.
-    # 
+    #
     # + request - Request Payload
     # + return - Error if the Request Payload is empty
-    private isolated function isValidPayload(anydata request) returns error? {
-        if request is null || request.toString().length() == 0 {
+    private isolated function validatePayload(anydata request) returns error? {
+        if request is () || request.toString().length() == 0 {
             log:printDebug(util:EMPTY_REQUEST_BODY);
             return error(util:EMPTY_REQUEST_BODY, ErrorCode = util:CODE_RESOURCE_INVALID_FORMAT);
         }
 
     }
     # Validate whether the payment Id is empty.
-    # 
+    #
     # + paymentId - Payment Id
     # + return - Error if the payment Id is empty
     private isolated function isValidPaymentId(string paymentId) returns error? {

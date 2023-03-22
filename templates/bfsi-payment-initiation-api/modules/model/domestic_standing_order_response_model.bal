@@ -24,26 +24,26 @@ public type DomesticStandingOrderResponse record {|
 # Represents the data inside the payload of the domestic standing order response.
 public type DomesticStandingOrderResponseData record {|
     # OB: Unique identification as assigned by the bank to uniquely identify the domestic standing
-    #  order resource.
+    # order resource.
     @constraint:String {maxLength: 40, minLength: 1}
     string DomesticStandingOrderId;
     # OB: Unique identification as assigned by the bank to uniquely identify the consent resource.
     @constraint:String {maxLength: 128, minLength: 1}
     string ConsentId;
     # Date and time at which the resource was created.All dates in the JSON payloads are represented
-    #  in ISO 8601 date-time format. 
+    # in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string CreationDateTime = getPastDateTime();
     # Specifies the status of the payment order resource.
     string Status;
     # Date and time at which the resource status was updated.All dates in the JSON payloads are
-    #  represented in ISO 8601 date-time format. 
+    # represented in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string StatusUpdateDateTime = getPastDateTime();
     # Unambiguous identification of the refund account to which a refund will be made as a result
-    #  of the transaction.
+    # of the transaction.
     DataRefund Refund?;
     # Set of elements used to provide details of a charge for the payment initiation.
     DataCharges[] Charges?;

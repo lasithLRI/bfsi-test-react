@@ -19,7 +19,7 @@ public type InternationalStandingOrderInitiation record {|
     string Frequency;
     # Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
     # Usage: If available, the initiating party should provide this reference in the structured remittance
-    #  information, to enable reconciliation by the creditor upon receipt of the amount of money.
+    # information, to enable reconciliation by the creditor upon receipt of the amount of money.
     # If the business context requires the use of a creditor reference or a payment remit identification, 
     # and only one identifier can be passed through the end-to-end chain, the creditor's reference or 
     # payment remittance identification should be quoted in the end-to-end transaction identification.
@@ -30,17 +30,17 @@ public type InternationalStandingOrderInitiation record {|
     @constraint:String {maxLength: 35, minLength: 1}
     string NumberOfPayments?;
     # The date on which the first payment for a Standing Order schedule will be made.All dates in the
-    #  JSON payloads are represented in ISO 8601 date-time format. 
+    # JSON payloads are represented in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string FirstPaymentDateTime;
     # The date on which the final payment for a Standing Order schedule will be made.All dates in the
-    #  JSON payloads are represented in ISO 8601 date-time format. 
+    # JSON payloads are represented in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string FinalPaymentDateTime?;
     # Specifies the external purpose code in the format of character string with a maximum length of
-    #  4 characters.
+    # 4 characters.
     # The list of valid codes is an external code list published separately.
     # External code sets can be downloaded from www.iso20022.org.
     @constraint:String {maxLength: 4, minLength: 1}
@@ -50,17 +50,17 @@ public type InternationalStandingOrderInitiation record {|
     @constraint:String {maxLength: 140, minLength: 1}
     string ExtendedPurpose?;
     # Specifies which party/parties will bear the charges associated with the processing of the payment
-    #  transaction.
+    # transaction.
     string ChargeBearer?;
     # Specifies the currency of the to be transferred amount, which is different from the currency of 
     # the debtor's account.
     string CurrencyOfTransfer;
     # Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another
-    #  area of particular geopolitical interest, on the basis of country names obtained from the United 
+    # area of particular geopolitical interest, on the basis of country names obtained from the United 
     # Nations (ISO 3166, Alpha-2 code).
     string DestinationCountryCode?;
     # Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed
-    #  in the currency as ordered by the initiating party.
+    # in the currency as ordered by the initiating party.
     # Usage: This amount has to be transported unchanged through the transaction chain.
     Amount InstructedAmount;
     # Unambiguous identification of the account of the debtor to which a debit entry will be made as a 
@@ -70,12 +70,12 @@ public type InternationalStandingOrderInitiation record {|
     Creditor Creditor?;
     # Party that manages the account on behalf of the account owner, that is manages the registration 
     # and booking of entries on the account, calculates balances on the account and provides information
-    #  about the account.
+    # about the account.
     # This is the servicer of the beneficiary account.
     CreditorAgent CreditorAgent?;
     # Provides the details to identify the beneficiary account.
     CreditorAccount CreditorAccount;
     # Additional information that can not be captured in the structured fields and/or any other specific
-    #  block.
+    # block.
     anydata SupplementaryData?;
 |};

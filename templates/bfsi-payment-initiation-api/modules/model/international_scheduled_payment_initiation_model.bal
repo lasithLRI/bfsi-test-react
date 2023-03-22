@@ -18,7 +18,7 @@ public type InternationalScheduledPaymentInitiation record {|
     # identify the instruction.
     # Usage: the  instruction identification is a point to point reference that can be used between the 
     # instructing party and the instructed party to refer to the individual instruction. It can be included
-    #  in several messages related to the instruction.
+    # in several messages related to the instruction.
     @constraint:String {maxLength: 35, minLength: 1}
     string InstructionIdentification;
     # Unique identification assigned by the initiating party to unambiguously identify the transaction. 
@@ -33,7 +33,7 @@ public type InternationalScheduledPaymentInitiation record {|
     # qualify the service or service level.
     string LocalInstrument?;
     # Indicator of the urgency or order of importance that the instructing party would like the instructed
-    #  party to apply to the processing of the instruction.
+    # party to apply to the processing of the instruction.
     string InstructionPriority?;
     # Specifies the external purpose code in the format of character string with a maximum length of 
     # 4 characters.
@@ -42,11 +42,11 @@ public type InternationalScheduledPaymentInitiation record {|
     @constraint:String {maxLength: 4, minLength: 1}
     string Purpose?;
     # Specifies the purpose of an international payment, when there is no corresponding 4 character code
-    #  available in the ISO20022 list of Purpose Codes.
+    # available in the ISO20022 list of Purpose Codes.
     @constraint:String {maxLength: 140, minLength: 1}
     string ExtendedPurpose?;
     # Specifies which party/parties will bear the charges associated with the processing of the payment
-    #  transaction.
+    # transaction.
     string ChargeBearer?;
     # Date at which the initiating party requests the clearing agent to process the payment. 
     # Usage: This is the date on which the debtor's account is to be debited.All dates in the JSON 
@@ -55,32 +55,32 @@ public type InternationalScheduledPaymentInitiation record {|
     # 2017-04-05T10:43:07+00:00
     string RequestedExecutionDateTime;
     # Specifies the currency of the to be transferred amount, which is different from the currency of
-    #  the debtor's account.
+    # the debtor's account.
     string CurrencyOfTransfer;
     # Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another
-    #  area of particular geopolitical interest, on the basis of country names obtained from the United
-    #  Nations (ISO 3166, Alpha-2 code).
+    # area of particular geopolitical interest, on the basis of country names obtained from the United
+    # Nations (ISO 3166, Alpha-2 code).
     string DestinationCountryCode?;
     # Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed
-    #  in the currency as ordered by the initiating party.
+    # in the currency as ordered by the initiating party.
     # Usage: This amount has to be transported unchanged through the transaction chain.
     Amount InstructedAmount;
     # Provides details on the currency exchange rate and contract.
     ExchangeRateInformation ExchangeRateInformation?;
     # Unambiguous identification of the account of the debtor to which a debit entry will be made as a
-    #  result of the transaction.
+    # result of the transaction.
     DebtorAccount DebtorAccount?;
     # Party to which an amount of money is due.
     Creditor Creditor?;
     # Financial institution servicing an account for the creditor.
     CreditorAgent CreditorAgent?;
     # Unambiguous identification of the account of the creditor to which a credit entry will be posted
-    #  as a result of the payment transaction.
+    # as a result of the payment transaction.
     CreditorAccount CreditorAccount;
     # Information supplied to enable the matching of an entry with the items that the transfer is intended
-    #  to settle, such as commercial invoices in an accounts' receivable system.
+    # to settle, such as commercial invoices in an accounts' receivable system.
     RemittanceInformation RemittanceInformation?;
     # Additional information that can not be captured in the structured fields and/or any other specific
-    #  block.
+    # block.
     anydata SupplementaryData?;
 |};

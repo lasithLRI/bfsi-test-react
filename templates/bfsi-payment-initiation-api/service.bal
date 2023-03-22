@@ -11,8 +11,8 @@
 
 import ballerina/http;
 import ballerina/log;
-import bfsi_payment_initiation_api.interceptor;
 import bfsi_payment_initiation_api.'client;
+import bfsi_payment_initiation_api.interceptor;
 import bfsi_payment_initiation_api.model;
 import bfsi_payment_initiation_api.util;
 
@@ -44,7 +44,7 @@ service / on interceptorListener {
         returns model:DomesticPaymentResponse|error {
 
         log:printInfo("Initiating a domestic payment");
-        check self.validatePayload(payload, util:DOMESTIC_PAYMENT);
+        check self.validatePayload(payload.toJson(), util:DOMESTIC_PAYMENT);
         return self.paymentClient->/domestic\-payments.post(payload);
     }
 
@@ -88,7 +88,7 @@ service / on interceptorListener {
         returns model:DomesticScheduledPaymentResponse|error {
 
         log:printInfo("Initiating a domestic scheduled payment");
-        check self.validatePayload(payload, util:DOMESTIC_SCHEDULED_PAYMENT);
+        check self.validatePayload(payload.toJson(), util:DOMESTIC_SCHEDULED_PAYMENT);
         return self.paymentClient->/domestic\-scheduled\-payments.post(payload);
     }
 
@@ -131,7 +131,7 @@ service / on interceptorListener {
         returns model:DomesticStandingOrderResponse|error {
 
         log:printInfo("Initiating a domestic standing order payment");
-        check self.validatePayload(payload, util:DOMESTIC_STANDING_ORDER_PAYMENT);
+        check self.validatePayload(payload.toJson(), util:DOMESTIC_STANDING_ORDER_PAYMENT);
         return self.paymentClient->/domestic\-standing\-orders.post(payload);
     }
 
@@ -174,7 +174,7 @@ service / on interceptorListener {
         returns model:FilePaymentResponse|error {
 
         log:printInfo("Initiating a file payment");
-        check self.validatePayload(payload, util:FILE_PAYMENT);
+        check self.validatePayload(payload.toJson(), util:FILE_PAYMENT);
         return self.paymentClient->/file\-payments.post(payload);
     }
 
@@ -217,7 +217,7 @@ service / on interceptorListener {
         returns model:InternationalPaymentResponse|error {
 
         log:printInfo("Initiating a international payment");
-        check self.validatePayload(payload, util:INTERNATIONAL_PAYMENT);
+        check self.validatePayload(payload.toJson(), util:INTERNATIONAL_PAYMENT);
         return self.paymentClient->/international\-payments.post(payload);
     }
 
@@ -260,7 +260,7 @@ service / on interceptorListener {
         returns model:InternationalScheduledPaymentResponse|error {
 
         log:printInfo("Initiating a International scheduled payment");
-        check self.validatePayload(payload, util:INTERNATIONAL_SCHEDULED_PAYMENT);
+        check self.validatePayload(payload.toJson(), util:INTERNATIONAL_SCHEDULED_PAYMENT);
         return self.paymentClient->/international\-scheduled\-payments.post(payload);
     }
 
@@ -304,7 +304,7 @@ service / on interceptorListener {
         returns model:InternationalStandingOrderResponse|error {
 
         log:printInfo("Initiating a  International Standing Order payment");
-        check self.validatePayload(payload, util:INTERNATIONAL_STANDING_ORDER_PAYMENT);
+        check self.validatePayload(payload.toJson(), util:INTERNATIONAL_STANDING_ORDER_PAYMENT);
         return self.paymentClient->/international\-standing\-orders.post(payload);
     }
 
@@ -339,21 +339,20 @@ service / on interceptorListener {
     # + payload - the payload object
     # + path - the path
     # + return - boolean
-    private isolated function validatePayload(anydata payload, string path) returns model:InvalidPayloadError? {
+    private isolated function validatePayload(json payload, string path) returns model:InvalidPayloadError? {
 
         log:printInfo("Validate the payload");
-        check util:validatePayload(payload);
+        check util:validatePayload(payload.toJson());
 
         model:CreditorAccount|error creditorAccount = util:extractCreditorAccount(payload, path);
         if !path.includes(util:FILE_PAYMENT) {
             if creditorAccount is error {
-            return error("Creditor Account is missing", ErrorCode = util:CODE_FIELD_MISSING);
-        }
+                return error("Creditor Account is missing", ErrorCode = util:CODE_FIELD_MISSING);
+            }
             check util:validateCreditorAccount(creditorAccount);
         }
-        
 
-        model:DebtorAccount|error|() debtorAccount = util:extractDebtorAccount(payload, path);
+        model:DebtorAccount|error? debtorAccount = util:extractDebtorAccount(payload, path);
         if debtorAccount is error {
             return error("Debtor Account is missing", ErrorCode = util:CODE_FIELD_MISSING);
         }

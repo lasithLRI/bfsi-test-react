@@ -26,6 +26,6 @@ public type InternationalPaymentData record {|
     @constraint:String {maxLength: 128, minLength: 1}
     string ConsentId;
     # The Initiation payload is sent by the initiating party to the bank. It is used to request movement
-    #  of funds from the debtor account to a creditor for a single international payment.
+    # of funds from the debtor account to a creditor for a single international payment.
     InternationalPaymentInitiation Initiation;
 |};

@@ -18,7 +18,7 @@ public type DomesticStandingOrderInitiation record {|
     string Frequency;
     # Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
     # Usage: If available, the initiating party should provide this reference in the structured remittance
-    #  information, to enable reconciliation by the creditor upon receipt of the amount of money.
+    # information, to enable reconciliation by the creditor upon receipt of the amount of money.
     # If the business context requires the use of a creditor reference or a payment remit identification, 
     # and only one identifier can be passed through the end-to-end chain, the creditor's reference or 
     # payment remittance identification should be quoted in the end-to-end transaction identification.
@@ -35,7 +35,7 @@ public type DomesticStandingOrderInitiation record {|
     string FirstPaymentDateTime = getFutureDateTime();
     # The date on which the first recurring payment for a Standing Order schedule will be made. 
     # Usage: This must be populated only if the first recurring date is different to the first payment
-    #  date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+    # date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
     # All date-time fields in responses must include the timezone. An example is below:
     # 2017-04-05T10:43:07+00:00
     string RecurringPaymentDateTime?;
@@ -51,12 +51,12 @@ public type DomesticStandingOrderInitiation record {|
     # The amount of the final Standing Order
     Amount FinalPaymentAmount?;
     # Unambiguous identification of the account of the debtor to which a debit entry will be made as a
-    #  result of the transaction.
+    # result of the transaction.
     DebtorAccount DebtorAccount?;
     # Identification assigned by an institution to identify an account. This identification is known by
-    #  the account owner.
+    # the account owner.
     CreditorAccount CreditorAccount;
     # Additional information that can not be captured in the structured fields and/or any other specific
-    #  block.
+    # block.
     anydata SupplementaryData?;
 |};

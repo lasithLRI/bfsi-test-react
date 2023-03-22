@@ -12,7 +12,7 @@
 import ballerina/constraint;
 
 # The Initiation payload is sent by the initiating party to the bank. It is used to request movement of
-#  funds using a payment file.
+# funds using a payment file.
 public type FilePaymentInitiation record {|
     # Specifies the payment file type.
     string FileType;
@@ -40,9 +40,9 @@ public type FilePaymentInitiation record {|
     # result of the transaction.
     DebtorAccount DebtorAccount?;
     # Information supplied to enable the matching of an entry with the items that the transfer is intended
-    #  to settle, such as commercial invoices in an accounts' receivable system.
+    # to settle, such as commercial invoices in an accounts' receivable system.
     RemittanceInformation RemittanceInformation?;
     # Additional information that can not be captured in the structured fields and/or any other specific
-    #  block.
+    # block.
     anydata SupplementaryData?;
 |};

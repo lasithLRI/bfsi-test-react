@@ -32,11 +32,11 @@ public isolated service class ResponseErrorInterceptor {
 
         if err is model:InvalidResourceIdError {
             return self.generateErrorResponse(err.message(), err.detail().get("ErrorCode"), "Path.PaymentId");
-        } 
+        }
         if err is model:PayloadParseError {
             return self.generateErrorResponse(err.message(), err.detail().get("ErrorCode"), "Request");
 
-        } 
+        }
         if err is model:InvalidPayloadError {
             return self.generateErrorResponse(err.message(), err.detail().get("ErrorCode"), "Request.Payload");
         }
@@ -44,7 +44,7 @@ public isolated service class ResponseErrorInterceptor {
         return self.generateErrorResponse(err.message(), util:CODE_FIELD_INVALID, null);
     }
 
-    private isolated function generateErrorResponse(string errorMessage, string errorCode, string? path) 
+    private isolated function generateErrorResponse(string errorMessage, string errorCode, string? path)
     returns util:BadRequest => {
         mediaType: "application/org+json",
         body: {

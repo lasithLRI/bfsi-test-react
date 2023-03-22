@@ -23,6 +23,6 @@ public type FilePaymentData record {|
     @constraint:String {maxLength: 128, minLength: 1}
     string ConsentId;
     # The Initiation payload is sent by the initiating party to the bank. It is used to request movement
-    #  of funds using a payment file.
+    # of funds using a payment file.
     FilePaymentInitiation Initiation;
 |};

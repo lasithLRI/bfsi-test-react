@@ -15,7 +15,7 @@ import ballerina/constraint;
 # funds from the debtor account to a creditor for a single international payment.
 public type InternationalPaymentInitiation record {|
     # Unique identification as assigned by an instructing party for an instructed party to unambiguously
-    #  identify the instruction.
+    # identify the instruction.
     # Usage: the  instruction identification is a point to point reference that can be used between the 
     # instructing party and the instructed party to refer to the individual instruction. It can be 
     # included in several messages related to the instruction.
@@ -33,7 +33,7 @@ public type InternationalPaymentInitiation record {|
     # qualify the service or service level.
     string LocalInstrument?;
     # Indicator of the urgency or order of importance that the instructing party would like the instructed
-    #  party to apply to the processing of the instruction.
+    # party to apply to the processing of the instruction.
     string InstructionPriority?;
     # Specifies the external purpose code in the format of character string with a maximum length of 4 
     # characters.
@@ -46,17 +46,17 @@ public type InternationalPaymentInitiation record {|
     @constraint:String {maxLength: 140, minLength: 1}
     string ExtendedPurpose?;
     # Specifies which party/parties will bear the charges associated with the processing of the payment
-    #  transaction.
+    # transaction.
     string ChargeBearer?;
     # Specifies the currency of the to be transferred amount, which is different from the currency of the
-    #  debtor's account.
+    # debtor's account.
     string CurrencyOfTransfer;
     # Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another
-    #  area of particular geopolitical interest, on the basis of country names obtained from the United 
+    # area of particular geopolitical interest, on the basis of country names obtained from the United 
     # Nations (ISO 3166, Alpha-2 code).
     string DestinationCountryCode?;
     # Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed
-    #  in the currency as ordered by the initiating party.
+    # in the currency as ordered by the initiating party.
     # Usage: This amount has to be transported unchanged through the transaction chain.
     Amount InstructedAmount;
     # Provides details on the currency exchange rate and contract.
@@ -72,7 +72,7 @@ public type InternationalPaymentInitiation record {|
     # as a result of the payment transaction.
     CreditorAccount CreditorAccount;
     # Information supplied to enable the matching of an entry with the items that the transfer is intended
-    #  to settle, such as commercial invoices in an accounts' receivable system.
+    # to settle, such as commercial invoices in an accounts' receivable system.
     RemittanceInformation RemittanceInformation?;
     # Additional information that can not be captured in the structured fields and/or any other specific 
     # block.

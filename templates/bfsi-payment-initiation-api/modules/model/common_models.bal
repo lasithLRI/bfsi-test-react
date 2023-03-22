@@ -176,39 +176,38 @@ public type PostalAddress record {|
 |};
 
 # Get current Date and Time.
-# 
+#
 # + return - current date and time.
 public isolated function getDateTime() returns string => time:utcToString(time:utcNow());
 
 # Get future Date and Time.
-# 
+#
 # + return - future date and time.
-public isolated function getFutureDateTime() returns string => 
+public isolated function getFutureDateTime() returns string =>
 time:utcToString(time:utcAddSeconds(time:utcNow(), generateRandomSeconds()));
 
 # Get past Date and Time.
-# 
+#
 # + return - past date and time.
-public isolated function getPastDateTime() returns string => 
+public isolated function getPastDateTime() returns string =>
 time:utcToString(time:utcAddSeconds(time:utcNow(), generateRandomSeconds(true)));
 
 # Generate a random time in seconds.
-# 
+#
 # + isNegative - if true, return a negative random time in seconds.
 # + return - a random time in seconds.
 isolated function generateRandomSeconds(boolean isNegative = false) returns time:Seconds {
-    int randomSeconds;
-    randomSeconds = checkpanic random:createIntInRange(86400, 864000);
+    int randomSeconds = checkpanic random:createIntInRange(86400, 864000);
     return isNegative ? <time:Seconds>(randomSeconds * -1) : <time:Seconds>randomSeconds;
 }
 
 # Generate a random amount.
-# 
+#
 # + return - a random amount.
-public isolated function getRandomAmount() returns string => 
+public isolated function getRandomAmount() returns string =>
 (random:createDecimal() * 1000).toFixedString(2);
 
 # Generate a random UUID.
-# 
+#
 # + return - a random UUID.
 public isolated function getRandomId() returns string => uuid:createType4AsString();

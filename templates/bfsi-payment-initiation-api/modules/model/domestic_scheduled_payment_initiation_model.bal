@@ -46,12 +46,12 @@ public type DomesticScheduledPaymentInitiation record {|
     # result of the transaction.
     DebtorAccount DebtorAccount?;
     # Unambiguous identification of the account of the creditor to which a credit entry will be posted as
-    #  a result of the payment transaction.
+    # a result of the payment transaction.
     CreditorAccount CreditorAccount;
     # Information that locates and identifies a specific address, as defined by postal services.
     PostalAddress CreditorPostalAddress?;
     # Information supplied to enable the matching of an entry with the items that the transfer is intended
-    #  to settle, such as commercial invoices in an accounts' receivable system.
+    # to settle, such as commercial invoices in an accounts' receivable system.
     RemittanceInformation RemittanceInformation?;
     # Additional information that can not be captured in the structured fields and/or any other specific 
     # block.
