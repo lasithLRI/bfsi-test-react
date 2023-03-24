@@ -11,7 +11,7 @@
 
 import bfsi_account_and_transaction_api.model;
 
-# Creates a `Accounts` table type in which each member is uniquely identified using its `AccountId` field.
+# Stores the accounts data. Each member is uniquely identified using the `AccountId` field.
 public final table<model:Account> key(AccountId) & readonly accounts = table [
     {
         AccountId: "A001",
@@ -34,7 +34,7 @@ public final table<model:Account> key(AccountId) & readonly accounts = table [
     }
 ];
 
-# Creates a `Balances` table type in which each member is uniquely identified using its `AccountId` field.
+# Stores the balances data. Each member is uniquely identified using the `AccountId` and `BalanceId` fields.
 public final table<model:Balance> key(AccountId, BalanceId) & readonly balances = table [
     {
         AccountId: "A001",
@@ -62,8 +62,7 @@ public final table<model:Balance> key(AccountId, BalanceId) & readonly balances 
     }
 ];
 
-# Creates a `Beneficiaries` table type in which each member is uniquely identified using its `AccountId` and 
-# `BeneficiaryId` fields.
+# Stores the beneficiaries data. Each member is uniquely identified using the `AccountId` and `BeneficiaryId` fields.
 public final table<model:Beneficiary> key(AccountId, BeneficiaryId) & readonly beneficiaries = table [
     {
         AccountId: "A001",
@@ -75,8 +74,7 @@ public final table<model:Beneficiary> key(AccountId, BeneficiaryId) & readonly b
     {AccountId: "A001", BeneficiaryId: "B003", Reference: "Firebender Club"}
 ];
 
-# Creates a `DirectDebits` table type in which each member is uniquely identified using its `AccountId` and 
-# `DirectDebitId` fields.
+# Stores the direct debit data. Each member is uniquely identified using the `AccountId` and `DirectDebitId` fields.
 public final table<model:DirectDebit> key(AccountId, DirectDebitId) & readonly directDebits = table [
     {
         AccountId: "A001",
@@ -99,8 +97,7 @@ public final table<model:DirectDebit> key(AccountId, DirectDebitId) & readonly d
     }
 ];
 
-# Creates a `Offers` table type in which each member is uniquely identified using its `AccountId` and 
-# `OfferId` fields.
+# Stores the offer data. Each member is uniquely identified using the `AccountId` and `OfferId` fields.
 public final table<model:Offer> key(AccountId, OfferId) & readonly offers = table [
     {
         AccountId: "A001",
@@ -114,7 +111,7 @@ public final table<model:Offer> key(AccountId, OfferId) & readonly offers = tabl
     {AccountId: "A001", OfferId: "O003", OfferType: "LimitIncrease", Amount: {}, Fee: {}}
 ];
 
-# Creates a `Parties` table type in which each member is uniquely identified using its `PartyId` field.
+# Stores the party data. Each member is uniquely identified using the `PartyId` field.
 public final table<model:Party> key(PartyId) & readonly parties = table [
     {
         PartyId: "P001",
@@ -151,8 +148,7 @@ public final table<model:Party> key(PartyId) & readonly parties = table [
     }
 ];
 
-# Creates a `Product` table type in which each member is uniquely identified using its `AccountId` and 
-# `ProductId` fields.
+# Stores the product data. Each member is uniquely identified using the `AccountId` and `ProductId` fields.
 public final table<model:Product> key(AccountId, ProductId) & readonly products = table [
     {
         AccountId: "A001",
@@ -174,8 +170,8 @@ public final table<model:Product> key(AccountId, ProductId) & readonly products 
     }
 ];
 
-# Creates a `ScheduledPayment` table type in which each member is uniquely identified using its `AccountId` and 
-# `ScheduledPaymentId` fields.
+# Stores the scheduled payment data. 
+# Each member is uniquely identified using the `AccountId` and `ScheduledPaymentId` fields.
 public final table<model:ScheduledPayment> key(AccountId, ScheduledPaymentId) & readonly scheduledPayments =
     table [
     {
@@ -201,8 +197,7 @@ public final table<model:ScheduledPayment> key(AccountId, ScheduledPaymentId) & 
     }
 ];
 
-# Creates a `StandingOrder` table type in which each member is uniquely identified using its `AccountId` and 
-# `StandingOrderId` fields.
+# Stores the standing order data. Each member is uniquely identified using the `AccountId` and `StandingOrderId` fields.
 public final table<model:StandingOrder> key(AccountId, StandingOrderId) & readonly standingOrders = table [
     {
         AccountId: "A001",
@@ -239,8 +234,7 @@ public final table<model:StandingOrder> key(AccountId, StandingOrderId) & readon
     }
 ];
 
-# Creates a `Statement` table type in which each member is uniquely identified using its `AccountId` and 
-# `StatementId` fields.
+# Stores the statement data. Each member is uniquely identified using the `AccountId` and `StatementId` fields.
 public final table<model:Statement> key(AccountId, StatementId) & readonly statements = table [
     {
         AccountId: "A001",
@@ -265,8 +259,7 @@ public final table<model:Statement> key(AccountId, StatementId) & readonly state
     }
 ];
 
-# Creates a `Transaction` table type in which each member is uniquely identified using its `AccountId` and 
-# `TransactionId` fields.
+# Stores the transaction data. Each member is uniquely identified using the `AccountId` and `TransactionId` fields.
 public final table<model:Transaction> key(AccountId, TransactionId) & readonly transactions = table [
     {
         AccountId: "A001",

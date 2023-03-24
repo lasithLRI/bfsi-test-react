@@ -27,7 +27,7 @@ final http:ListenerConfiguration config = {
 listener http:Listener interceptorListener = new (9090, config);
 
 isolated service / on interceptorListener {
-    private final 'client:AccountClient accountClient = new ();
+    private final 'client:AccountClient accountClient = new;
 
     # Get all accounts.
     #
