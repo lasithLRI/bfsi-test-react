@@ -1,0 +1,16 @@
+[build-options]
+  observabilityIncluded = true
+
+[package]
+  authors = ["WSO2 BFSI"]
+  description = "A template to generate Open Banking Account and Transaction REST service"
+  displayName = "BFSI Account and Transaction API"
+  distribution = "2201.3.1"
+  export=["bfsi_account_and_transaction_api", "bfsi_account_and_transaction_api.interceptor", "bfsi_account_and_transaction_api.model", "bfsi_account_and_transaction_api.util", "bfsi_account_and_transaction_api.validator"]
+  template = true
+  icon = "icon.png"
+  keywords = ["Kind/Sample", "Type/RestApi", "Category/Service", "Internal/http", "Cost/Free", "Vertical/bfsi"]
+  name = "bfsi_account_and_transaction_api"
+  org = "wso2bfsi"
+  version = "1.0.0"
+  visibility="private"
