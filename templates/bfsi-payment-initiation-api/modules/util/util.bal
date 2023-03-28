@@ -496,7 +496,7 @@ model:InternationalScheduledPaymentInitiation|model:InternationalStandingOrderIn
 #
 # + payload - Payload  
 # + td - Initiation Types
-# + return - Return Value Description
+# + return - Initiation payload
 public isolated function extractInitiation(json payload, typedesc<Initiation> td)  
                                                         returns Initiation|error =>
      (check payload.Data.Initiation).cloneWithType(td);
