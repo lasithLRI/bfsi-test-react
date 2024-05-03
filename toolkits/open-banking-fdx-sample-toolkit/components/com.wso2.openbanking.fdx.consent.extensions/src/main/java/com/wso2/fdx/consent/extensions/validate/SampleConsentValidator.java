@@ -10,7 +10,7 @@
  * with WSO2 governing the purchase of this software and any associated services.
  */
 
-package com.wso2.openbanking.consent.extensions.validate;
+package com.wso2.fdx.consent.extensions.validate;
 
 import com.wso2.openbanking.accelerator.consent.extensions.common.ConsentException;
 import com.wso2.openbanking.accelerator.consent.extensions.validate.impl.DefaultConsentValidator;
@@ -21,6 +21,7 @@ import com.wso2.openbanking.accelerator.consent.extensions.validate.model.Consen
 /**
  * Consent validator sample implementation.
  */
+
 public class SampleConsentValidator implements ConsentValidator {
 
     @Override
@@ -30,3 +31,4 @@ public class SampleConsentValidator implements ConsentValidator {
         defaultConsentValidator.validate(consentValidateData, consentValidationResult);
     }
 }
+
