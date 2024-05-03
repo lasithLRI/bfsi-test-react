@@ -10,14 +10,10 @@
  * with WSO2 governing the purchase of this software and any associated services.
  */
 
-package com.wso2.openbanking.consent.extensions.authservlet;
+package com.wso2.fdx.consent.extensions.authservlet;
 
-import com.wso2.openbanking.accelerator.common.exception.OpenBankingException;
-import com.wso2.openbanking.accelerator.common.identity.retriever.sp.CommonServiceProviderRetriever;
 import com.wso2.openbanking.accelerator.consent.extensions.authservlet.impl.OBDefaultAuthServletImpl;
 import com.wso2.openbanking.accelerator.consent.extensions.authservlet.model.OBAuthServletInterface;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -28,27 +24,12 @@ import javax.servlet.http.HttpServletRequest;
  * The Sample implementation of servlet extension.
  */
 public class OBSampleAuthServletImpl implements OBAuthServletInterface {
-    private static final Log log = LogFactory.getLog(OBSampleAuthServletImpl.class);
-    OBDefaultAuthServletImpl obDefaultAuthServlet = new OBDefaultAuthServletImpl();
 
+    OBDefaultAuthServletImpl obDefaultAuthServlet = new OBDefaultAuthServletImpl();
 
     @Override
     public Map<String, Object> updateRequestAttribute(HttpServletRequest httpServletRequest, JSONObject jsonObject,
                                                       ResourceBundle resourceBundle) {
-
-
-        CommonServiceProviderRetriever commonServiceProviderRetriever =
-                new CommonServiceProviderRetriever();
-        try {
-            String logoUri =
-                    commonServiceProviderRetriever.getAppPropertyFromSPMetaData(
-                            "aCHzpEanKYgwWBxjvj3A965FI30a", "logo_uri");
-            log.info(logoUri);
-            httpServletRequest.setAttribute("logo_uri", logoUri);
-        } catch (OpenBankingException e) {
-            log.info(e);
-        }
-
         return obDefaultAuthServlet.updateRequestAttribute(httpServletRequest, jsonObject, resourceBundle);
     }
 
@@ -73,3 +54,4 @@ public class OBSampleAuthServletImpl implements OBAuthServletInterface {
         return obDefaultAuthServlet.getJSPPath();
     }
 }
+

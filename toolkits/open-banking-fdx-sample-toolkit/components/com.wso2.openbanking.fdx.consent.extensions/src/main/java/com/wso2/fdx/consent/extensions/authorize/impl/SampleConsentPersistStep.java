@@ -10,28 +10,23 @@
  * with WSO2 governing the purchase of this software and any associated services.
  */
 
-package com.wso2.openbanking.consent.extensions.authorize.impl;
+package com.wso2.fdx.consent.extensions.authorize.impl;
 
 import com.wso2.openbanking.accelerator.consent.extensions.authorize.impl.DefaultConsentPersistStep;
 import com.wso2.openbanking.accelerator.consent.extensions.authorize.model.ConsentPersistData;
 import com.wso2.openbanking.accelerator.consent.extensions.authorize.model.ConsentPersistStep;
 import com.wso2.openbanking.accelerator.consent.extensions.common.ConsentException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Consent persist step sample implementation.
  */
 public class SampleConsentPersistStep implements ConsentPersistStep {
-    private static final Log log = LogFactory.getLog(DefaultConsentPersistStep.class);
 
     @Override
     public void execute(ConsentPersistData consentPersistData) throws ConsentException {
         DefaultConsentPersistStep defaultConsentPersistStep = new DefaultConsentPersistStep();
         defaultConsentPersistStep.execute(consentPersistData);
-        //Homework - Send notifications to a mock SMS/email endpoint after consent authorization
-        log.info("User consent saved successfully");
-
-
     }
 }
+
