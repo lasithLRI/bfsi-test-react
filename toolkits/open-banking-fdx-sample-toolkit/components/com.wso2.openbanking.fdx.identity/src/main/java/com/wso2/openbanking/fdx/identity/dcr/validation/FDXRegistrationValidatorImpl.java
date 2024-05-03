@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com).
+ * Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com).
  *
  * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -20,7 +20,6 @@ package com.wso2.openbanking.fdx.identity.dcr.validation;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-
 import com.wso2.openbanking.accelerator.identity.dcr.exception.DCRValidationException;
 import com.wso2.openbanking.accelerator.identity.dcr.model.RegistrationRequest;
 import com.wso2.openbanking.accelerator.identity.dcr.utils.ValidatorUtils;
@@ -32,7 +31,6 @@ import com.wso2.openbanking.fdx.identity.dcr.model.FDXRegistrationRequest;
 import com.wso2.openbanking.fdx.identity.dcr.model.FDXRegistrationResponse;
 import com.wso2.openbanking.fdx.identity.dcr.utils.FDXRegistrationUtils;
 import com.wso2.openbanking.fdx.identity.dcr.utils.FDXValidatorUtils;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -140,6 +138,4 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
                 gson.fromJson(jsonElement, FDXRegistrationResponse.class);
         return gson.toJson(fdxRegistrationResponse);
     }
-
-
 }

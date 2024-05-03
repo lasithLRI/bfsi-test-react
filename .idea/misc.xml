@@ -16,6 +16,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/toolkits/open-banking-fdx-sample-toolkit/components/com.wso2.openbanking.fdx.data.publisher/pom.xml" />
         <option value="$PROJECT_DIR$/toolkits/pom.xml" />
       </set>
     </option>
