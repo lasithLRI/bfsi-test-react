@@ -36,10 +36,12 @@
         <dependency>
             <groupId>org.wso2.carbon.apimgt</groupId>
             <artifactId>org.wso2.carbon.apimgt.gateway</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.wso2</groupId>
             <artifactId>com.wso2.openbanking.accelerator.gateway</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -70,6 +72,7 @@
         <dependency>
             <groupId>com.wso2</groupId>
             <artifactId>com.wso2.openbanking.accelerator.common</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
