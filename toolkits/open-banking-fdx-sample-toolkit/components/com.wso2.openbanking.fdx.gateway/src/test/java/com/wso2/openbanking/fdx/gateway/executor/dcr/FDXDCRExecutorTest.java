@@ -51,6 +51,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore("jdk.internal.reflect.*")
 @PrepareForTest({OBAPIRequestContext.class, GatewayDataHolder.class})
 public class FDXDCRExecutorTest {
+
     @Mock
     Map<String, Object> urlMap = new HashMap<>();
 
@@ -77,8 +78,6 @@ public class FDXDCRExecutorTest {
 
         List<String> roles = new ArrayList<>();
         configuredAPIList.put("DynamicClientRegistration", roles);
-
-
     }
 
     @Test
@@ -111,7 +110,7 @@ public class FDXDCRExecutorTest {
         msgInfoDTO.setHeaders(requestHeaders);
         Mockito.doReturn(msgInfoDTO).when(obapiRequestContext).getMsgInfo();
 
-       dcrExecutor.preProcessRequest(obapiRequestContext);
+        dcrExecutor.preProcessRequest(obapiRequestContext);
 
         Mockito.verify(obapiRequestContext).setError(true);
     }
@@ -145,6 +144,7 @@ public class FDXDCRExecutorTest {
 
     @Test
     public void testAddInteractionIdHeaderToResponseHeaders() {
+
         FDXDCRExecutor fdxdcrExecutor = Mockito.spy(new FDXDCRExecutor());
         String interactionId = "770aef3-6784-41f7-8e0e-ff5f97bddb3";
         fdxdcrExecutor.interactionId = interactionId;
@@ -164,12 +164,12 @@ public class FDXDCRExecutorTest {
 
         fdxdcrExecutor.postProcessResponse(obapiResponseContext);
         Mockito.verify(obapiResponseContext).setAddedHeaders(responseHeaders);
-
-
     }
 
     @ObjectFactory
     public IObjectFactory getObjectFactory() {
+
         return new org.powermock.modules.testng.PowerMockObjectFactory();
     }
 }
+

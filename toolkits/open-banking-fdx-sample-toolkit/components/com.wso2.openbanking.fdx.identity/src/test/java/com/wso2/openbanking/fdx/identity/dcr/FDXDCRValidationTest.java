@@ -79,21 +79,17 @@ public class FDXDCRValidationTest {
     private RegistrationValidator registrationValidator;
     private RegistrationRequest registrationRequest;
     private final Map<String, Object> fdxConfigMap = new HashMap<>();
-
     private OpenBankingFDXConfigParser openBankingFDXConfigParser;
+    private static final Gson gson = new Gson();
 
     private static final String NULL = "null";
-
     private static final String DCR_MAXIMUM_DURATION_PERIOD = "DCR.MaximumDurationPeriod";
-
     private static final String DCR_MAXIMUM_LOOKBACK_PERIOD = "DCR.MaximumLookbackPeriod";
-
     private static final String DCR_DEFAULT_TOKEN_ENDPOINT_AUTH_METHOD = "DCR.DefaultTokenEndpointAuthMethod";
-
-    private static final Gson gson = new Gson();
 
     @BeforeClass
     public void beforeClass() {
+
         Map<String, Object> confMap = new HashMap<>();
         Map<String, Map<String, Object>> dcrRegistrationConfMap = new HashMap<>();
         List<String> registrationParams = Arrays.asList("Issuer:false:null",
@@ -126,6 +122,7 @@ public class FDXDCRValidationTest {
     //Test for mandatory parameter: client name
     @Test(dataProvider = "nullAndEmpty", dataProviderClass = IdentityTestDataProvider.class)
     public void testClientNameExists(String clientName) {
+
         FDXRegistrationRequest fdxRegistrationRequest =
                 getFDXRegistrationRequestObject(RegistrationTestConstants.registrationRequestJson);
 
@@ -143,6 +140,7 @@ public class FDXDCRValidationTest {
     //Test for mandatory parameter: redirect uris
     @Test(dataProvider = "nullAndEmptyArray", dataProviderClass = IdentityTestDataProvider.class)
     public void testRedirectURIsExist(List<String> redirectUris) {
+
         FDXRegistrationRequest fdxRegistrationRequest =
                 getFDXRegistrationRequestObject(RegistrationTestConstants.registrationRequestJson);
 
@@ -158,6 +156,7 @@ public class FDXDCRValidationTest {
 
     @Test(dataProvider = "nullAndEmpty", dataProviderClass = IdentityTestDataProvider.class)
     public void testInvalidRegisteredEntityName(String registeredEntityName) {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
         when(OpenBankingFDXConfigParser.getInstance()).thenReturn(openBankingFDXConfigParser);
@@ -189,6 +188,7 @@ public class FDXDCRValidationTest {
 
     @Test(dataProvider = "nullAndEmpty", dataProviderClass = IdentityTestDataProvider.class)
     public void testInvalidRegisteredEntityId(String registeredEntityId) {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
         when(OpenBankingFDXConfigParser.getInstance()).thenReturn(openBankingFDXConfigParser);
@@ -220,6 +220,7 @@ public class FDXDCRValidationTest {
 
     @Test(dataProvider = "nullAndEmpty", dataProviderClass = IdentityTestDataProvider.class)
     public void testInvalidRegistry(String registry) {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
         when(OpenBankingFDXConfigParser.getInstance()).thenReturn(openBankingFDXConfigParser);
@@ -252,6 +253,7 @@ public class FDXDCRValidationTest {
 
     @Test()
     public void testInvalidScope()  {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
         when(OpenBankingFDXConfigParser.getInstance()).thenReturn(openBankingFDXConfigParser);
@@ -278,6 +280,7 @@ public class FDXDCRValidationTest {
 
     @Test
     public void testInvalidDurationTypes()  {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
         when(OpenBankingFDXConfigParser.getInstance()).thenReturn(openBankingFDXConfigParser);
@@ -307,6 +310,7 @@ public class FDXDCRValidationTest {
 
     @Test
     public void testInvalidDurationPeriod() {
+
         fdxConfigMap.put("DCR.MaximumDurationPeriod", "200");
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
@@ -335,6 +339,7 @@ public class FDXDCRValidationTest {
 
     @Test(dataProvider = "zeroAndNegative", dataProviderClass = IdentityTestDataProvider.class)
     public void testZeroOrNegativeDurationPeriod(Integer durationPeriod) {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
         when(OpenBankingFDXConfigParser.getInstance()).thenReturn(openBankingFDXConfigParser);
@@ -361,6 +366,7 @@ public class FDXDCRValidationTest {
 
     @Test
     public void testInvalidDurationPeriodForTimeBoundDurationType() {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
         when(OpenBankingFDXConfigParser.getInstance()).thenReturn(openBankingFDXConfigParser);
@@ -387,6 +393,7 @@ public class FDXDCRValidationTest {
 
     @Test
     public void testInvalidLookbackPeriod() {
+
         fdxConfigMap.put("DCR.MaximumLookbackPeriod", "200");
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
@@ -416,6 +423,7 @@ public class FDXDCRValidationTest {
 
     @Test(dataProvider = "grantTypes", dataProviderClass = IdentityTestDataProvider.class)
     public void testAddAllowedGrantTypes(List<String> grantTypes, List<String> expectedGrantTypes) {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
 
@@ -444,6 +452,7 @@ public class FDXDCRValidationTest {
 
     @Test(dataProvider = "tokenEndpointAuthMethods", dataProviderClass = IdentityTestDataProvider.class)
     public void testAddAllowedTokenEndpointAuthMethod(String authMethod, String expectedAuthMethod) {
+
         mockStatic(OpenBankingFDXConfigParser.class);
         openBankingFDXConfigParser = mock(OpenBankingFDXConfigParser.class);
         when(OpenBankingFDXConfigParser.getInstance()).thenReturn(openBankingFDXConfigParser);
@@ -472,6 +481,7 @@ public class FDXDCRValidationTest {
 
     @Test
     public void testResponseWithAddedAccessTokenAndClientUri() {
+
         String clientId = "AAAAAA";
         String tlsCert = "BBBBBB";
         String accessToken = "CCCCC";
@@ -529,6 +539,7 @@ public class FDXDCRValidationTest {
 
     @Test
     public void testGetJsonObjectsFromJsonStrings() {
+
         List<Object> spMetaData = new ArrayList<>();
         spMetaData.add(RegistrationTestConstants.registryReference);
         JsonObject registryReferenceJson = new JsonParser()
@@ -540,17 +551,20 @@ public class FDXDCRValidationTest {
 
 
     private static RegistrationRequest getRegistrationRequestObject(String request) {
+
         Gson gson = new Gson();
         return gson.fromJson(request, RegistrationRequest.class);
 
     }
 
     private static FDXRegistrationRequest getFDXRegistrationRequestObject(String request) {
+
         Gson gson = new Gson();
         return gson.fromJson(request, FDXRegistrationRequest.class);
     }
 
     public static RegistrationValidator getDCRValidator(String dcrValidator)  {
+
         if (StringUtils.isEmpty(dcrValidator)) {
             return new FDXRegistrationValidatorImpl();
         }
@@ -566,6 +580,7 @@ public class FDXDCRValidationTest {
     }
 
     private void setParamConfig(String configParam, Map<String, Map<String, Object>> dcrRegistrationConfMap) {
+
         Map<String, Object> parameterValues = new HashMap<>();
         parameterValues.put(DCRCommonConstants.DCR_REGISTRATION_PARAM_REQUIRED, configParam.split(":")[1]);
         if (!NULL.equalsIgnoreCase(configParam.split(":")[2])) {
@@ -577,8 +592,8 @@ public class FDXDCRValidationTest {
 
     @ObjectFactory
     public IObjectFactory getObjectFactory() {
+
         return new org.powermock.modules.testng.PowerMockObjectFactory();
     }
-
-
 }
+

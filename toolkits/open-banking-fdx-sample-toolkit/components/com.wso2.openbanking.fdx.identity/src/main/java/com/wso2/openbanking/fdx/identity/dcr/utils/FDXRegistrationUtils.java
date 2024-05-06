@@ -53,9 +53,11 @@ public class FDXRegistrationUtils {
      * @param key The list of keys for which Double values need to be converted to integers.
      */
     public static void convertDoubleValueToInt(Map<String, Object> map, String key) {
+
         if (map.get(key) instanceof Double) {
             Double doubleValue = (Double) map.get(key);
             map.put(key, doubleValue.intValue());
         }
     }
 }
+

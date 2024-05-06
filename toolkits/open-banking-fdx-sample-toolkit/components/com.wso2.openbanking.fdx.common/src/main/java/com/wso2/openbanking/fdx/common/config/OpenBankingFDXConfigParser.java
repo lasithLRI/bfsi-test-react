@@ -26,7 +26,6 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMException;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,16 +51,13 @@ public class OpenBankingFDXConfigParser {
 
     // To enable attempted thread-safety using double-check locking
     private static final Object lock = new Object();
-
     private static final Log log = LogFactory.getLog(OpenBankingFDXConfigParser.class);
 
     private static volatile OpenBankingFDXConfigParser parser;
-
+    private static final Map<String, Object> configuration = new HashMap<>();
     private SecretResolver secretResolver;
-
     private  OMElement rootElement;
 
-    private static final Map<String, Object> configuration = new HashMap<>();
 
 
     /**

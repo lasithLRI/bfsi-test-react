@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
-
 /**
  * Util class for validation logic implementation.
  */
@@ -42,6 +40,7 @@ public class FDXValidatorUtils {
      * @param registrationRequest The registration request object.
      */
     public static void addAllowedGrantTypes(RegistrationRequest registrationRequest) {
+
         List<String> requestedGrantTypes = registrationRequest.getGrantTypes();
         List<String> allowedGrantTypes = AllowedGrantTypesEnum.getAllowedGrantTypes();
 
@@ -69,6 +68,7 @@ public class FDXValidatorUtils {
      * @param registrationRequest The registration request object.
      */
     public static void addAllowedTokenEndpointAuthMethod(RegistrationRequest registrationRequest) {
+
         String requestedAuthMethod = registrationRequest.getTokenEndPointAuthentication();
         List<String> allowedAuthMethods = AllowedTokenEndPointAuthMethodsEnum.getAllowedAuthMethods();
 
@@ -89,3 +89,4 @@ public class FDXValidatorUtils {
         }
     }
 }
+

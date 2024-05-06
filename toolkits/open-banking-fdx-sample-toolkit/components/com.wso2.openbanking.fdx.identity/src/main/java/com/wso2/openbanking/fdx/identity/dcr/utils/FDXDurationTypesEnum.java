@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  * Enum for FDX supported duration types.
  */
 public enum FDXDurationTypesEnum {
+
     ONE_TIME("one_time"),
     TIME_BOUND("time_bound"),
     PERSISTENT("persistent");
@@ -48,8 +49,10 @@ public enum FDXDurationTypesEnum {
      * @return A list of string representations of all supported duration types.
      */
     public static List<String> getAllDurationTypes() {
+
         return Collections.unmodifiableList(Arrays.stream(FDXDurationTypesEnum.values())
                 .map(FDXDurationTypesEnum::getValue)
                 .collect(Collectors.toList()));
     }
 }
+

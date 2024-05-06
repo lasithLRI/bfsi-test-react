@@ -49,6 +49,6 @@ public class CommonTestDataProvider {
         return new Object[][] {
                 {"SampleArray.RepeatableTag", expectedList }
         };
-
     }
 }
+

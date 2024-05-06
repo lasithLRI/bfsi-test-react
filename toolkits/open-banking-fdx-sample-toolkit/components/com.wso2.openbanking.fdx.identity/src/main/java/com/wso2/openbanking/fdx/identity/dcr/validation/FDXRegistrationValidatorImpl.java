@@ -46,11 +46,11 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
     private static final Gson gson = new Gson();
     @Override
     public void validatePost(RegistrationRequest registrationRequest) throws DCRValidationException {
+
         // convert requestParameters in the registrationRequest to a fdxRegistrationRequest
         Map<String, Object> requestParameters = registrationRequest.getRequestParameters();
         JsonElement jsonElement = gson.toJsonTree(requestParameters);
         FDXRegistrationRequest fdxRegistrationRequest = gson.fromJson(jsonElement, FDXRegistrationRequest.class);
-        fdxRegistrationRequest.setSoftwareStatementBody(registrationRequest.getSoftwareStatementBody());
 
         //do validations related to registration request
         ValidatorUtils.getValidationViolations(fdxRegistrationRequest);
@@ -64,8 +64,6 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
                 FDXValidationConstants.DURATION_PERIOD);
         FDXRegistrationUtils.convertDoubleValueToInt(registrationRequest.getRequestParameters(),
                 FDXValidationConstants.LOOKBACK_PERIOD);
-
-
     }
 
     @Override
@@ -80,6 +78,7 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
 
     @Override
     public void validateUpdate(RegistrationRequest registrationRequest) throws DCRValidationException {
+
         // convert requestParameters in the registrationRequest to a fdxRegistrationRequest
         Map<String, Object> requestParameters = registrationRequest.getRequestParameters();
         JsonElement jsonElement = gson.toJsonTree(requestParameters);
@@ -98,7 +97,6 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
                 FDXValidationConstants.DURATION_PERIOD);
         FDXRegistrationUtils.convertDoubleValueToInt(registrationRequest.getRequestParameters(),
                 FDXValidationConstants.LOOKBACK_PERIOD);
-
     }
 
     @Override
@@ -108,6 +106,7 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
 
     @Override
     public String getRegistrationResponse(Map<String, Object> spMetaData) {
+
         for (Map.Entry<String, Object> entry : spMetaData.entrySet()) {
             if (entry.getValue() instanceof ArrayList) {
                 ArrayList<Object> list = ((ArrayList<Object>) entry.getValue());

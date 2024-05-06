@@ -18,12 +18,14 @@
 
 package com.wso2.openbanking.fdx.gateway.executor.dcr;
 
+import com.wso2.openbanking.accelerator.common.error.OpenBankingErrorCodes;
 import com.wso2.openbanking.accelerator.gateway.executor.dcr.DCRExecutor;
 import com.wso2.openbanking.accelerator.gateway.executor.model.OBAPIRequestContext;
 import com.wso2.openbanking.accelerator.gateway.executor.model.OBAPIResponseContext;
 import com.wso2.openbanking.accelerator.gateway.executor.model.OpenBankingExecutorError;
 import com.wso2.openbanking.fdx.gateway.util.FDXGatewayConstants;
 import com.wso2.openbanking.fdx.gateway.util.FDXGatewayUtils;
+import org.apache.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +35,7 @@ import java.util.Map;
  * Executor for adding X-FAPI-INTERACTION-ID to DCR response headers.
  */
 public class FDXDCRExecutor extends DCRExecutor {
+
     protected String interactionId;
 
     @Override
@@ -80,8 +83,8 @@ public class FDXDCRExecutor extends DCRExecutor {
 
     private void handleBadRequestError(OBAPIRequestContext obapiRequestContext, String message) {
 
-        OpenBankingExecutorError error = new OpenBankingExecutorError("Bad request",
-                "invalid_header_fields", message, "400");
+        OpenBankingExecutorError error = new OpenBankingExecutorError(OpenBankingErrorCodes.BAD_REQUEST_CODE,
+                "invalid_header_fields", message, String.valueOf(HttpStatus.SC_BAD_REQUEST));
         ArrayList<OpenBankingExecutorError> executorErrors = obapiRequestContext.getErrors();
         executorErrors.add(error);
         obapiRequestContext.setError(true);
@@ -89,3 +92,4 @@ public class FDXDCRExecutor extends DCRExecutor {
 
     }
 }
+

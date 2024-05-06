@@ -27,6 +27,7 @@ import java.util.UUID;
   *  FDX Gateway Utils.
   */
 public class FDXGatewayUtils {
+
      private static final Log log = LogFactory.getLog(FDXGatewayUtils.class);
 
      /**
@@ -36,6 +37,7 @@ public class FDXGatewayUtils {
       * @return true if the string is a valid UUID, false otherwise
       */
     public static boolean isValidUUID(String uuidString) {
+
         try {
             UUID.fromString(uuidString);
             return true;
@@ -46,3 +48,4 @@ public class FDXGatewayUtils {
     }
 
 }
+

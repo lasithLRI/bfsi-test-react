@@ -37,9 +37,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = {MaximumPeriodValidator.class})
 public @interface ValidateMaximumPeriod {
+
     String message() default "Provided duration period or lookback period exceeds the maximum allowed period";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 }
+

@@ -32,6 +32,7 @@ public class IdentityTestDataProvider {
 
     @DataProvider(name = "nullAndEmpty")
     public Object[][] nullAndEmptyTestDataProvider() {
+
         return new Object[][] {
                 { null },
                 { "" }
@@ -40,6 +41,7 @@ public class IdentityTestDataProvider {
 
     @DataProvider(name = "zeroAndNegative")
     public Object[][] zeroAndNegativeTestDataProvider() {
+
         return new Object[][] {
                 { 0 },
                 { -100 }
@@ -48,6 +50,7 @@ public class IdentityTestDataProvider {
 
     @DataProvider(name = "nullAndEmptyArray")
     public Object[][] nullAndEmptyArrayTestDataProvider() {
+
         return new Object[][] {
                 { null },
                 { Collections.emptyList() }
@@ -89,5 +92,5 @@ public class IdentityTestDataProvider {
                 {"sample_auth_method", tlsClientAUth}
         };
     }
-
 }
+

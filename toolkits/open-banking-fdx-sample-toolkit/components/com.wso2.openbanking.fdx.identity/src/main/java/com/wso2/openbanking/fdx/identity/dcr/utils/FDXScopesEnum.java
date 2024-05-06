@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  * Enum for FDX supported scopes.
  */
 public enum FDXScopesEnum {
+
     ACCOUNT_BASIC,
     ACCOUNT_DETAILED ,
     ACCOUNT_PAYMENTS,
@@ -49,8 +50,10 @@ public enum FDXScopesEnum {
      * @return A list of string representations of all supported scopes.
      */
     public static List<String> getAllFDXScopes() {
+
         return Collections.unmodifiableList(Arrays.stream(FDXScopesEnum.values())
                 .map(Enum::name)
                 .collect(Collectors.toList()));
     }
 }
+
