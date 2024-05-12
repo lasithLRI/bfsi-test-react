@@ -60,7 +60,6 @@
         <dependency>
             <groupId>org.wso2.openbanking</groupId>
             <artifactId>org.wso2.openbanking.fdx.common</artifactId>
-            <version>${openbanking.fdx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -124,7 +123,6 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils-core</artifactId>
-            <version>${commons-beanutils.version}</version>
         </dependency>
     </dependencies>
 
@@ -141,15 +139,7 @@
                     <excludes>
                         <!--Excluding them in coverage reports-->
                         <exclude>**/*Constants.class</exclude>
-                        <exclude>**/*FDXRegistrationRequest.class</exclude>
-                        <exclude>**/*FDXRegistrationResponse.class</exclude>
-                        <exclude>**/*FDXSoftwareStatementBody.class</exclude>
-                        <exclude>**/*RegistryReference.class</exclude>
-                        <exclude>**/claims/*.class</exclude>
-                        <exclude>**/grant/type/handlers/*.class</exclude>
-                        <exclude>**/listener/application/*.class</exclude>
-                        <exclude>**/auth/extensions/request/validator/*.class</exclude>
-
+                        <exclude>**/model/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>

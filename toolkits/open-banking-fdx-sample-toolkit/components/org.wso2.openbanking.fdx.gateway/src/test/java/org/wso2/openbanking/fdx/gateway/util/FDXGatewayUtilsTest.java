@@ -18,6 +18,8 @@
 
 package org.wso2.openbanking.fdx.gateway.util;
 
+import com.wso2.openbanking.accelerator.gateway.executor.model.OBAPIRequestContext;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -32,6 +34,16 @@ public class FDXGatewayUtilsTest {
     public void testValidUUID(String uuid, boolean expectedResult) {
 
         Assert.assertEquals(FDXGatewayUtils.isValidUUID(uuid), expectedResult);
+    }
+
+
+    @Test
+    public void handleInvalidHeaderFieldsError() {
+
+        OBAPIRequestContext obapiRequestContext = Mockito.mock(OBAPIRequestContext.class);
+
+        FDXGatewayUtils.handleInvalidHeaderFieldsError(obapiRequestContext, "sample error message");
+        Mockito.verify(obapiRequestContext).setError(true);
     }
 }
 

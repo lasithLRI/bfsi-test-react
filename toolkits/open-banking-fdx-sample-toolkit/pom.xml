@@ -273,6 +273,11 @@
                 <artifactId>com.wso2.openbanking.accelerator.keymanager</artifactId>
                 <version>${openbanking.accelerator.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.openbanking</groupId>
+                <artifactId>org.wso2.openbanking.fdx.common</artifactId>
+                <version>${openbanking.fdx.version}</version>
+            </dependency>
 
             <!--Dependencies for IAM -->
             <dependency>
@@ -358,6 +363,11 @@
                 <version>${commons.bean.utils.version}</version>
             </dependency>
             <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils-core</artifactId>
+                <version>${commons-beanutils.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-jaxrs</artifactId>
                 <version>${swagger-jaxrs.version}</version>
@@ -418,12 +428,6 @@
                 <version>${powermock.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!--<dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-core</artifactId>
-                <version>${powermock.version}</version>
-                <scope>test</scope>
-            </dependency>-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>

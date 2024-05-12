@@ -18,9 +18,14 @@
 
 package org.wso2.openbanking.fdx.gateway.util;
 
+import com.wso2.openbanking.accelerator.common.error.OpenBankingErrorCodes;
+import com.wso2.openbanking.accelerator.gateway.executor.model.OBAPIRequestContext;
+import com.wso2.openbanking.accelerator.gateway.executor.model.OpenBankingExecutorError;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpStatus;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
  /**
@@ -42,10 +47,24 @@ public class FDXGatewayUtils {
             UUID.fromString(uuidString);
             return true;
         } catch (IllegalArgumentException e) {
-            log.error("Invalid interaction ID format. Must be a UUID.", e);
             return false;
         }
     }
 
+     /**
+      * Method to handle invalid header fields error related to API requests.
+      *
+      * @param obapiRequestContext  Context of the Open Banking API request.
+      * @param message              Error message describing the cause of the bad request.
+      */
+     public static void handleInvalidHeaderFieldsError(OBAPIRequestContext obapiRequestContext, String message) {
+
+         OpenBankingExecutorError error = new OpenBankingExecutorError(OpenBankingErrorCodes.BAD_REQUEST_CODE,
+                 "invalid_header_fields", message, String.valueOf(HttpStatus.SC_BAD_REQUEST));
+         ArrayList<OpenBankingExecutorError> executorErrors = obapiRequestContext.getErrors();
+         executorErrors.add(error);
+         obapiRequestContext.setError(true);
+         obapiRequestContext.setErrors(executorErrors);
+     }
 }
 

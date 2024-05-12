@@ -44,7 +44,7 @@ public class DurationTypeValidator implements ConstraintValidator<ValidateDurati
                     String durationType = (String) durationTypeObj;
                     if (!allowedDurationTypes.contains(durationType)) {
                         log.error(String.format("Invalid duration type: %s" , durationType));
-                       return false;
+                        return false;
                     }
                 }
             }

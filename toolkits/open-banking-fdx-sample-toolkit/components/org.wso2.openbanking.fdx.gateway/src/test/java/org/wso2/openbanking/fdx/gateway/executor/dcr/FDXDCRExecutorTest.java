@@ -30,13 +30,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.testng.Assert;
 import org.testng.IObjectFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 import org.wso2.carbon.apimgt.common.gateway.dto.MsgInfoDTO;
 import org.wso2.openbanking.fdx.gateway.util.FDXGatewayConstants;
+import org.wso2.openbanking.fdx.gateway.util.FDXGatewayUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
  * Test for FDX DCR executor.
  */
 @PowerMockIgnore("jdk.internal.reflect.*")
-@PrepareForTest({OBAPIRequestContext.class, GatewayDataHolder.class})
+@PrepareForTest({OBAPIRequestContext.class, GatewayDataHolder.class, FDXGatewayUtils.class})
 public class FDXDCRExecutorTest {
 
     @Mock
@@ -92,7 +92,7 @@ public class FDXDCRExecutorTest {
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put(FDXGatewayConstants.INTERACTION_ID_HEADER, "765489876548650");
         msgInfoDTO.setHeaders(requestHeaders);
-        Mockito.doReturn(msgInfoDTO).when(obapiRequestContext).getMsgInfo();
+        Mockito.when(obapiRequestContext.getMsgInfo()).thenReturn(msgInfoDTO);
 
         dcrExecutor.preProcessRequest(obapiRequestContext);
 
@@ -109,13 +109,12 @@ public class FDXDCRExecutorTest {
         msgInfoDTO.setHttpMethod(HttpMethod.GET);
         Map<String, String> requestHeaders = new HashMap<>();
         msgInfoDTO.setHeaders(requestHeaders);
-        Mockito.doReturn(msgInfoDTO).when(obapiRequestContext).getMsgInfo();
+        Mockito.when(obapiRequestContext.getMsgInfo()).thenReturn(msgInfoDTO);
 
         dcrExecutor.preProcessRequest(obapiRequestContext);
 
         Mockito.verify(obapiRequestContext).setError(true);
     }
-
 
     @Test
     public void testSetInteractionIdHeader() {
@@ -129,18 +128,19 @@ public class FDXDCRExecutorTest {
         OBAPIRequestContext obapiRequestContext = Mockito.mock(OBAPIRequestContext.class);
         FDXDCRExecutor fdxdcrExecutor = Mockito.spy(new FDXDCRExecutor());
 
-        String uuid = "770aef3-6784-41f7-8e0e-ff5f97bddb3";
+        String interactionId = "770aef3-6784-41f7-8e0e-ff5f97bddb3";
 
         MsgInfoDTO msgInfoDTO = new MsgInfoDTO();
         msgInfoDTO.setHttpMethod(HttpMethod.GET);
         Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put(FDXGatewayConstants.INTERACTION_ID_HEADER, uuid);
+        requestHeaders.put(FDXGatewayConstants.INTERACTION_ID_HEADER, interactionId);
         msgInfoDTO.setHeaders(requestHeaders);
-        Mockito.doReturn(msgInfoDTO).when(obapiRequestContext).getMsgInfo();
+        Mockito.when(obapiRequestContext.getMsgInfo()).thenReturn(msgInfoDTO);
 
         fdxdcrExecutor.preProcessRequest(obapiRequestContext);
 
-        Assert.assertEquals(fdxdcrExecutor.interactionId, uuid);
+        Mockito.verify(obapiRequestContext)
+                .addContextProperty(FDXGatewayConstants.INTERACTION_ID_HEADER, interactionId);
     }
 
     @Test
@@ -148,10 +148,8 @@ public class FDXDCRExecutorTest {
 
         FDXDCRExecutor fdxdcrExecutor = Mockito.spy(new FDXDCRExecutor());
         String interactionId = "770aef3-6784-41f7-8e0e-ff5f97bddb3";
-        fdxdcrExecutor.interactionId = interactionId;
+
         DCRExecutor.setUrlMap(urlMap);
-        Map<String, String> responseHeaders = new HashMap<>();
-        responseHeaders.put(FDXGatewayConstants.INTERACTION_ID_HEADER, interactionId);
         Mockito.when(openBankingConfigurationService.getAllowedAPIs()).thenReturn(configuredAPIList);
         Mockito.when(gatewayDataHolder.getOpenBankingConfigurationService())
                 .thenReturn(openBankingConfigurationService);
@@ -160,8 +158,14 @@ public class FDXDCRExecutorTest {
 
         OBAPIResponseContext obapiResponseContext = Mockito.mock(OBAPIResponseContext.class);
         MsgInfoDTO msgInfoDTO = Mockito.mock(MsgInfoDTO.class);
-        Mockito.doReturn(msgInfoDTO).when(obapiResponseContext).getMsgInfo();
-        Mockito.doReturn(HttpMethod.GET).when(msgInfoDTO).getHttpMethod();
+        Mockito.when(msgInfoDTO.getHttpMethod()).thenReturn(HttpMethod.GET);
+        Mockito.when(obapiResponseContext.getMsgInfo()).thenReturn(msgInfoDTO);
+        Mockito.when(obapiResponseContext.getContextProperty(FDXGatewayConstants.INTERACTION_ID_HEADER))
+                .thenReturn(interactionId);
+
+
+        Map<String, String> responseHeaders = new HashMap<>();
+        responseHeaders.put(FDXGatewayConstants.INTERACTION_ID_HEADER, interactionId);
 
         fdxdcrExecutor.postProcessResponse(obapiResponseContext);
         Mockito.verify(obapiResponseContext).setAddedHeaders(responseHeaders);

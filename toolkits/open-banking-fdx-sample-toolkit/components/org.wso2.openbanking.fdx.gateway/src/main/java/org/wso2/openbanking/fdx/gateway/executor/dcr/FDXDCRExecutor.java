@@ -18,17 +18,14 @@
 
 package org.wso2.openbanking.fdx.gateway.executor.dcr;
 
-import com.wso2.openbanking.accelerator.common.error.OpenBankingErrorCodes;
 import com.wso2.openbanking.accelerator.gateway.executor.dcr.DCRExecutor;
 import com.wso2.openbanking.accelerator.gateway.executor.model.OBAPIRequestContext;
 import com.wso2.openbanking.accelerator.gateway.executor.model.OBAPIResponseContext;
-import com.wso2.openbanking.accelerator.gateway.executor.model.OpenBankingExecutorError;
 
-import org.apache.http.HttpStatus;
+import org.apache.commons.lang3.StringUtils;
 import org.wso2.openbanking.fdx.gateway.util.FDXGatewayConstants;
 import org.wso2.openbanking.fdx.gateway.util.FDXGatewayUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,25 +34,23 @@ import java.util.Map;
  */
 public class FDXDCRExecutor extends DCRExecutor {
 
-    protected String interactionId;
-
     @Override
     public void preProcessRequest(OBAPIRequestContext obapiRequestContext) {
 
-        if (obapiRequestContext.getMsgInfo().getHeaders()
-                .containsKey(FDXGatewayConstants.INTERACTION_ID_HEADER)) {
-            String xFapiInteractionId = obapiRequestContext.getMsgInfo().getHeaders()
-                    .get(FDXGatewayConstants.INTERACTION_ID_HEADER);
-            if (FDXGatewayUtils.isValidUUID(xFapiInteractionId)) {
-                interactionId = xFapiInteractionId;
-            } else {
-                handleBadRequestError(obapiRequestContext, "Invalid interaction ID provided.");
-                return;
-            }
-        } else {
-            handleBadRequestError(obapiRequestContext, "Mandatory header x-fapi-interaction-id is not provided");
+        Map<String, String> requestHeaders = obapiRequestContext.getMsgInfo().getHeaders();
+        String xFapiInteractionId = requestHeaders.get(FDXGatewayConstants.INTERACTION_ID_HEADER);
+
+        if (StringUtils.isEmpty(xFapiInteractionId)) {
+            FDXGatewayUtils.handleInvalidHeaderFieldsError(obapiRequestContext,
+                    "Mandatory header x-fapi-interaction-id is not provided");
             return;
         }
+
+        if (!FDXGatewayUtils.isValidUUID(xFapiInteractionId)) {
+            FDXGatewayUtils.handleInvalidHeaderFieldsError(obapiRequestContext, "Invalid interaction ID provided.");
+            return;
+        }
+        obapiRequestContext.addContextProperty(FDXGatewayConstants.INTERACTION_ID_HEADER, xFapiInteractionId);
 
         super.preProcessRequest(obapiRequestContext);
     }
@@ -64,27 +59,11 @@ public class FDXDCRExecutor extends DCRExecutor {
     public void postProcessResponse(OBAPIResponseContext obapiResponseContext) {
 
         super.postProcessResponse(obapiResponseContext);
+
         Map<String, String> responseHeaders = new HashMap<>();
-        responseHeaders.put(FDXGatewayConstants.INTERACTION_ID_HEADER, interactionId);
+        responseHeaders.put(FDXGatewayConstants.INTERACTION_ID_HEADER,
+                obapiResponseContext.getContextProperty(FDXGatewayConstants.INTERACTION_ID_HEADER));
         obapiResponseContext.setAddedHeaders(responseHeaders);
-    }
-
-    /**
-     * Handles the scenario where a bad request error occurs during the DCR request.
-     * Creates an OpenBankingExecutorError with the specified error message and adds it to the
-     * list of errors in the provided OBAPIRequestContext.
-     *
-     * @param obapiRequestContext  Context of the Open Banking API request.
-     * @param message              Error message describing the cause of the bad request.
-     */
-    private void handleBadRequestError(OBAPIRequestContext obapiRequestContext, String message) {
-
-        OpenBankingExecutorError error = new OpenBankingExecutorError(OpenBankingErrorCodes.BAD_REQUEST_CODE,
-                "invalid_header_fields", message, String.valueOf(HttpStatus.SC_BAD_REQUEST));
-        ArrayList<OpenBankingExecutorError> executorErrors = obapiRequestContext.getErrors();
-        executorErrors.add(error);
-        obapiRequestContext.setError(true);
-        obapiRequestContext.setErrors(executorErrors);
     }
 }
 

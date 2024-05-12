@@ -40,6 +40,7 @@ public class MaximumPeriodValidator implements ConstraintValidator<ValidateMaxim
 
     @Override
     public boolean isValid(Object fdxRegistrationRequestObj, ConstraintValidatorContext constraintValidatorContext) {
+
         FDXRegistrationRequest fdxRegistrationRequest = (FDXRegistrationRequest) fdxRegistrationRequestObj;
         //get duration period and lookback period from registration request
         Integer durationPeriod = fdxRegistrationRequest.getDurationPeriod();
@@ -61,7 +62,8 @@ public class MaximumPeriodValidator implements ConstraintValidator<ValidateMaxim
 
     private boolean validatePeriod(Integer requestedPeriod, String maximumPeriodStr, String attributeName,
                                    ConstraintValidatorContext context) {
-       try {
+
+        try {
            //check whether maximum requestedPeriod value is provided as configs
            if (requestedPeriod != null && StringUtils.isNotEmpty(maximumPeriodStr)) {
                int maximumPeriod = Integer.parseInt(maximumPeriodStr);

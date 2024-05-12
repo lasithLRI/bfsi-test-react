@@ -41,9 +41,9 @@ public class ScopesValidator implements ConstraintValidator<ValidateScopes, Obje
             List<String> fdxScopes = FDXScopesEnum.getAllFDXScopes();
 
             for (String scope : requestedScopes.split("\\s+")) {
-                boolean isFDXScope = fdxScopes.contains(scope);
-                boolean isOpenID = FDXValidationConstants.OPENID.equals(scope);
-                boolean isOfflineAccess = FDXValidationConstants.OFFLINE_ACCESS.equals(scope);
+                boolean isFDXScope = fdxScopes.stream().anyMatch(scope::equalsIgnoreCase);
+                boolean isOpenID = FDXValidationConstants.OPENID.equalsIgnoreCase(scope);
+                boolean isOfflineAccess = FDXValidationConstants.OFFLINE_ACCESS.equalsIgnoreCase(scope);
 
                 if (!(isFDXScope || isOpenID || isOfflineAccess)) {
                     log.error(String.format("Invalid scope requested : %s", scope));

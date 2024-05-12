@@ -49,26 +49,11 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
 
     private static final Log log = LogFactory.getLog(FDXRegistrationValidatorImpl.class);
     private static final Gson gson = new Gson();
+
     @Override
     public void validatePost(RegistrationRequest registrationRequest) throws DCRValidationException {
 
-        // convert requestParameters in the registrationRequest to a fdxRegistrationRequest
-        Map<String, Object> requestParameters = registrationRequest.getRequestParameters();
-        JsonElement jsonElement = gson.toJsonTree(requestParameters);
-        FDXRegistrationRequest fdxRegistrationRequest = gson.fromJson(jsonElement, FDXRegistrationRequest.class);
-
-        //do validations related to registration request
-        ValidatorUtils.getValidationViolations(fdxRegistrationRequest);
-
-        // add grant types and an authentication method to the registration request
-        FDXValidatorUtils.addAllowedGrantTypes(registrationRequest);
-        FDXValidatorUtils.addAllowedTokenEndpointAuthMethod(registrationRequest);
-
-        //convert duration_period and lookback_period values to integers
-        FDXRegistrationUtils.convertDoubleValueToInt(registrationRequest.getRequestParameters(),
-                FDXValidationConstants.DURATION_PERIOD);
-        FDXRegistrationUtils.convertDoubleValueToInt(registrationRequest.getRequestParameters(),
-                FDXValidationConstants.LOOKBACK_PERIOD);
+        validateRequest(registrationRequest);
     }
 
     @Override
@@ -84,24 +69,7 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
     @Override
     public void validateUpdate(RegistrationRequest registrationRequest) throws DCRValidationException {
 
-        // convert requestParameters in the registrationRequest to a fdxRegistrationRequest
-        Map<String, Object> requestParameters = registrationRequest.getRequestParameters();
-        JsonElement jsonElement = gson.toJsonTree(requestParameters);
-        FDXRegistrationRequest fdxRegistrationRequest = gson.fromJson(jsonElement, FDXRegistrationRequest.class);
-
-        //do validations related to registration request
-        ValidatorUtils.getValidationViolations(fdxRegistrationRequest);
-
-
-        // add grant types and an authentication method to the registration request
-        FDXValidatorUtils.addAllowedGrantTypes(registrationRequest);
-        FDXValidatorUtils.addAllowedTokenEndpointAuthMethod(registrationRequest);
-
-        //convert duration_period and lookback_period values to integers
-        FDXRegistrationUtils.convertDoubleValueToInt(registrationRequest.getRequestParameters(),
-                FDXValidationConstants.DURATION_PERIOD);
-        FDXRegistrationUtils.convertDoubleValueToInt(registrationRequest.getRequestParameters(),
-                FDXValidationConstants.LOOKBACK_PERIOD);
+        validateRequest(registrationRequest);
     }
 
     @Override
@@ -148,4 +116,27 @@ public class FDXRegistrationValidatorImpl extends RegistrationValidator {
                 gson.fromJson(jsonElement, FDXRegistrationResponse.class);
         return gson.toJson(fdxRegistrationResponse);
     }
+
+    private void validateRequest(RegistrationRequest registrationRequest) throws DCRValidationException {
+
+        // convert requestParameters in the registrationRequest to a fdxRegistrationRequest
+        Map<String, Object> requestParameters = registrationRequest.getRequestParameters();
+        JsonElement jsonElement = gson.toJsonTree(requestParameters);
+        FDXRegistrationRequest fdxRegistrationRequest = gson.fromJson(jsonElement, FDXRegistrationRequest.class);
+
+        //do validations related to registration request
+        ValidatorUtils.getValidationViolations(fdxRegistrationRequest);
+
+        // add grant types and an authentication method to the registration request
+        FDXValidatorUtils.addAllowedGrantTypes(registrationRequest);
+        FDXValidatorUtils.addAllowedTokenEndpointAuthMethod(registrationRequest);
+
+        //convert duration_period and lookback_period values to integers
+        FDXRegistrationUtils.convertDoubleValueToInt(registrationRequest.getRequestParameters(),
+                FDXValidationConstants.DURATION_PERIOD);
+        FDXRegistrationUtils.convertDoubleValueToInt(registrationRequest.getRequestParameters(),
+                FDXValidationConstants.LOOKBACK_PERIOD);
+    }
+
+
 }
