@@ -31,12 +31,11 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Validator class for validating the duration period when the duration type contains TIME_BOUND.
  */
-public class DurationPeriodValidator implements ConstraintValidator<ValidateDurationPeriod, Object> {
+public class DurationPeriodValidator implements ConstraintValidator<ValidateDurationPeriod, FDXRegistrationRequest> {
     private static final Log log = LogFactory.getLog(DurationPeriodValidator.class);
     @Override
-    public boolean isValid(Object fdxRegistrationRequestObj, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(FDXRegistrationRequest fdxRegistrationRequest, ConstraintValidatorContext constraintValidatorContext) {
 
-        FDXRegistrationRequest fdxRegistrationRequest = (FDXRegistrationRequest) fdxRegistrationRequestObj;
         Integer durationPeriod = fdxRegistrationRequest.getDurationPeriod();
         List<String> durationTypes = fdxRegistrationRequest.getDurationType();
 

@@ -34,14 +34,13 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Validator class for validating the Duration Period and Lookback Period parameters.
  */
-public class MaximumPeriodValidator implements ConstraintValidator<ValidateMaximumPeriod, Object> {
+public class MaximumPeriodValidator implements ConstraintValidator<ValidateMaximumPeriod, FDXRegistrationRequest> {
 
     private static final Log log = LogFactory.getLog(MaximumPeriodValidator.class);
 
     @Override
-    public boolean isValid(Object fdxRegistrationRequestObj, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(FDXRegistrationRequest fdxRegistrationRequest, ConstraintValidatorContext constraintValidatorContext) {
 
-        FDXRegistrationRequest fdxRegistrationRequest = (FDXRegistrationRequest) fdxRegistrationRequestObj;
         //get duration period and lookback period from registration request
         Integer durationPeriod = fdxRegistrationRequest.getDurationPeriod();
         Integer lookbackPeriod = fdxRegistrationRequest.getLookbackPeriod();

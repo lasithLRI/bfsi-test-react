@@ -31,28 +31,23 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Validator class for validating the scope.
  */
-public class ScopesValidator implements ConstraintValidator<ValidateScopes, Object> {
+public class ScopesValidator implements ConstraintValidator<ValidateScopes, String> {
     private static final Log log = LogFactory.getLog(ScopesValidator.class);
     @Override
-    public boolean isValid(Object scopes, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(String requestedScopes, ConstraintValidatorContext constraintValidatorContext) {
 
-        if (scopes instanceof String) {
-            String requestedScopes = (String) scopes;
-            List<String> fdxScopes = FDXScopesEnum.getAllFDXScopes();
+        List<String> fdxScopes = FDXScopesEnum.getAllFDXScopes();
 
-            for (String scope : requestedScopes.split("\\s+")) {
-                boolean isFDXScope = fdxScopes.stream().anyMatch(scope::equalsIgnoreCase);
-                boolean isOpenID = FDXValidationConstants.OPENID.equalsIgnoreCase(scope);
-                boolean isOfflineAccess = FDXValidationConstants.OFFLINE_ACCESS.equalsIgnoreCase(scope);
+        for (String scope : requestedScopes.split("\\s+")) {
+            boolean isFDXScope = fdxScopes.stream().anyMatch(scope::equalsIgnoreCase);
+            boolean isOpenID = FDXValidationConstants.OPENID.equalsIgnoreCase(scope);
+            boolean isOfflineAccess = FDXValidationConstants.OFFLINE_ACCESS.equalsIgnoreCase(scope);
 
-                if (!(isFDXScope || isOpenID || isOfflineAccess)) {
-                    log.error(String.format("Invalid scope requested : %s", scope));
-                    return false;
-                }
+            if (!(isFDXScope || isOpenID || isOfflineAccess)) {
+                log.error(String.format("Invalid scope requested : %s", scope));
+                return false;
             }
-
         }
-
         return true;
     }
 }

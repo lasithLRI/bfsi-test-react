@@ -30,26 +30,19 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Validator class for duration type validation.
  */
-public class DurationTypeValidator implements ConstraintValidator<ValidateDurationType, Object> {
+public class DurationTypeValidator implements ConstraintValidator<ValidateDurationType, List<String>> {
     private static final Log log = LogFactory.getLog(DurationTypeValidator.class);
     @Override
-    public boolean isValid(Object durationTypes, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(List<String> durationTypes, ConstraintValidatorContext constraintValidatorContext) {
 
-        if (durationTypes instanceof List) {
-            List<?> requestedDurationTypes = (List<?>) durationTypes;
-            List<String> allowedDurationTypes = FDXDurationTypesEnum.getAllDurationTypes();
+        List<String> allowedDurationTypes = FDXDurationTypesEnum.getAllDurationTypes();
 
-            for (Object durationTypeObj: requestedDurationTypes) {
-                if (durationTypeObj instanceof String) {
-                    String durationType = (String) durationTypeObj;
-                    if (!allowedDurationTypes.contains(durationType)) {
-                        log.error(String.format("Invalid duration type: %s" , durationType));
-                        return false;
-                    }
-                }
+        for (String durationType: durationTypes) {
+            if (!allowedDurationTypes.contains(durationType)) {
+                log.error(String.format("Invalid duration type: %s" , durationType));
+                return false;
             }
         }
-
         return true;
     }
 }

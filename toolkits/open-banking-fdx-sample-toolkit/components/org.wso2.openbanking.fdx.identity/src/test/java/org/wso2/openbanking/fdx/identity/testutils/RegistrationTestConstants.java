@@ -24,8 +24,6 @@ package org.wso2.openbanking.fdx.identity.testutils;
 public class RegistrationTestConstants {
 
     public static String registrationRequestJson = "{\n" +
-            //"  \"iss\": \"pP2KoaavpOuoE7rvQsZEuE6\",\n" +
-            "  \"iat\": 1694075713,\n" +
             "  \"exp\": 2147483646,\n" +
             "  \"jti\": \"37747cd1c10545699f754adf28b73e32\",\n" +
             "  \"aud\": \"https://secure.api.dataholder.com/issuer\",\n" +
