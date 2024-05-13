@@ -39,7 +39,8 @@ public class MaximumPeriodValidator implements ConstraintValidator<ValidateMaxim
     private static final Log log = LogFactory.getLog(MaximumPeriodValidator.class);
 
     @Override
-    public boolean isValid(FDXRegistrationRequest fdxRegistrationRequest, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(FDXRegistrationRequest fdxRegistrationRequest, ConstraintValidatorContext
+            constraintValidatorContext) {
 
         //get duration period and lookback period from registration request
         Integer durationPeriod = fdxRegistrationRequest.getDurationPeriod();
