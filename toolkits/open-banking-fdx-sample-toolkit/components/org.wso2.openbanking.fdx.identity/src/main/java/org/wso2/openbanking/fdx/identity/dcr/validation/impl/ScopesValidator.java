@@ -35,8 +35,8 @@ import javax.validation.ConstraintValidatorContext;
 public class ScopesValidator implements ConstraintValidator<ValidateScopes, String> {
 
     private static final Log log = LogFactory.getLog(ScopesValidator.class);
-    @Override
 
+    @Override
     public boolean isValid(String requestedScopes, ConstraintValidatorContext constraintValidatorContext) {
 
         List<String> fdxScopes = FDXScopesEnum.getAllFDXScopes();
