@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ChartComponent from './ChartComponent';
-import SummaryComponent from './SummaryComponent';
+import SummaryComponent from './ErrorComponent';
 import MessageTypeDistribution from './MessageTypeDistribution';
 import RecentActivity from './RecentActivity';
 import useWindowSize from './hooks/useWindowSize';

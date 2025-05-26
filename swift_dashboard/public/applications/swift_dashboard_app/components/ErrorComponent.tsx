@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import './SummaryComponent.scss';
+import './ErrorComponent.scss';
 import './commonStyles.scss';
 import apiService from '../../../services/apiService';
 
