@@ -145,7 +145,6 @@ const MessageTypeDistribution: React.FC<MessageTypeDistributionProps> = ({ title
         
         setError(null);
       } catch (err) {
-        console.error('Error fetching message type distribution:', err);
         setError('Failed to load message type data. Please try again later.');
         
         // Clear chart data on error

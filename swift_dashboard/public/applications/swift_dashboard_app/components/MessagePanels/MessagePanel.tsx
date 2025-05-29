@@ -59,9 +59,9 @@ const MessagePanel: React.FC<MessagePanelProps> = ({ message, title }) => {
         const formattedXml = prettyPrintXml(cleanMessage);
         setFormattedMessage(formattedXml);
       } catch (error) {
-        console.error("Error formatting XML:", error);
         // Fall back to the original message
         setFormattedMessage(cleanMessage);
+        throw error;
       }
     } else {
       // For non-XML, just use the clean message
@@ -90,7 +90,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({ message, title }) => {
       
       // Check if there was a parsing error
       if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-        console.warn("XML parsing error, using manual formatting");
         return manualFormatXml(decodedXml);
       }
       
@@ -98,7 +97,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({ message, title }) => {
       const formattedXml = formatXmlNode(xmlDoc, 0);
       return formattedXml;
     } catch (error) {
-      console.error("Error in XML pretty printing:", error);
       return manualFormatXml(xml);
     }
   };

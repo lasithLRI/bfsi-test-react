@@ -332,7 +332,6 @@ const ChartComponent = ({ type, period, direction }: ChartComponentProps): React
         
         setError(null);
       } catch (err) {
-        console.error('Error fetching chart data:', err);
         setError('Failed to load chart data. Please try again later.');
       } finally {
         setLoading(false);
@@ -344,7 +343,6 @@ const ChartComponent = ({ type, period, direction }: ChartComponentProps): React
 
   // UI Components
   const renderPieChart = () => {
-    console.log('Rendering pie chart with data:', direction);
     return (
       <div className="chart-component">
         <div className="chart-header">

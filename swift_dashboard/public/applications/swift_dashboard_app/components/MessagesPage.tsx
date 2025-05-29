@@ -144,7 +144,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
         const state = location.state as LocationState;
         if (state && state.filters) {
             const navFilters = state.filters;
-            console.log('Received navigation filters:', navFilters);
             
             const dateRange = getDateRangeForPeriod(navFilters.timeFilter);
             // Create new filters object with navigation state
@@ -156,11 +155,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
                 direction: navFilters.direction || '',
             };
             
-            // If we have a specific error type filter
-            if (navFilters.errorType) {
-                console.log(`Applying error type filter: ${navFilters.errorType}`);
-                // We'll handle this in the filtered messages logic below
-            }
 
             // Apply the filters immediately
             setPendingFilters(newFilters);
@@ -186,7 +180,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
             try {
                 setLoading(true);
                 const data = await apiService.getAllMessages(tableFilters.dateFrom, tableFilters.dateTo, tableFilters.direction);
-                console.log('Fetched messages:', data.length);
                 
                 // Normalize data to ensure consistent structure
                 const normalizedData = data.map(normalizeMessage);
@@ -194,7 +187,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
                 setMessages(normalizedData);
                 setError(null);
             } catch (err) {
-                console.error('Error fetching messages:', err);
                 setError('Failed to load messages. Please try again later.');
             } finally {
                 setLoading(false);
@@ -222,7 +214,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
                         setError('Selected message not found.');
                     }
                 } catch (err) {
-                    console.error('Error fetching selected message:', err);
                     setError('Failed to load the selected message details.');
                 } finally {
                     setDetailsLoading(false);
@@ -249,7 +240,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
                 setError('Message not found.');
             }
         } catch (err) {
-            console.error('Error fetching message details:', err);
             setError('Failed to load message details.');
         } finally {
             setDetailsLoading(false);
@@ -262,13 +252,11 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
     
     // Handler for filter changes - updates only the pending filters
     const handleFilterChange = useCallback((newFilters: TableFilters) => {
-        console.log('Filter changed (pending):', newFilters);
         setPendingFilters(newFilters);
     }, []);
     
     // Handler to apply filters
     const handleApplyFilters = useCallback(async () => {
-        console.log('Applying filters:', pendingFilters);
         setTableFilters(pendingFilters);
 
         const data = await apiService.getAllMessages(pendingFilters.dateFrom, pendingFilters.dateTo, pendingFilters.direction);
@@ -361,7 +349,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
                     itemAmount = parseFloat(amountString);
                     if (isNaN(itemAmount)) itemAmount = 0;
                 } catch (error) {
-                    console.warn("Error parsing amount:", item.amount);
                     itemAmount = 0;
                 }
                 
@@ -424,7 +411,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
                         
                         return true;
                     } catch (error) {
-                        console.error("Error comparing dates:", error, { itemDate, dateFrom: tableFilters.dateFrom, dateTo: tableFilters.dateTo });
                         return false;
                     }
                 })();
@@ -463,7 +449,6 @@ const MessagesPage: React.FC<{ location: any }> = ({ location }) => {
                     meetsErrorFilter
                 );
             } catch (error) {
-                console.error("Error filtering item:", error, item);
                 return false;
             }
         });

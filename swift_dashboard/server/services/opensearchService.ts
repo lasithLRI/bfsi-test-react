@@ -38,19 +38,15 @@ class OpenSearchService {
  */
 public async getDocumentCount(client: OpenSearchClient): Promise<number> {
   try {
-  
-    console.log(`Getting document count for index "${this.index}"`);
     
     const response = await client.count({
       index: this.index
     });
     
     const count = response.body.count;
-    console.log(`Found ${count} documents in index "${this.index}"`);
     
     return count;
   } catch (error) {
-    console.error(`Error getting document count for index "${this.index}":`, error);
     throw error;
   }
 }
@@ -71,11 +67,8 @@ public async getMessagesInDateRange(
     try {
       // If no date range is provided, return all messages (with optional direction filter)
       if (!fromDate && !toDate) {
-        console.log(`No date range provided, returning all messages${direction ? ` with direction '${direction}'` : ''}`);
         return this.getAllMessages(client, direction);
       }  
-
-      console.log(`Querying OpenSearch index "${this.index}" for messages between ${fromDate} and ${toDate}${direction ? ` with direction '${direction}'` : ''}`);
       
       const count = await this.getDocumentCount(client);
       let query: { bool: any; };
@@ -136,8 +129,6 @@ public async getMessagesInDateRange(
         }
       });
       
-      console.log(`Found ${response.body.hits.total?.valueOf || 0} messages between ${fromDate} and ${toDate}${direction ? ` with direction '${direction}'` : ''}`);
-      
       const messages = response.body.hits.hits.map((hit: any) => {
         const source = hit._source || {} as any;
         return {
@@ -160,10 +151,6 @@ public async getMessagesInDateRange(
       
       return messages;
     } catch (error) {
-      console.error(`Error fetching messages between ${fromDate} and ${toDate} from OpenSearch:`, error);
-      
-      // Fallback to returning an empty array if the query fails
-      console.warn('⚠️ Returning empty array due to OpenSearch error');
       return [];
     }
   }
@@ -174,7 +161,6 @@ public async getMessagesInDateRange(
   public async getMessageById(client: OpenSearchClient, id: string) {
     
     try {
-      console.log(`Fetching message with ID "${id}" from OpenSearch`);
       const response = await client.search({
         index: this.index,
         body: {
@@ -213,8 +199,6 @@ public async getMessagesInDateRange(
         otherError: source.otherError || ''
       };
     } catch (error) {
-      console.error(`Error fetching message with ID ${id}:`, error);
-      
       // If we get here, rethrow the error
       throw error;
     }
@@ -238,20 +222,17 @@ public async getMessageChartData(client: OpenSearchClient, timeframe: 'daily' | 
     startDate = new Date(now);
     startDate.setDate(now.getDate() - 6); // Go back 6 days to include today
     startDate.setHours(0, 0, 0, 0);
-    console.log('Showing data for the past 7 days:', startDate.toISOString(), 'to', now.toISOString());
   } else if (timeframe === 'weekly') {
     // For weekly view, show past 52 weeks including current week
     startDate = new Date(now);
     startDate.setDate(now.getDate() - 364); // Go back ~52 weeks (364 days)
     startDate.setHours(0, 0, 0, 0);
-    console.log('Showing data for the past 52 weeks:', startDate.toISOString(), 'to', now.toISOString());
   } else {
     // For monthly view, show past 12 months including current month
     startDate = new Date(now);
     startDate.setMonth(now.getMonth() - 11); // Go back 11 months to include current month
     startDate.setDate(1); // Start at the 1st of the month
     startDate.setHours(0, 0, 0, 0);
-    console.log('Showing data for the past 12 months:', startDate.toISOString(), 'to', now.toISOString());
   }
   
   // Filter by date
@@ -394,7 +375,6 @@ public async getAllMessages(client: OpenSearchClient, direction?: string): Promi
   const now = Date.now();
   
   try {
-    console.log(`Querying OpenSearch index "${this.index}" for all messages`);
     const count = await this.getDocumentCount(client);
     const query = direction && direction.toLowerCase() !== 'all'
       ? {
@@ -427,8 +407,6 @@ public async getAllMessages(client: OpenSearchClient, direction?: string): Promi
       }
     });
     
-    console.log(`Found ${response.body.hits.total?.valueOf || 0} messages in OpenSearch`);
-    
     const messages = response.body.hits.hits.map((hit: any) => {
       const source = hit._source || {};
       return {
@@ -455,7 +433,6 @@ public async getAllMessages(client: OpenSearchClient, direction?: string): Promi
     
     return messages;
   } catch (error) {
-    console.error('Error fetching data from OpenSearch:', error);
     throw error;
   }
 }
@@ -507,7 +484,6 @@ public async getTopMessageTypes(
       messages = messages.filter(msg => 
         msg.direction.toLowerCase() === direction.toLowerCase()
       );
-      console.log(`Filtered to ${messages.length} ${direction} messages`);
     }
     
     // Count occurrences of each message type
@@ -525,8 +501,6 @@ public async getTopMessageTypes(
     
     // Log information about the results
     const directionText = direction ? `${direction} ` : '';
-    console.log(`Found ${sortedTypes.length} different ${directionText}message types for ${timeFilter} period`);
-    console.log(`Returning top ${Math.min(limit, sortedTypes.length)} ${directionText}message types`);
     
     // Return top N results
     return sortedTypes.slice(0, limit);
@@ -611,8 +585,6 @@ public async getTopMessageTypes(
     
     // Log information about the results
     const directionText = direction ? `${direction} ` : '';
-    console.log(`Found ${resultsWithStats.length} different ${directionText}message types for ${timeFilter} period`);
-    console.log(`Returning top ${Math.min(limit, resultsWithStats.length)} ${directionText}message types with statistics`);
     
     // Return top N results
     return resultsWithStats.slice(0, limit);
@@ -624,7 +596,6 @@ public async getTopMessageTypes(
   public invalidateCache() {
     this.cachedMessages = null;
     this.lastCacheTime = 0;
-    console.log('Cache invalidated, will fetch fresh data on next request');
   }
 
  /**
@@ -636,7 +607,6 @@ public async getDailyMessages(client: OpenSearchClient, direction?: string): Pro
     // Get today's date range
     const today = new Date(); // Set to the start of the day
     today.setUTCHours(0, 0, 0, 0);
-    console.log('Start of today:', today.toISOString());
     
     const endOfToday = new Date(today);
     endOfToday.setUTCHours(23, 59, 59, 999);
@@ -645,11 +615,8 @@ public async getDailyMessages(client: OpenSearchClient, direction?: string): Pro
     const startDateStr = today.toISOString().split('T')[0];
     const endDateStr = endOfToday.toISOString().split('T')[0];
     
-    console.log(`Fetching messages for today (${startDateStr})${direction ? ` with direction '${direction}'` : ''}`);
-    
     // Otherwise, query OpenSearch directly
     try {
-      console.log(`Querying OpenSearch index "${this.index}" for messages on ${startDateStr}${direction ? ` with direction '${direction}'` : ''}`);
       const count = await this.getDocumentCount(client);
       
       // Build the query with date range filter
@@ -692,8 +659,6 @@ public async getDailyMessages(client: OpenSearchClient, direction?: string): Pro
         }
       });
       
-      console.log(`Found ${response.body.hits.total?.valueOf || 0} messages for today${direction ? ` with direction '${direction}'` : ''}`);
-      
       const messages = response.body.hits.hits.map((hit: any) => {
         const source = hit._source || {};
         return {
@@ -716,7 +681,6 @@ public async getDailyMessages(client: OpenSearchClient, direction?: string): Pro
       
       return messages;
     } catch (error) {
-      console.error(`Error fetching daily messages${direction ? ` for ${direction}` : ''} from OpenSearch:`, error);
       throw error;
     }
 }
@@ -750,11 +714,8 @@ public async getWeeklyMessages(client: OpenSearchClient, direction?: string): Pr
     const startDateStr = startOfWeek.toISOString().split('T')[0];
     const endDateStr = endOfWeek.toISOString().split('T')[0];
     
-    console.log(`Fetching messages for current week (${startDateStr} to ${endDateStr})${direction ? ` with direction '${direction}'` : ''}`);
-    
     // Otherwise, query OpenSearch directly
     try {
-      console.log(`Querying OpenSearch index "${this.index}" for messages between ${startDateStr} and ${endDateStr}${direction ? ` with direction '${direction}'` : ''}`);
       const count = await this.getDocumentCount(client);
       
       // Build the query with date range filter
@@ -797,8 +758,6 @@ public async getWeeklyMessages(client: OpenSearchClient, direction?: string): Pr
         }
       });
       
-      console.log(`Found ${response.body.hits.total?.valueOf || 0} messages for this week${direction ? ` with direction '${direction}'` : ''}`);
-      
       const messages = response.body.hits.hits.map((hit: any) => {
         const source = hit._source || {};
         return {
@@ -821,7 +780,6 @@ public async getWeeklyMessages(client: OpenSearchClient, direction?: string): Pr
       
       return messages;
     } catch (error) {
-      console.error(`Error fetching weekly messages${direction ? ` for ${direction}` : ''} from OpenSearch:`, error);
       throw error;
     }
   }
@@ -847,11 +805,8 @@ public async getWeeklyMessages(client: OpenSearchClient, direction?: string): Pr
     const startDateStr = startOfMonth.toISOString().split('T')[0];
     const endDateStr = endOfMonth.toISOString().split('T')[0];
     
-    console.log(`Fetching messages for current month (${startDateStr} to ${endDateStr})${direction ? ` with direction '${direction}'` : ''}`);
-    
     // Otherwise, query OpenSearch directly
     try {
-      console.log(`Querying OpenSearch index "${this.index}" for messages between ${startDateStr} and ${endDateStr}${direction ? ` with direction '${direction}'` : ''}`);
       const count = await this.getDocumentCount(client);
       
       // Build the query with date range filter
@@ -894,8 +849,6 @@ public async getWeeklyMessages(client: OpenSearchClient, direction?: string): Pr
         }
       });
       
-      console.log(`Found ${response.body.hits.total?.valueOf || 0} messages for this month${direction ? ` with direction '${direction}'` : ''}`);
-      
       const messages = response.body.hits.hits.map((hit: any) => {
         const source = hit._source || {};
         return {
@@ -918,7 +871,6 @@ public async getWeeklyMessages(client: OpenSearchClient, direction?: string): Pr
       
       return messages;
     } catch (error) {
-      console.error(`Error fetching monthly messages${direction ? ` for ${direction}` : ''} from OpenSearch:`, error);
       throw error;
     }
   }
@@ -1100,12 +1052,10 @@ public async getRecentMessages(client: OpenSearchClient, limit: number = 5, dire
       if (period === 'Daily') {
           // Filter to messages from today only
           timeFilteredMessages = await this.getDailyMessages(client);
-          console.log(`Filtered to ${timeFilteredMessages.length} messages from today`);
           
       } else if (period === 'Weekly') {
-          
+          // Filter to messages from the current week
           timeFilteredMessages = await this.getWeeklyMessages(client);
-          console.log(`Filtered to ${timeFilteredMessages.length} messages from this week`);
           
       } else {
           timeFilteredMessages = await this.getMonthlyMessages(client);
@@ -1117,7 +1067,6 @@ public async getRecentMessages(client: OpenSearchClient, limit: number = 5, dire
         filteredMessages = timeFilteredMessages.filter(msg => 
           msg.direction.toLowerCase() === direction.toLowerCase()
         );
-        console.log(`Further filtered to ${filteredMessages.length} ${direction} messages`);
       }
       
       // Sort by date (most recent first)
@@ -1153,11 +1102,8 @@ public async getRecentMessages(client: OpenSearchClient, limit: number = 5, dire
       let filterDesc = '';
       if (period !== 'All') filterDesc += ` for ${period.toLowerCase()} period`;
       if (direction !== 'All') filterDesc += ` with ${direction} direction`;
-      
-      console.log(`Returning ${recentMessages.length} most recent messages${filterDesc}`);
       return recentMessages;
     } catch (error) {
-      console.error('Error fetching recent messages:', error);
       throw error;
     }
   }
@@ -1200,15 +1146,12 @@ public async getErrorStatistics(
       messages = messages.filter(msg => 
         msg.direction.toLowerCase() === direction.toLowerCase()
       );
-      console.log(`Filtered to ${messages.length} ${direction} messages`);
     }
     
     // Filter to only failed messages
     const failedMessages = messages.filter(msg => 
       msg.status.toLowerCase() === 'failed'
     );
-    
-    console.log(`Found ${failedMessages.length} failed messages for the selected filters`);
     
     // Count different error types
     const fieldErrors = failedMessages.filter(msg => msg.fieldError && msg.fieldError.trim() !== '').length;
@@ -1236,15 +1179,8 @@ public async getErrorStatistics(
     if (timeFilter !== 'All') filterDesc += ` for ${timeFilter} period`;
     if (direction !== 'All') filterDesc += ` with ${direction} direction`;
     
-    console.log(`Found error statistics${filterDesc}: ` + 
-      `${fieldErrors} field errors, ` +
-      `${notSupportedErrors} not supported errors, ` +
-      `${invalidErrors} invalid errors, ` +
-      `${otherErrors} other errors`);
-    
     return result;
   } catch (error) {
-    console.error('Error getting error statistics:', error);
     throw error;
   }
 }

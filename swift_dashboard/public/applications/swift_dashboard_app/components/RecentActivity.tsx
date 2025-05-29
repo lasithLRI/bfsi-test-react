@@ -48,7 +48,6 @@ const RecentActivity: React.FC<RecentActivityProps> = ({ title, direction, perio
         setActivities(response.recentMessages);
         setError(null);
       } catch (err) {
-        console.error('Error fetching recent messages:', err);
         setError('Failed to load recent activity. Please try again later.');
       } finally {
         setLoading(false);

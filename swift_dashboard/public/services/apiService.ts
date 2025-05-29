@@ -52,25 +52,18 @@ const apiClient = axios.create({
 // Add request/response interceptors for debugging
 apiClient.interceptors.request.use(
   config => {
-    console.log(`🔄 API Request: ${config.method?.toUpperCase()} ${config.url}`);
     return config;
   },
   error => {
-    console.error('❌ API Request Error:', error);
     return Promise.reject(error);
   }
 );
 
 apiClient.interceptors.response.use(
   response => {
-    console.log(`✅ API Response [${response.status}]: ${response.config.method?.toUpperCase()} ${response.config.url}`);
     return response;
   },
   error => {
-    console.error('❌ API Response Error:', error.response ? error.response.status : 'Network Error');
-    if (error.response) {
-      console.error('Error details:', error.response.data);
-    }
     return Promise.reject(error);
   }
 );
@@ -92,7 +85,6 @@ getAllMessages: async (
     direction?: string
   ): Promise<MessageData[]> => {
     try {
-      console.log(`Fetching messages${fromDate ? ` from ${fromDate} to ${toDate}` : ''}${direction ? `, direction: ${direction}` : ''}`);
       
       // Build query parameters
       const params: Record<string, string> = {};
@@ -104,13 +96,11 @@ getAllMessages: async (
       const response = await apiClient.get('/messages-list', { params });
       
       if (response.data && response.data.messages) {
-        console.log(`Received ${response.data.messages.length} messages`);
         return response.data.messages;
       }
       
       return Array.isArray(response.data) ? response.data : [];
     } catch (error) {
-      console.error('Error fetching messages:', error);
       throw error;
     }
   },
@@ -120,11 +110,9 @@ getAllMessages: async (
    */
   getMessageById: async (id: string): Promise<MessageData> => {
     try {
-      console.log(`Fetching message details for ID: ${id}`);
       const response = await apiClient.get(`/message/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Error fetching message with ID ${id}:`, error);
       throw error;
     }
   },
@@ -137,7 +125,6 @@ getAllMessages: async (
     direction?: 'inward' | 'outward'
   ): Promise<MessageChartData[]> => {
     try {
-      console.log(`Fetching chart data: timeframe=${timeframe}, direction=${direction || 'all'}`);
       const response = await apiClient.get('/chart', {
         params: {
           timeframe,
@@ -146,7 +133,6 @@ getAllMessages: async (
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching chart data:', error);
       throw error;
     }
   },
@@ -165,13 +151,11 @@ getAllMessages: async (
     endDate?: string;
   }> => {
     try {
-      console.log(`Fetching ${timeframe} message data, direction=${direction || 'all'}`);
       const response = await apiClient.get(`/messages/${timeframe}`, {
         params: { direction }
       });
       return response.data;
     } catch (error) {
-      console.error(`Error fetching ${timeframe} message data:`, error);
       throw error;
     }
   },
@@ -189,7 +173,6 @@ getRecentMessages: async (
     limit: number = 5
   ): Promise<any> => {
     try {
-      console.log(`Fetching recent messages: timeframe=${timeframe}, direction=${direction}, limit=${limit}`);
       
       // Use timeframe consistently (not period)
       const response = await apiClient.get('/messages/recent', {
@@ -199,11 +182,9 @@ getRecentMessages: async (
           limit
         }
       });
-      console.log("Received:::::::::::::::::::::::::::", response);
       return response.data;
 
     } catch (error) {
-      console.error('Error fetching recent messages:', error);
       throw error;
     }
   },
@@ -219,7 +200,6 @@ getErrorStatistics: async (
     direction: string
   ): Promise<any> => {
     try {
-      console.log(`Fetching error statistics: timeFilter=${timeFilter}, direction=${direction || 'all'}`);
       
       const response = await apiClient.get('/error-statistics', {
         params: {
@@ -228,10 +208,8 @@ getErrorStatistics: async (
         }
       });
       
-      console.log("Error statistics response:", response.data);
       return response.data;
     } catch (error) {
-      console.error('Error fetching error statistics:', error);
       // Return a default empty structure instead of throwing
       return {
         timeFilter,
@@ -258,7 +236,6 @@ getErrorStatistics: async (
     includeStats: boolean = true
   ): Promise<MessageTypeResponse> => {
     try {
-      console.log(`Fetching top message types: timeFilter=${timeFilter}, direction=${direction || 'all'}, limit=${limit}`);
       const response = await apiClient.get('/stats/top-message-types', {
         params: {
           timeFilter,
@@ -269,7 +246,6 @@ getErrorStatistics: async (
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching top message types:', error);
       throw error;
     }
   }

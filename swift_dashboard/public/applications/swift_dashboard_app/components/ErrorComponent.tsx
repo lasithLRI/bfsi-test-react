@@ -107,7 +107,6 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
         setTotalErrors(totalErrors);
         setError(null);
       } catch (err) {
-        console.error('Error fetching error statistics:', err);
         setError('Failed to load error statistics');
         // Use empty data if API fails
         setErrorData([]);
