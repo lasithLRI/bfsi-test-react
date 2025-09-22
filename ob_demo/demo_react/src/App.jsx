@@ -1,12 +1,16 @@
 import './App.css'
-import {Button} from "@oxygen-ui/react";
+import {Route, Routes} from "react-router-dom";
+
+import AccountsCentralApplication from "./tpp_application/AccountsCentralApplication.jsx";
 
 function App() {
 
 
   return (
     <>
-      App
+      <Routes>
+          <Route path="/accounts-central/*" element={<AccountsCentralApplication/>} />
+      </Routes>
 
     </>
   )
