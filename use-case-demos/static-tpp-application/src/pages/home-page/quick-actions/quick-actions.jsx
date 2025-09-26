@@ -43,8 +43,6 @@ const quickActions = [
  */
 const QuickActions = ({userInfo}) => {
 
-    console.log(userInfo);
-
     if (!userInfo) {
         return <div>Loading....</div>
     }
