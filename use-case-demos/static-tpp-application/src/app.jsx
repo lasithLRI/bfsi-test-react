@@ -17,10 +17,11 @@
  */
 
 import {Route, Routes} from "react-router-dom";
-import {ConfigProvider} from "./providers/config-context.jsx";
-import OxygenThemeProvider from "./providers/oxygen-theme-provider.jsx";
+import ConfigContext, {ConfigProvider} from "./providers/config-context.jsx";
+import AppThemeProvider from "./providers/app-theme-provider.jsx";
 import Home from "./pages/home-page/home.jsx";
 import AccountsCentral from "./layouts/accounts-central.jsx";
+import {useContext} from "react";
 
 /**
  * The main application component that sets up the core routing and
@@ -30,17 +31,19 @@ import AccountsCentral from "./layouts/accounts-central.jsx";
  */
 function App() {
 
+    const context = useContext(ConfigContext);
+
     return (<>
+        <AppThemeProvider>
             <Routes>
-                <Route path="/accounts-central/*" element={<ConfigProvider>
-                    <OxygenThemeProvider>
-                        <Routes>
-                            <Route path="/home" element={<Home/>}/>
-                        </Routes>
-                    </OxygenThemeProvider>
-                </ConfigProvider>}/>
+                <Route path={`/${context.routerName.route}/*`} element={
+                    <Routes>
+                        <Route path="home" element={<Home/>}/>
+                    </Routes>
+                }/>
             </Routes>
-        </>)
+        </AppThemeProvider>
+    </>)
 }
 
 export default App

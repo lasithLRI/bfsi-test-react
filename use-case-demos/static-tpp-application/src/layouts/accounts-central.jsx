@@ -17,8 +17,11 @@
  */
 
 import "./accounts-central.css"
-import {Button} from "../components/forms/button.jsx";
 import Logout from "/public/resources/assets/images/icons/logout_icon.svg?react"
+import {useContext} from "react";
+import ConfigContext from "../providers/config-context.jsx";
+import {IconButton} from "@oxygen-ui/react";
+import {ArrowRightFromBracketIcon} from "@oxygen-ui/react-icons";
 
 /**
  * A layout component that establishes the standard structure for the 'Accounts Central' product view.
@@ -31,12 +34,16 @@ import Logout from "/public/resources/assets/images/icons/logout_icon.svg?react"
  * @param {React.ReactNode} props.children - The content (usually nested routes or components) to be rendered in the main product content area.
  */
 export const AccountsCentral = ({children}) => {
+
+    const context = useContext(ConfigContext);
+
     return (
         <>
             <div className="product-header-outer">
-                <p>Accounts Central</p>
-                <Button icon={<Logout/>} onClick={() => {
-                }} isQuickActionButton={false}/>
+                <p>{context.routerName.applicationName}</p>
+                <IconButton style={{color:'white'}}>
+                    <ArrowRightFromBracketIcon size={'1.5rem'}/>
+                </IconButton>
             </div>
 
             <div className="product-content-outer">

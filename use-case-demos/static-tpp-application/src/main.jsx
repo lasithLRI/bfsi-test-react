@@ -21,6 +21,7 @@ import {createRoot} from 'react-dom/client'
 import './index.css'
 import App from './app.jsx'
 import {BrowserRouter} from "react-router-dom";
+import {ConfigProvider} from "./providers/config-context.jsx";
 
 /**
  * The entry point of the React application.
@@ -31,7 +32,9 @@ import {BrowserRouter} from "react-router-dom";
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
+            <ConfigProvider>
             <App/>
+            </ConfigProvider>
         </BrowserRouter>
     </StrictMode>,
 )

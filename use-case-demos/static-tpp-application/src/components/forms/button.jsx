@@ -30,13 +30,10 @@ import "./button.css"
  * @param {React.ReactNode} [props.children] - The text or content to display next to the icon (makes it a Quick Action Button).
  * @param {function} props.onClick - The function to call when the button is clicked.
  */
-export const Button = ({icon, children, onClick, isQuickActionButton}) => {
-
-    const quickActionClasses = 'quick-action-button-outer';
-    const iconButtonClasses = 'product-header-user-icon-button-outer product-header-user-icon-button-content';
+export const Button = ({icon, children, onClick}) => {
 
     return (
-        <div className={`${isQuickActionButton ? quickActionClasses : iconButtonClasses}`}>
+        <div className='quick-action-button-outer'>
             <button onClick={onClick}>
                 {icon}
                 <p>{children}</p>

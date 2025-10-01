@@ -16,9 +16,7 @@
  * under the License.
  */
 
-import React, {useContext} from 'react';
 import {ThemeProvider, extendTheme} from '@oxygen-ui/react';
-import ConfigContext from "./config-context.jsx";
 
 /**
  * A theme provider component that wraps the Material UI ThemeProvider to apply
@@ -26,25 +24,24 @@ import ConfigContext from "./config-context.jsx";
  * @param {React.ReactNode} children - The child components to be rendered within the theme provider.
  * @returns {JSX.Element} The ThemeProvider component with a dynamically created theme.
  */
-const OxygenThemeProvider = ({children}) => {
+const AppThemeProvider = ({children}) => {
 
-    const {configs} = useContext(ConfigContext);
     const theme = extendTheme({
         typography: {
-            fontFamily: configs.theme_font,
+            fontFamily: 'Inter',
         },
         colorSchemes: {
             light: {
                 palette: {
                     primary: {
-                        main: configs.theme_primary_color,
+                        main: '#FF5499',
                     },
                 },
             },
             dark: {
                 palette: {
                     primary: {
-                        main: configs.theme_secondary_color,
+                        main: '#FF5456',
                     },
                 },
             },
@@ -54,5 +51,5 @@ const OxygenThemeProvider = ({children}) => {
     return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 
-export default OxygenThemeProvider;
+export default AppThemeProvider;
 

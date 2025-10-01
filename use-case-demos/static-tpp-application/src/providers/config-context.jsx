@@ -31,6 +31,7 @@ const ConfigContext = createContext();
 //TODO:this file will be remove and move this context to custom hook in next PR
 export const ConfigProvider = ({children}) => {
     const [configs, setConfig] = useState({});
+    const [routerName, setRouterName] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -39,6 +40,7 @@ export const ConfigProvider = ({children}) => {
                 const response = await fetch("/configurations/config.json");
                 const data = await response.json();
                 setConfig(data.configurations);
+                setRouterName(data.name)
             } catch (e) {
                 console.log(e.message);
             } finally {
@@ -51,7 +53,7 @@ export const ConfigProvider = ({children}) => {
     if (loading) {
         return <div>Loading...</div>;
     }
-    return (<ConfigContext.Provider value={{configs, loading}}>{children}</ConfigContext.Provider>);
+    return (<ConfigContext.Provider value={{configs, loading, routerName}}>{children}</ConfigContext.Provider>);
 }
 
 export default ConfigContext;
