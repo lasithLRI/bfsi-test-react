@@ -28,7 +28,7 @@ const onclickAction = () => {
 
 const quickActionsButtons = [{
     icon: PayBillsIcon,
-    name: "Pay Bills",
+    name: "Payments",
     onClick: onclickAction
 }, {icon: ArrowLeftArrowRightIcon, name: "Transfer", onClick: onclickAction, size: "48"}, {
     icon: ScheduleIcon,
