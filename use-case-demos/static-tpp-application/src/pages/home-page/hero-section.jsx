@@ -26,12 +26,15 @@ const onclickAction = () => {
     console.log("Quick action QuickActionButton clicked");
 }
 
-const quickActionsButtons = [
-    {icon: PayBillsIcon, name: "Pay Bills", onClick: onclickAction},
-    {icon: ArrowLeftArrowRightIcon, name: "Transfer", onClick: onclickAction, size: "48"},
-    {icon: ScheduleIcon, name: "Schedule", onClick: onclickAction},
-    {icon: UserGroupIcon, name: "Payees", onClick: onclickAction, size: "48"}
-];
+const quickActionsButtons = [{
+    icon: PayBillsIcon,
+    name: "Pay Bills",
+    onClick: onclickAction
+}, {icon: ArrowLeftArrowRightIcon, name: "Transfer", onClick: onclickAction, size: "48"}, {
+    icon: ScheduleIcon,
+    name: "Schedule",
+    onClick: onclickAction
+}, {icon: UserGroupIcon, name: "Payees", onClick: onclickAction, size: "48"}];
 
 /**
  * Renders the primary header or "hero" content for a product page.
@@ -64,8 +67,7 @@ const HeroSection = ({userInfo}) => {
         greeting = "Good Evening!";
     }
 
-    return (
-        <>
+    return (<>
             <div className="product-home-header-outer">
                 <div className="user-name-image-container">
                     <div className="user-image-container" style={{backgroundImage: `url(${userInfo.image})`}}></div>
@@ -75,25 +77,19 @@ const HeroSection = ({userInfo}) => {
                     </div>
                 </div>
                 <div className="product-quick-actions-container">
-
                     {quickActionsButtons.map((action, index) => {
                         const IconComponent = action.icon;
                         const iconProps = {
-                            ...(action.size && {size: action.size}),
-                            ...(action.color && {color: action.color})
+                            ...(action.size && {size: action.size}), ...(action.color && {color: action.color})
                         };
-                        return (
-                            <QuickActionButton ey={index} onClick={action.onClick}>
+                        return (<QuickActionButton ey={index} onClick={action.onClick}>
                                 <IconComponent {...iconProps} />
                                 {action.name}
-                            </QuickActionButton>
-                        )
+                            </QuickActionButton>)
                     })}
-
                 </div>
             </div>
-        </>
-    )
+        </>)
 }
 
 export default HeroSection;
