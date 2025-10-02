@@ -16,18 +16,18 @@
  * under the License.
  */
 
-import "./quick-actions.css"
-import {Button} from "../../components/forms/button.jsx";
+import "./hero-section.css"
+import {QuickActionButton} from "../../components/forms/quick-action-button.jsx";
 import PayBillsIcon from "/public/resources/assets/images/icons/pay_icon.svg?react"
 import TransferFundsIcon from "/public/resources/assets/images/icons/transfer_icon.svg?react"
 import ScheduleIcon from "/public/resources/assets/images/icons/schedule_icon.svg?react"
 import ManagePayeeIcon from "/public/resources/assets/images/icons/payees_icon.svg?react"
 
 const onclickAction = () => {
-    console.log("Quick action Button clicked");
+    console.log("Quick action QuickActionButton clicked");
 }
 
-const quickActions = [
+const quickActionsButtons = [
     {icon: PayBillsIcon, name: "Pay Bills", onClick: onclickAction},
     {icon: TransferFundsIcon, name: "Transfer", onClick: onclickAction},
     {icon: ScheduleIcon, name: "Schedule", onClick: onclickAction},
@@ -35,13 +35,17 @@ const quickActions = [
 ];
 
 /**
- * A component that renders the dynamic header content for the home page.
- * It displays a personalized greeting based on the time of day, shows the user's
- * name and image, and provides a set of interactive quick action buttons.
- * @param {Object} props - The component props.
- * @param {Object} props.userInfo - The user information object, including their name and image URL.
+ * Renders the primary header or "hero" content for a product page.
+ * * This component:
+ * 1. Displays a **personalized greeting** based on the current time of day (Morning, Afternoon, or Evening).
+ * 2. Shows the user's **name and profile image**.
+ * 3. Renders a static set of **quick action buttons** (Pay Bills, Transfer, Schedule, Payees)
+ * by mapping over the `quickActionsButtons` array and using the reusable `QuickActionButton` component.
+ * 4. Displays a "Loading...." message while the `userInfo` prop is not yet available.
+ * * @param {Object} props - The component props.
+ * @param {Object} props.userInfo - The user information object, expected to contain `name` and `image` URL.
  */
-const QuickActions = ({userInfo}) => {
+const HeroSection = ({userInfo}) => {
 
     if (!userInfo) {
         return <div>Loading....</div>
@@ -69,10 +73,10 @@ const QuickActions = ({userInfo}) => {
                 </div>
                 <div className="product-quick-actions-container">
 
-                    {quickActions.map((action, index) => (
-                        <Button key={index} icon={< action.icon/>} onClick={action.onClick}>
+                    {quickActionsButtons.map((action, index) => (
+                        <QuickActionButton key={index} icon={< action.icon/>} onClick={action.onClick}>
                             {action.name}
-                        </Button>
+                        </QuickActionButton>
                     ))}
 
                 </div>
@@ -81,5 +85,5 @@ const QuickActions = ({userInfo}) => {
     )
 }
 
-export default QuickActions;
+export default HeroSection;
 

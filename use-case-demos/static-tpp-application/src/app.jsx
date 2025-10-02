@@ -24,10 +24,12 @@ import AccountsCentral from "./layouts/accounts-central.jsx";
 import {useContext} from "react";
 
 /**
- * The main application component that sets up the core routing and
- * provides necessary contexts for the 'Accounts Central' product section.
- * It defines a base layout with a header and a content area, and uses
- * nested routes to render specific product pages like 'Home'.
+ * The root component of the application, responsible for setting up the main routing structure
+ * and applying global theming via the `AppThemeProvider`.
+ *
+ * It consumes the `ConfigContext` to dynamically construct the base route path
+ * using a configured router name (e.g., `/${context.routerName.route}/*`).
+ * It then defines nested routes, such as the 'home' page, within the main route.
  */
 function App() {
 

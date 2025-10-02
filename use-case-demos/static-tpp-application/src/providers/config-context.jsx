@@ -23,15 +23,21 @@ const ConfigContext = createContext();
 /**
  * A React provider component that fetches application configurations and makes them
  * available to all child components via the Context API.
- * * It manages a loading state and fetches data from '/configurations/config.json'
- * only once when the component mounts. While loading, it displays a "Loading..." message.
- * * @param {object} props - The component props.
+ *
+ * It manages the **configs** object, a **configuredNames** string (for routing or naming),
+ * and a **loading** state. Data is fetched once from '/configurations/config.json' on mount.
+ * While loading, it displays a "Loading..." message.
+ *
+ * The context value provides access to the fetched **configs**, the **routerName** (derived from the fetched name),
+ * and the **loading** status.
+ *
+ * @param {object} props - The component props.
  * @param {React.ReactNode} props.children - The child components to be rendered within the provider's scope.
  */
 //TODO:this file will be remove and move this context to custom hook in next PR
 export const ConfigProvider = ({children}) => {
     const [configs, setConfig] = useState({});
-    const [routerName, setRouterName] = useState("");
+    const [configuredNames, setConfiguredNames] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -40,7 +46,7 @@ export const ConfigProvider = ({children}) => {
                 const response = await fetch("/configurations/config.json");
                 const data = await response.json();
                 setConfig(data.configurations);
-                setRouterName(data.name)
+                setConfiguredNames(data.name)
             } catch (e) {
                 console.log(e.message);
             } finally {
@@ -53,7 +59,7 @@ export const ConfigProvider = ({children}) => {
     if (loading) {
         return <div>Loading...</div>;
     }
-    return (<ConfigContext.Provider value={{configs, loading, routerName}}>{children}</ConfigContext.Provider>);
+    return (<ConfigContext.Provider value={{configs, loading, routerName: configuredNames}}>{children}</ConfigContext.Provider>);
 }
 
 export default ConfigContext;
