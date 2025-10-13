@@ -32,7 +32,7 @@ import {Box, Grid} from "@oxygen-ui/react";
  * @param {object} props.theme - The active Oxygen UI theme object.
  */
 export const HeroOuterContainer = styled(Grid)(({ theme, background }) => ({
-    background: 'url(${background}) lightgray -18.644px -372.574px / 145.345% 527.151% no-repeat',
+    background: `url(${background}) lightgray -18.644px -372.574px / 145.345% 527.151% no-repeat`,
     padding: theme.spacing(3),
     display: 'flex',
     justifyContent: 'center',

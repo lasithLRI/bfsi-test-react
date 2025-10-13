@@ -75,7 +75,7 @@ const HeroSection = ({userInfo}) => {
 
     return (
         <>
-            <HeroOuterContainer background={userInfo.image}>
+            <HeroOuterContainer background={userInfo.background}>
                 <HeroInnerContainer boxWidth={'100%'} justify={'start'}>
                     <ProfileImageOuter>
                         <img src={userInfo.image} alt="" className='profile-image' />
