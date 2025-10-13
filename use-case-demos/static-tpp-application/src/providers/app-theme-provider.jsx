@@ -51,6 +51,9 @@ const AppThemeProvider = ({children}) => {
                     },
                     shadows:{
                         main: '#FF5456',
+                    },
+                    backgroundColor: {
+                        main: '#FFFFFF',
                     }
                 },
             },

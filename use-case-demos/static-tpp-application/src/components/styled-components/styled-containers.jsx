@@ -93,7 +93,7 @@ export const ActionButtonContentOuter = styled(Box)(({theme}) => ({
     justifyContent: "center",
     width: '3rem',
     gap: '0.5rem',
-    background: 'white',
+    background: 'var(--oxygen-palette-shadows-main)',
     color: 'red',
     borderRadius: '5%',
     boxShadow: '4.5px 4.5px 5.625px -2.25px var(--oxygen-palette-shadows-main)',
