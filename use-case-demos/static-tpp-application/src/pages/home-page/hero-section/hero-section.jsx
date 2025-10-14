@@ -51,7 +51,7 @@ const greetingSelection = () => {
  * Renders the primary header or "hero" content for a product page with responsive layout adjustments.
  *
  * This component:
- * 1. Uses the **`useMediaQuery`** and **`useTheme`** hooks to determine if the user is on a small screen (`< sm`),
+ * 1. Uses the **`useMediaQuery`** and **`useTheme`** hooks to determine if the user is on a small screen (`< md`),
  * enabling conditional rendering and styling.
  * 2. Displays a **loading state** if `userInfo` is not yet available.
  * 3. Renders a main container with a **dynamic background image** provided by `userInfo.background`.
@@ -65,7 +65,7 @@ const greetingSelection = () => {
  */
 const HeroSection = ({userInfo}) => {
 
-    const isSmallScreen = useMediaQuery(useTheme().breakpoints.down('sm'));
+    const isSmallScreen = useMediaQuery(useTheme().breakpoints.down('md'));
 
     if (!userInfo) {
         return <div>Loading....</div>
@@ -79,7 +79,7 @@ const HeroSection = ({userInfo}) => {
         <>
             <Grid container className="outer-container" style={{background: `url(${userInfo.background}) lightgray -18.644px -372.574px / 145.345% 527.151% no-repeat`}}>
 
-                <Grid item className='user-info' style={{height:containerHeight}}>
+                <Grid item className='user-info' style={{height:containerHeight}} xs={12} md={6}>
                     <Box className='user-profile'  sx={{display: displayStyle}}>
                         <img src={userInfo.image} alt="" className='profile-image' />
                     </Box>
@@ -89,7 +89,7 @@ const HeroSection = ({userInfo}) => {
                     </Box>
                 </Grid>
 
-                <Grid item className='quick-actions'>
+                <Grid item className='quick-actions' xs={12} md={6}>
                     {quickActionsButtons.map((action, index) => {
                         const IconComponent = action.icon;
                         return (<QuickActionButton key={index} onClick={action.onClick}>
