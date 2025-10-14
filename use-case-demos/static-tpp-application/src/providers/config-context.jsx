@@ -18,23 +18,24 @@
 
 import {createContext, useEffect, useState} from "react";
 
+/**
+ * Creates the React Context object used to share configuration data across the component tree.
+ */
 const ConfigContext = createContext();
 
 /**
- * A React provider component that fetches application configurations and makes them
- * available to all child components via the Context API.
+ * A central React Provider component responsible for **asynchronously fetching** global application configurations.
  *
- * It manages the **configs** object, a **configuredNames** string (for routing or naming),
- * and a **loading** state. Data is fetched once from '/configurations/config.json' on mount.
- * While loading, it displays a "Loading..." message.
+ * It manages the **loading state**, the application's main **configs** object, and configured **routerName** data.
+ * The configuration is fetched once from `/configurations/config.json` on component mount.
  *
- * The context value provides access to the fetched **configs**, the **routerName** (derived from the fetched name),
- * and the **loading** status.
+ * - **Loading State**: Displays a "Loading..." message until the data fetch is complete.
+ * - **Context Value**: Exposes `configs`, the `loading` status, and the `routerName` (derived from the fetched name).
  *
  * @param {object} props - The component props.
- * @param {React.ReactNode} props.children - The child components to be rendered within the provider's scope.
+ * @param {React.ReactNode} props.children - The child components that will consume the provided context values.
  */
-//TODO:this file will be remove and move this context to custom hook in next PR
+// TODO: This Provider component is marked for removal and its logic is planned to be migrated to a custom hook in a future PR.
 export const ConfigProvider = ({children}) => {
     const [configs, setConfig] = useState({});
     const [configuredNames, setConfiguredNames] = useState("");

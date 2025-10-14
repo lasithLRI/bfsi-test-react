@@ -17,19 +17,18 @@
  */
 
 import {Route, Routes} from "react-router-dom";
-import ConfigContext, {ConfigProvider} from "./providers/config-context.jsx";
+import ConfigContext from "./providers/config-context.jsx";
 import AppThemeProvider from "./providers/app-theme-provider.jsx";
 import Home from "./pages/home-page/home.jsx";
-import ApplicationLayout from "./layouts/application-layout/application-layout.jsx";
 import {useContext} from "react";
 
 /**
  * The root component of the application, responsible for setting up the main routing structure
  * and applying global theming via the `AppThemeProvider`.
  *
- * It consumes the `ConfigContext` to dynamically construct the base route path
- * using a configured router name (e.g., `/${context.routerName.route}/*`).
- * It then defines nested routes, such as the 'home' page, within the main route.
+ * It consumes the **`ConfigContext`** to dynamically construct the base route path
+ * using the configured router name (accessed via `context.routerName.route`).
+ * It then defines **nested routes**, such as the 'home' page, within this main product route.
  */
 function App() {
 

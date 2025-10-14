@@ -22,10 +22,13 @@ import ApplicationLayout from "../../layouts/application-layout/application-layo
 
 /**
  * The main component for the product's home page.
- * * It uses the **`useAuthContext`** hook to retrieve **user information** (or authentication state)
- * and passes this data to the **`HeroSection`** for personalized display.
- * * The component uses the **`ApplicationLayout`** layout wrapper to provide the standard
- * product header and content structure.
+ *
+ * It uses the **`useAuthContext`** hook to retrieve **user information** (or authentication state).
+ * The component applies the primary application structure using the **`<ApplicationLayout>`**
+ * wrapper, and passes the user data to the **`<HeroSection>`** component for personalized display
+ * of greetings and quick actions.
+ *
+ * @returns {JSX.Element} The rendered Home page, wrapped in the standard application layout.
  */
 const Home = () => {
     const userInfo = useAuthContext();
