@@ -38,7 +38,17 @@ jobs:
 
       - name: Inject asset base path
         run: |
-          sed -i "s|__ASSET_BASE__|${{ env.APP_PATH }}|g" public/configurations/config.json
+            TARGET_PATH="${{ env.APP_PATH }}"
+            echo "Injecting path: $TARGET_PATH"
+            
+            # 1. Update the source file (in case the build uses it)
+            # We use 'find' to locate config.json anywhere in the folder
+            find public -name "config.json" -exec sed -i "s|__ASSET_BASE__|$TARGET_PATH|g" {} +
+            
+            # 2. Update the built file (this is what gets copied to Ruby)
+            if [ -d "dist" ]; then
+              find dist -name "config.json" -exec sed -i "s|__ASSET_BASE__|$TARGET_PATH|g" {} +
+            fi
 
       - name: Clone Ruby repo
         working-directory: ./
