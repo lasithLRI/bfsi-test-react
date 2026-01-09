@@ -5,9 +5,11 @@ on:
     branches:
       - main
 
-# Define the path once here
 env:
+  # The path inside the Ruby repo's public folder
   APP_PATH: /demos/usecases
+  # The path to your React project in THIS repo
+  PROJECT_DIR: use-case-demos/static-tpp-application
 
 jobs:
   build-and-deploy:
@@ -15,7 +17,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./react-app
+        working-directory: ./use-case-demos/static-tpp-application
 
     steps:
       - name: Checkout React Repo
@@ -26,19 +28,18 @@ jobs:
         with:
           version: 9
           run_install:
+            # Matches your specific sub-directory
             cwd: ./use-case-demos/static-tpp-application
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build vite React app
-        # Use the variable here
         run: pnpm vite build --base=${{ env.APP_PATH }}/
 
       - name: Inject asset base path
-        # Use the variable here in your sed command
         run: |
-          sed -i "s|${{ env.APP_PATH }}|g" public/config.json
+          sed -i "s|__ASSET_BASE__|${{ env.APP_PATH }}|g" public/config.json
 
       - name: Clone Ruby repo
         working-directory: ./
@@ -48,10 +49,14 @@ jobs:
       - name: Copy build output
         working-directory: ./
         run: |
-          # Use the variable to define the destination folder
+          # 1. Clear old files in the Ruby repo
           rm -rf ruby-repo/public${{ env.APP_PATH }}
+          
+          # 2. Recreate the nested directory structure
           mkdir -p ruby-repo/public${{ env.APP_PATH }}
-          cp -r react-app/dist/* ruby-repo/public${{ env.APP_PATH }}/
+          
+          # 3. Copy from the build folder to the Ruby public folder
+          cp -r ${{ env.PROJECT_DIR }}/dist/* ruby-repo/public${{ env.APP_PATH }}/
 
       - name: Commit and push
         working-directory: ./ruby-repo
