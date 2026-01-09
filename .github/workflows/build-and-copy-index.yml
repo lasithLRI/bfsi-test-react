@@ -48,8 +48,13 @@ jobs:
       - name: Copy build output
         working-directory: ./
         run: |
-            # Target the demos/usecases folder directly (where your React app should live)
-            rm -rf ruby-repo/demos/usecases/* mkdir -p ruby-repo/demos/usecases
+            # 1. Ensure the directory exists
+            mkdir -p ruby-repo/demos/usecases
+            
+            # 2. Clear old files safely
+            rm -rf ruby-repo/demos/usecases/*
+            
+            # 3. Copy from the build folder to the Ruby folder
             cp -r ${{ env.PROJECT_DIR }}/dist/* ruby-repo/demos/usecases/
 
       - name: Commit and push
