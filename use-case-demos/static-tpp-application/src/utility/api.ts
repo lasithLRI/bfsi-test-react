@@ -23,7 +23,7 @@
  * HTTP error checking, and uses TypeScript generics for type-safe data retrieval.
  */
 // export const baseUrl = 'base url for config json file location';
-export const baseUrl = '/configurations';
+// export const baseUrl = '/configurations';
 
 /**
  * Asynchronously fetches JSON data from a specific API endpoint.
@@ -33,6 +33,19 @@ export const baseUrl = '/configurations';
  * @returns {Promise<any>} A promise that resolves with the parsed JSON response body.
  * @throws {Error} Throws an error if the network request fails or the HTTP response status is not OK (200-299).
  */
+
+
+
+const getDynamicBaseUrl = () => {
+    const currentPath = window.location.pathname;
+    // Get the directory containing index.html
+    const directory = currentPath.substring(0, currentPath.lastIndexOf('/'));
+    return `${directory}/configurations`;
+};
+
+export const baseUrl = getDynamicBaseUrl();
+
+
 const fetchData = async (endpoint:string, options?:RequestInit)=>{
 
     const url = `${baseUrl}/${endpoint}`;
