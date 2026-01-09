@@ -21,6 +21,6 @@ import react from '@vitejs/plugin-react'
 
 
 export default defineConfig({
-  base: 'bfsi-test-react',
+  // base: 'bfsi-test-react',
   plugins: [react()],
 });

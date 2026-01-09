@@ -1,0 +1,63 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+# Define the path once here
+env:
+  APP_PATH: /demos/usecases
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./react-app
+
+    steps:
+      - name: Checkout React Repo
+        uses: actions/checkout@v4
+
+      - name: setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+          run_install:
+            cwd: ./use-case-demos/static-tpp-application
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build vite React app
+        # Use the variable here
+        run: pnpm vite build --base=${{ env.APP_PATH }}/
+
+      - name: Inject asset base path
+        # Use the variable here in your sed command
+        run: |
+          sed -i "s|${{ env.APP_PATH }}|g" public/config.json
+
+      - name: Clone Ruby repo
+        working-directory: ./
+        run: |
+          git clone https://x-access-token:${{ secrets.RUBY_REPO_TOKEN }}@github.com/${{ secrets.RUBY_REPO_OWNER }}/${{ secrets.RUBY_REPO_NAME }}.git ruby-repo
+
+      - name: Copy build output
+        working-directory: ./
+        run: |
+          # Use the variable to define the destination folder
+          rm -rf ruby-repo/public${{ env.APP_PATH }}
+          mkdir -p ruby-repo/public${{ env.APP_PATH }}
+          cp -r react-app/dist/* ruby-repo/public${{ env.APP_PATH }}/
+
+      - name: Commit and push
+        working-directory: ./ruby-repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: deploy React build to ${{ env.APP_PATH }}" || echo "No changes"
+          git push
