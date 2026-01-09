@@ -38,7 +38,7 @@ jobs:
 
       - name: Inject asset base path
         run: |
-          sed -i "s|__ASSET_BASE__|${{ env.APP_PATH }}|g" public/config.json
+          sed -i "s|__ASSET_BASE__|${{ env.APP_PATH }}|g" public/configurations/config.json
 
       - name: Clone Ruby repo
         working-directory: ./
