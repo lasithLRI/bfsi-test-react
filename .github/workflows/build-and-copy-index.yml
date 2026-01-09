@@ -7,7 +7,7 @@ on:
 
 env:
   # The path inside the Ruby repo's public folder
-  APP_PATH: /demos/usecases
+  APP_PATH: /ruby-bfsi-demo-test/demos/usecases
   # The path to your React project in THIS repo
   PROJECT_DIR: use-case-demos/static-tpp-application
 
@@ -48,14 +48,9 @@ jobs:
       - name: Copy build output
         working-directory: ./
         run: |
-          # 1. Clear old files in the Ruby repo
-          rm -rf ruby-repo/public${{ env.APP_PATH }}
-          
-          # 2. Recreate the nested directory structure
-          mkdir -p ruby-repo/public${{ env.APP_PATH }}
-          
-          # 3. Copy from the build folder to the Ruby public folder
-          cp -r ${{ env.PROJECT_DIR }}/dist/* ruby-repo/public${{ env.APP_PATH }}/
+            # Target the demos/usecases folder directly (where your React app should live)
+            rm -rf ruby-repo/demos/usecases/* mkdir -p ruby-repo/demos/usecases
+            cp -r ${{ env.PROJECT_DIR }}/dist/* ruby-repo/demos/usecases/
 
       - name: Commit and push
         working-directory: ./ruby-repo
