@@ -50,7 +50,7 @@ const getDynamicBaseUrl = () => {
     // To stay inside the app folder, we check if the path contains a file extension
     // const directory = path.includes('.') ? path.substring(0, path.lastIndexOf('/')) : path;
 
-    const directory = "https://gist.github.com/lasithLRI/21c142b08cceb5dca650d714268a53ff"
+    const directory = "https://gist.github.com/lasithLRI/21c142b08cceb5dca650d714268a53ff/raw"
     console.log("Detected App Directory:", directory); // Check this in your browser console
     return `${directory}/configurations`;
 };
