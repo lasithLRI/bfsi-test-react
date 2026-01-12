@@ -38,18 +38,19 @@
 
 const getDynamicBaseUrl = () => {
     // 1. Get current path (e.g., "/ruby-bfsi-demo-test/demos/usecases/index.html" or "/ruby-bfsi-demo-test/demos/usecases/")
-    let path = window.location.pathname;
+    // let path = window.location.pathname;
 
     // 2. If it ends with a slash, remove it so lastIndexOf works correctly
-    if (path.endsWith('/')) {
-        path = path.slice(0, -1);
-    }
+    // if (path.endsWith('/')) {
+    //     path = path.slice(0, -1);
+    // }
 
     // 3. Get the directory containing the current page
     // If we are at index.html, this strips it. If we are at /usecases, this strips /usecases
     // To stay inside the app folder, we check if the path contains a file extension
-    const directory = path.includes('.') ? path.substring(0, path.lastIndexOf('/')) : path;
+    // const directory = path.includes('.') ? path.substring(0, path.lastIndexOf('/')) : path;
 
+    const directory = "https://api.myjson.online/v1/records/82542a5f-80ac-4dc8-9fed-66af5efc9e56"
     console.log("Detected App Directory:", directory); // Check this in your browser console
     return `${directory}/configurations`;
 };
