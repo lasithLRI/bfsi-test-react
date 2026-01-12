@@ -62,7 +62,9 @@ console.log(baseUrl);
 
 const fetchData = async (endpoint:string, options?:RequestInit)=>{
 
-    const url = `${baseUrl}/${endpoint}`;
+    // const url = `${baseUrl}/${endpoint}`;
+
+    const url = "https://gist.github.com/lasithLRI/21c142b08cceb5dca650d714268a53ff"
 
     try{
         const response = await fetch(url,options);
