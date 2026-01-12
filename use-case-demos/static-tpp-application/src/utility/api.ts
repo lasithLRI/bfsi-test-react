@@ -52,7 +52,7 @@ const getDynamicBaseUrl = () => {
 
     const directory = "https://gist.github.com/lasithLRI/21c142b08cceb5dca650d714268a53ff/raw"
     console.log("Detected App Directory:", directory); // Check this in your browser console
-    return `${directory}/configurations`;
+    return `${directory}`;
 };
 
 export const baseUrl = getDynamicBaseUrl();
