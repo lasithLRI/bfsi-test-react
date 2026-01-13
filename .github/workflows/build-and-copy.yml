@@ -1,0 +1,68 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_DIR: use-case-demos/static-tpp-application
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./use-case-demos/static-tpp-application
+
+    steps:
+      - name: Checkout React Repo
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+          run_install: >-
+            {"cwd":"use-case-demos/static-tpp-application"}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Vite React app
+        # Removed --base flag as we are no longer rewriting asset paths
+        run: pnpm vite build
+
+      - name: Clone Ruby repo
+        working-directory: ./
+        run: |
+          git clone https://x-access-token:${{ secrets.RUBY_REPO_TOKEN }}@github.com/${{ secrets.RUBY_REPO_OWNER }}/${{ secrets.RUBY_REPO_NAME }}.git ruby-repo
+
+      - name: Copy build output
+        working-directory: ./
+        run: |
+          # 1. Ensure target directory exists in Ruby repo
+          mkdir -p ruby-repo/demos/usecases
+          
+          # 2. Clear old build files (JS/CSS/Index)
+          # We keep this to ensure we don't have stale hashed filenames
+          rm -rf ruby-repo/demos/usecases/*
+          
+          # 3. Copy dist files (including the raw config.json)
+          # This copies the build artifacts and the public assets as they are
+          cp -r ${{ env.PROJECT_DIR }}/dist/* ruby-repo/demos/usecases/
+
+      - name: Commit and push
+        working-directory: ./ruby-repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          # Check if there are actual changes to prevent empty commit errors
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: deploy static build and config"
+            git push
+          fi
