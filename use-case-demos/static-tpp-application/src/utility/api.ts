@@ -23,7 +23,7 @@
  * HTTP error checking, and uses TypeScript generics for type-safe data retrieval.
  */
 // export const baseUrl = 'base url for config json file location';
-// export const baseUrl = '/configurations';
+export const baseUrl = './configurations';
 
 /**
  * Asynchronously fetches JSON data from a specific API endpoint.
@@ -36,7 +36,7 @@
 
 
 
-const getDynamicBaseUrl = () => {
+// const getDynamicBaseUrl = () => {
     // 1. Get current path (e.g., "/ruby-bfsi-demo-test/demos/usecases/index.html" or "/ruby-bfsi-demo-test/demos/usecases/")
     // let path = window.location.pathname;
 
@@ -49,22 +49,22 @@ const getDynamicBaseUrl = () => {
     // If we are at index.html, this strips it. If we are at /usecases, this strips /usecases
     // To stay inside the app folder, we check if the path contains a file extension
     // const directory = path.includes('.') ? path.substring(0, path.lastIndexOf('/')) : path;
-
-    const directory = "https://gist.github.com/lasithLRI/21c142b08cceb5dca650d714268a53ff/raw"
-    console.log("Detected App Directory:", directory); // Check this in your browser console
-    return `${directory}`;
-};
-
-export const baseUrl = getDynamicBaseUrl();
-
-console.log(baseUrl);
+//
+//     const directory = "https://gist.github.com/lasithLRI/21c142b08cceb5dca650d714268a53ff/raw"
+//     console.log("Detected App Directory:", directory); // Check this in your browser console
+//     return `${directory}`;
+// };
+//
+// export const baseUrl = getDynamicBaseUrl();
+//
+// console.log(baseUrl);
 
 
 const fetchData = async (endpoint:string, options?:RequestInit)=>{
 
-    // const url = `${baseUrl}/${endpoint}`;
+    const url = `${baseUrl}/${endpoint}`;
 
-    const url = "https://raw.githubusercontent.com/lasithLRI/bfsi-test-react/main/use-case-demos/static-tpp-application/public/configurations/config.json"
+    // const url = "https://raw.githubusercontent.com/lasithLRI/bfsi-test-react/main/use-case-demos/static-tpp-application/public/configurations/config.json"
 
     try{
         const response = await fetch(url,options);
