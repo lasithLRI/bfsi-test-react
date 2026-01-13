@@ -23,7 +23,7 @@
  * HTTP error checking, and uses TypeScript generics for type-safe data retrieval.
  */
 // export const baseUrl = 'base url for config json file location';
-export const baseUrl = '/configurations';
+// export const baseUrl = '/configurations';
 
 /**
  * Asynchronously fetches JSON data from a specific API endpoint.
@@ -33,9 +33,38 @@ export const baseUrl = '/configurations';
  * @returns {Promise<any>} A promise that resolves with the parsed JSON response body.
  * @throws {Error} Throws an error if the network request fails or the HTTP response status is not OK (200-299).
  */
+
+
+
+const getDynamicBaseUrl = () => {
+    // 1. Get current path (e.g., "/ruby-bfsi-demo-test/demos/usecases/index.html" or "/ruby-bfsi-demo-test/demos/usecases/")
+    // let path = window.location.pathname;
+
+    // 2. If it ends with a slash, remove it so lastIndexOf works correctly
+    // if (path.endsWith('/')) {
+    //     path = path.slice(0, -1);
+    // }
+
+    // 3. Get the directory containing the current page
+    // If we are at index.html, this strips it. If we are at /usecases, this strips /usecases
+    // To stay inside the app folder, we check if the path contains a file extension
+    // const directory = path.includes('.') ? path.substring(0, path.lastIndexOf('/')) : path;
+
+    const directory = "https://gist.github.com/lasithLRI/21c142b08cceb5dca650d714268a53ff/raw"
+    console.log("Detected App Directory:", directory); // Check this in your browser console
+    return `${directory}`;
+};
+
+export const baseUrl = getDynamicBaseUrl();
+
+console.log(baseUrl);
+
+
 const fetchData = async (endpoint:string, options?:RequestInit)=>{
 
-    const url = `${baseUrl}/${endpoint}`;
+    // const url = `${baseUrl}/${endpoint}`;
+
+    const url = "https://raw.githubusercontent.com/lasithLRI/bfsi-test-react/main/use-case-demos/static-tpp-application/public/configurations/config.json"
 
     try{
         const response = await fetch(url,options);
